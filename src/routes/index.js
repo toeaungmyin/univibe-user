@@ -4,6 +4,7 @@ import LoginPage from '../pages/LoginPage';
 import Registerpage from '../pages/Registerpage';
 import Layout from '../layout/Layout';
 import HomePage from '../pages/HomePage';
+import NotificationPage from '../pages/NotificationPage';
 
 const Router = () => {
 	const routes = useRoutes([
@@ -22,6 +23,10 @@ const Router = () => {
 				{
 					element: <HomePage />,
 					index: true,
+				},
+				{
+					path: '/notifications',
+					element: <NotificationPage />,
 				},
 			],
 		},

@@ -1,0 +1,24 @@
+.progress {
+   height: 7px;
+   width: 228.8px;
+   background: linear-gradient(45deg, #ED2C23 -15%, #7133D6 100%),
+       linear-gradient(45deg, #ED2C23 -15%, #7133D6 100%),
+       #dbdcef;
+   background-size: 60% 100%;
+   background-repeat: no-repeat;
+   animation: progress-7x9cg2 1.7999999999999998s infinite;
+}
+
+@keyframes progress-7x9cg2 {
+   0% {
+      background-position: -150% 0,-150% 0;
+   }
+
+   66% {
+      background-position: 250% 0,-150% 0;
+   }
+
+   100% {
+      background-position: 250% 0, 250% 0;
+   }
+}

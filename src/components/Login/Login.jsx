@@ -45,29 +45,28 @@ const Login = () => {
 				localStorage.clear();
 				localStorage.setItem('user-token', token);
 				navigate('/');
-			} else {
-				if (response.status === 422) {
-					const errors = response.data.errors;
-					if (errors && errors.email) {
-						setError('email', {
-							type: 'server',
-							message: errors.email,
-						});
-					} else if (errors && errors.password) {
-						setError('password', {
-							type: 'server',
-							message: errors.password,
-						});
-					} else if (response.data.message) {
-						setError('root', {
-							type: 'server',
-							message: response.data.message,
-						});
-					}
-				}
 			}
 		} catch (error) {
 			console.error('Error:', error);
+			if (error.status === 422) {
+				const errors = error.data.errors;
+				if (errors && errors.email) {
+					setError('email', {
+						type: 'server',
+						message: errors.email,
+					});
+				} else if (errors && errors.password) {
+					setError('password', {
+						type: 'server',
+						message: errors.password,
+					});
+				} else if (error.data.message) {
+					setError('root', {
+						type: 'server',
+						message: error.data.message,
+					});
+				}
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -85,7 +84,7 @@ const Login = () => {
 							floated={false}
 							shadow={false}
 							color="transparent"
-							className="mb-5 flex flex-col sm:flex-row justify-center items-center gap-2"
+							className="mb-5 flex flex-col sm:flex-row justify-center items-center gap-1"
 						>
 							<img
 								className="w-24 transition duration-150 object-contain"
@@ -96,7 +95,7 @@ const Login = () => {
 							/>
 							<Typography
 								variant="h1"
-								className="suezOne text-primary tracking-wider text-5xl"
+								className="suezOne text-cyan-700 tracking-wider text-5xl"
 							>
 								UniVibe
 							</Typography>
@@ -173,9 +172,10 @@ const Login = () => {
 							</CardBody>
 							<CardFooter className="pt-0">
 								<Button
-									variant="gradient"
-									className="bg-primary flex justify-center items-center"
+									variant="filled"
+									className="hover:shadow-none bg-primary flex justify-center items-center"
 									type="submit"
+									color="cyan"
 									fullWidth
 									disabled={isLoading}
 								>

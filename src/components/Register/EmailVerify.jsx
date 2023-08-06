@@ -48,7 +48,7 @@ const EmailVerify = ({ handleNext, userId }) => {
 					type="text"
 					label="CODE"
 					maxLength={6}
-					className="text-center text-[150%] tracking-widest"
+					className="text-center text-[145%] font-semibold tracking-widest"
 					{...register('code', { required: true })}
 				/>
 				<div className="flex flex-row justify-between">

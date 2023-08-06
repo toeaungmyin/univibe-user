@@ -1,23 +1,14 @@
-import React, { useEffect } from 'react';
-import { userDataRequest } from '../server/Auth';
-import { useDispatch } from 'react-redux';
-import { getUser } from '../features/auth/AuthSlice';
+import React from 'react';
+import Posts from '../components/Section/Post/Posts';
+import PostCreateCard from '../components/Section/Post/PostCreate/PostCreateCard';
 
 const HomePage = () => {
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		const fetchUser = async () => {
-			const res = await userDataRequest();
-			dispatch(getUser(res.data));
-			console.log(res.data);
-		};
-		fetchUser();
-	}, []);
-
 	return (
 		<>
-			<div className="">Hello</div>
+			<div className="w-full h-full flex flex-col gap-2 overflow-auto no-scrollbar md:p-4">
+				<PostCreateCard />
+				<Posts />
+			</div>
 		</>
 	);
 };

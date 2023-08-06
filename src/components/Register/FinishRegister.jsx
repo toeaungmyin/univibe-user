@@ -8,12 +8,13 @@ import {
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+
 const FinishRegister = () => {
 	const [isAgree, setAgree] = useState(false);
 	const navigate = useNavigate();
 	return (
 		<>
-			<CardBody className="flex flex-col gap-8 min-h-[20rem]">
+			<CardBody className="flex flex-col gap-2 min-h-[20rem]">
 				<Typography className=" text-justify text-sm">
 					<span className="me-3 font-bold">1. Eligibility:</span>
 					To use the "UniVibe" Student Social Network, you must be a student of

@@ -1,44 +1,58 @@
 import api from '../api/api';
 
 export const registerRequest = async data => {
-	const response = await api
-		.post('/sign-up', data)
-		.then(res => res)
-		.catch(error => {
-			return error.response;
-		});
-	return response;
+	try {
+		const response = await api.post('sign-up', data);
+		return response;
+	} catch (error) {
+		throw error;
+	}
 };
 
-export const loginRequest = data => {
-	const response = api
-		.post('/sign-in', data)
-		.then(res => res)
-		.catch(error => {
-			return error.response;
-		});
-	return response;
+export const loginRequest = async data => {
+	try {
+		const response = await api.post('sign-in', data);
+		return response;
+	} catch (error) {
+		throw error; // Throw the error to be caught in the catch block
+	}
 };
 
 export const emailVerifyRequest = async data => {
-	const response = await api.post('/users/verify', data);
-	return response;
+	try {
+		const response = await api.post('/users/verify', data);
+		return response;
+	} catch (error) {
+		throw error; // Throw the error to be caught in the catch block
+	}
 };
 
 export const reSendEmailVerifyRequest = async user_id => {
-	const response = await api.post(`/users/verify/re-send`, {
-		user_id: user_id,
-	});
-	return response;
+	try {
+		const response = await api.post(`/users/verify/re-send`, {
+			user_id: user_id,
+		});
+		return response;
+	} catch (error) {
+		throw error; // Throw the error to be caught in the catch block
+	}
 };
 
-export const userDataRequest = async () => {
-	const response = await api.get(`users/profile`);
-	return response;
+export const authUserDataRequest = async () => {
+	try {
+		const response = await api.get(`/me`);
+		return response;
+	} catch (error) {
+		throw error; // Throw the error to be caught in the catch block
+	}
 };
 
 export const logoutRequest = async () => {
-	const response = await api.post('logout');
-	localStorage.removeItem('user-token');
-	return response;
+	try {
+		const response = await api.post('/logout');
+		localStorage.removeItem('user-token');
+		return response;
+	} catch (error) {
+		throw error.response; // Throw the error to be caught in the catch block
+	}
 };

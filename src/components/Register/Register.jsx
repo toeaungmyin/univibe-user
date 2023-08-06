@@ -30,7 +30,7 @@ const Register = () => {
 						/>
 						<Typography
 							variant="h1"
-							className="suezOne text-primary tracking-wider text-5xl"
+							className="suezOne text-cyan-700 tracking-wider text-5xl"
 						>
 							UniVibe
 						</Typography>
