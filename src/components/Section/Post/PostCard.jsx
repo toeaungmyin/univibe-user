@@ -12,7 +12,7 @@ import { XMarkIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import { HeartIcon, ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
-export function PostCard() {
+export function PostCard({ post }) {
 	const [reaction, setReaction] = useState(false);
 
 	const giveReaction = () => {
@@ -20,7 +20,7 @@ export function PostCard() {
 	};
 
 	return (
-		<Card className="max-w-[38rem] overflow-hidden rounded-none md:rounded-lg">
+		<Card className="w-full overflow-hidden rounded-none md:rounded-lg">
 			<CardHeader
 				floated={false}
 				shadow={false}
@@ -38,18 +38,23 @@ export function PostCard() {
 					/>
 
 					<div className="flex flex-col">
-						<Typography
-							variant="h6"
-							color="blue-gray"
-						>
-							Tania Andrew
-						</Typography>
-						<Typography
-							className="font-normal"
-							variant="small"
-						>
-							10h ago
-						</Typography>
+						{post.user?.username && (
+							<Typography
+								variant="h6"
+								color="blue-gray"
+							>
+								{post.user.username}
+							</Typography>
+						)}
+
+						{post.created_at && (
+							<Typography
+								className="font-normal"
+								variant="small"
+							>
+								{post.created_at}
+							</Typography>
+						)}
 					</div>
 				</div>
 				<div className="flex gap-2">
@@ -69,20 +74,24 @@ export function PostCard() {
 					</IconButton>
 				</div>
 			</CardHeader>
-			<CardBody className="p-0">
-				<img
-					src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-					alt="ui/ux review check"
-				/>
+			<CardBody className="p-0 w-full">
+				{post?.image && (
+					<img
+						src={post.image}
+						alt="ui/ux review check"
+					/>
+				)}
+
 				<div className="p-4 pt-0">
-					<Typography
-						variant="paragraph"
-						color="gray"
-						className="font-normal"
-					>
-						Because it&apos;s about motivating the doers. Because I&apos;m here
-						to follow my dreams and inspire others.
-					</Typography>
+					{post?.content && (
+						<Typography
+							variant="paragraph"
+							color="gray"
+							className="font-normal"
+						>
+							{post.content}
+						</Typography>
+					)}
 				</div>
 			</CardBody>
 			<CardFooter className="flex p-0 border-t-2">

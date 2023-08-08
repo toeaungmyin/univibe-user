@@ -12,8 +12,10 @@ import {
 	Select,
 	Option,
 	Spinner,
+	Alert,
 } from '@material-tailwind/react';
 import { XMarkIcon, PhotoIcon } from '@heroicons/react/24/solid';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { PhotoUpload } from './PhotoUpload';
 import { useForm } from 'react-hook-form';
 import { createPostRequest } from '../../../../server/Post';
@@ -27,33 +29,42 @@ export function PostCreateForm({ open, handleOpen }) {
 	const [isLoading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const posts = useSelector(state => state.postReducer.posts);
-
+	const [audience, setAudience] = useState('public');
+	const handleAudienceChange = value => {
+		setAudience(value);
+	};
 	const {
 		register,
 		formState: { errors },
 		setError,
 		handleSubmit,
-	} = useForm({
-		defaultValues: {
-			audience: 'public',
-			content: '',
-			image: '',
-		},
-	});
+		reset,
+	} = useForm({});
 
-	const createPost = async ({ content, audience }) => {
+	const createPost = async ({ content }) => {
 		setLoading(true);
-		console.log(image);
+		// Create a new FormData
+		const formData = new FormData();
+
+		// Append other form data to the FormData
+
+		formData.append('audience', audience);
+
+		if (content) {
+			formData.append('content', content); // Adjust file name if needed
+		}
+		// Append the image Blob
+		if (image) {
+			formData.append('image', image, image.name); // Adjust file name if needed
+		}
+
 		try {
-			const res = await createPostRequest({
-				content,
-				audience,
-				image,
-			});
-			console.log(res);
+			console.log(formData.get('image'));
+			const res = await createPostRequest(formData);
 			if (res?.status === 200) {
-				dispatch(getPosts([res.data.post, ...posts]));
-				// reset();
+				dispatch(getPosts({ ...posts, data: [res.data.post, ...posts.data] }));
+				handleOpen();
+				reset();
 			}
 		} catch (error) {
 			console.error('Error:', error);
@@ -116,14 +127,25 @@ export function PostCreateForm({ open, handleOpen }) {
 							</div>
 						</CardHeader>
 						<CardBody className="max-h-[30rem] min-h-[10rem] flex flex-col gap-4 p-2 px-4 overflow-auto">
-							{errors.content && (
-								<Typography
-									className="ms-1 text-xs font-medium"
+							{(errors.content ||
+								errors.image ||
+								errors.audience ||
+								errors.root) && (
+								<Alert
 									color="red"
-									variant="small"
+									variant="ghost"
+									className="p-2"
 								>
-									{errors.content.message}
-								</Typography>
+									<div className="flex gap-2 items-center">
+										<ExclamationCircleIcon className="w-5 h-5" />
+										<span className="font-medium text-sm">
+											{errors.audience?.message}
+											{errors.content?.message}
+											{errors.image?.message}
+											{errors.root?.message}
+										</span>
+									</div>
+								</Alert>
 							)}
 							<Textarea
 								rows={5}
@@ -135,17 +157,18 @@ export function PostCreateForm({ open, handleOpen }) {
 								labelProps={{
 									className: 'before:content-none after:content-none',
 								}}
-								{...register('content', {
-									required: 'Content Field is required',
-								})}
+								{...register('content')}
 								error={errors.content ? true : false}
 							/>
 
-							{/* {photoUpload && (
+							{photoUpload && (
 								<div className="px-2">
-									<PhotoUpload setImage={setImage} />
+									<PhotoUpload
+										image={image}
+										setImage={setImage}
+									/>
 								</div>
-							)} */}
+							)}
 						</CardBody>
 						<CardFooter className="pt-2 flex flex-col gap-2">
 							<div className="flex justify-between items-center">
@@ -154,10 +177,12 @@ export function PostCreateForm({ open, handleOpen }) {
 										label="Post Audience"
 										size="md"
 										color="cyan"
+										value={audience}
+										onChange={handleAudienceChange}
 									>
-										<Option>Public</Option>
-										<Option>private</Option>
-										<Option>friends</Option>
+										<Option value="public">Public</Option>
+										<Option value="friends">Friends</Option>
+										<Option value="private">Private</Option>
 									</Select>
 								</div>
 								<IconButton
