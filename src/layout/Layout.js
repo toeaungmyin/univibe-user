@@ -34,10 +34,10 @@ const Layout = () => {
 						<Header />
 					</div>
 					<div className="relative top-[4.5rem] w-full h-[calc(100%-5rem)] flex justify-center overflow-auto">
-						<div className="hidden lg:block lg:w-3/12">
+						<div className="hidden lg:block  lg:w-3/12">
 							<LeftSidebar />
 						</div>
-						<div className="w-full lg:w-5/12">
+						<div className="w-full  lg:w-6/12 xl:w-5/12">
 							<Outlet />
 						</div>
 						<div className="hidden lg:block lg:w-3/12">

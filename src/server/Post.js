@@ -10,9 +10,9 @@ export const createPostRequest = async data => {
 	}
 };
 
-export const postsRequest = async () => {
+export const postsRequest = async page => {
 	try {
-		const response = await api.get('posts');
+		const response = await api.get(`posts?page=${page}`);
 		return response;
 	} catch (error) {
 		throw error;

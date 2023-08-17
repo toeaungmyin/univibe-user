@@ -11,9 +11,12 @@ const loginSlice = createSlice({
 		getPosts(state, action) {
 			state.posts = action.payload;
 		},
+		getNextPosts(state, action) {
+			state.posts.data = action.payload;
+		},
 	},
 });
 
-export const { getPosts } = loginSlice.actions;
+export const { getPosts, getNextPosts } = loginSlice.actions;
 
 export default loginSlice.reducer;

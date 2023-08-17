@@ -79,6 +79,7 @@ export function PostCard({ post }) {
 					<img
 						src={post.image}
 						alt="ui/ux review check"
+						className="object-cover w-full max-h-96 border-y-2"
 					/>
 				)}
 

@@ -5,7 +5,7 @@ import { Announcement } from './Announcement/Announcement';
 
 const LeftSidebar = () => {
 	return (
-		<div className="flex flex-col p-4 gap-4">
+		<div className="flex flex-col p-4 gap-4 overflow-auto no-scrollbar max-h-full">
 			<ProfileCard />
 			<LeftNavList />
 			<Announcement />
