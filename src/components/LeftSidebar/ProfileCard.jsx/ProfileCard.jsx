@@ -1,10 +1,14 @@
 import { Card, CardHeader, Typography, Avatar } from '@material-tailwind/react';
+import { useContext } from 'react';
 import { useSelector } from 'react-redux';
+import { ThemeContext } from '../../../ThemeContext';
 
 export function ProfileCard() {
 	const authUser = useSelector(state => state.authReducer.user);
+	const {theme} = useContext(ThemeContext);
 	return (
-		<Card className="w-full flex justify-start items-center p-4">
+		<Card className="w-full flex justify-start items-center p-4"
+		style={{backgroundColor:theme === "dark"? "#0E0F11" :"#F5F5F5" }}>
 			<CardHeader
 				color="transparent"
 				floated={false}

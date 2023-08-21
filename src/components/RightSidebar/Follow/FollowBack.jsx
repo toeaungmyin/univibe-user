@@ -11,23 +11,29 @@ import {
 	CardHeader,
 } from '@material-tailwind/react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../ThemeContext';
 
 export function Followback() {
+	const {theme} = useContext(ThemeContext);
 	return (
 		<Card
 			className="w-full"
 			shadow={false}
 			color="transparent"
+			style={{backgroundColor:theme === "dark"? "#3A434A" :"#F5F5F5" }}
 		>
 			<CardHeader
 				floated={false}
 				shadow={false}
 				className="mx-0 my-2 rounded-none"
 				color="transparent"
+				style={{backgroundColor:theme === "dark"? "#0E0F11" :"#F5F5F5" }}
 			>
 				<Typography
 					variant="h6"
 					color="blue-gray"
+					style={{color:theme === "dark"? "#fffffff" :"#0000000" }}
 				>
 					People who followed you
 				</Typography>

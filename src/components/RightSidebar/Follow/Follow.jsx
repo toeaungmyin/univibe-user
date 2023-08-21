@@ -9,10 +9,14 @@ import {
 	Button,
 	CardHeader,
 } from '@material-tailwind/react';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../ThemeContext';
 
 export function Follow() {
+	const {theme} = useContext(ThemeContext);
 	return (
-		<Card className="w-full">
+		<Card className="w-full"
+		style={{backgroundColor:theme === "dark"? "#0E0F11" :"#F5F5F5" }}>
 			<CardHeader
 				floated={false}
 				shadow={false}

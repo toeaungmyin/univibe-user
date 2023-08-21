@@ -1,13 +1,15 @@
 import React from 'react';
 import { Navbar, Typography, Input } from '@material-tailwind/react';
-
+import { useContext } from 'react';
 import TextLogo from './../../assets/logo/logo-02.svg';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import ProfileMenu from './ProfileMenu';
-
+import { ThemeContext } from '../../ThemeContext';
 export function Header() {
+	const {theme} = useContext(ThemeContext);
 	return (
-		<Navbar className="mx-auto max-w-full py-2 px-4 lg:px-8 lg:py-2 rounded-none">
+		<Navbar className="mx-auto max-w-full py-2 px-4 lg:px-8 lg:py-2 rounded-none"
+		style={{backgroundColor:theme === "dark"? "#000000" :"#FFFFFF" }}>
 			<div className="flex items-center justify-between text-blue-gray-900">
 				<div className="flex justify-center items-center gap-2">
 					<img

@@ -13,19 +13,28 @@ import {
 	ChatBubbleOvalLeftIcon,
 } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router';
-
+import { useContext } from 'react';
+import { ThemeContext } from '../../../ThemeContext';
 export function LeftNavList() {
 	const navigate = useNavigate();
+	const {theme,toogleTheme} = useContext(ThemeContext);
+ 	const handleTheme = () =>{
+		toogleTheme();
+ }
 	return (
-		<Card className="w-full">
+		<Card className="w-full"
+		style={{backgroundColor:theme === "dark"? "#0E0F11" :"#F5F5F5" }}
+		>
 			<List>
-				<ListItem onClick={() => navigate('/')}>
+				<ListItem onClick={() => navigate('/')}
+				style={{color:theme === "dark"? "#ffffff" :"#000000" }}>
 					<ListItemPrefix>
 						<HomeIcon className="w-5 h-5" />
 					</ListItemPrefix>
 					Home
 				</ListItem>
-				<ListItem>
+				<ListItem
+				style={{color:theme === "dark"? "#ffffff" :"#000000" }}>
 					<ListItemPrefix>
 						<UserCircleIcon className="w-5 h-5" />
 					</ListItemPrefix>
@@ -45,7 +54,8 @@ export function LeftNavList() {
 						/>
 					</ListItemSuffix>
 				</ListItem> */}
-				<ListItem onClick={() => navigate('/notifications')}>
+				<ListItem onClick={() => navigate('/notifications')}
+				style={{color:theme === "dark"? "#ffffff" :"#000000" }}>
 					<ListItemPrefix>
 						<BellIcon className="w-5 h-5" />
 					</ListItemPrefix>
@@ -59,7 +69,8 @@ export function LeftNavList() {
 						/>
 					</ListItemSuffix>
 				</ListItem>
-				<ListItem>
+				<ListItem
+				style={{color:theme === "dark"? "#ffffff" :"#000000" }}>
 					<ListItemPrefix>
 						<ChatBubbleOvalLeftIcon className="w-5 h-5" />
 					</ListItemPrefix>
@@ -72,6 +83,14 @@ export function LeftNavList() {
 							className="rounded-full"
 						/>
 					</ListItemSuffix>
+				</ListItem>
+				<ListItem onClick={()=>handleTheme()}
+				style={{color:theme === "dark"? "#ffffff" :"#000000" }}>
+					<ListItemPrefix>
+						<ChatBubbleOvalLeftIcon className="w-5 h-5" />
+					</ListItemPrefix>
+					DarkMode
+					
 				</ListItem>
 			</List>
 		</Card>
