@@ -5,12 +5,16 @@ import {
 	IconButton,
 	Textarea,
 } from '@material-tailwind/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { PaperAirplaneIcon, PhotoIcon } from '@heroicons/react/24/solid';
 import { PostCreateForm } from './PostCreateForm';
+import { ThemeContext } from '../../../../ThemeContext';
+import { DefaultProfileAvatar } from '../../../../assets/images';
 
 const PostCreateCard = () => {
+	const { theme } = useContext(ThemeContext);
+
 	const auth = useSelector(state => state.authReducer.user);
 
 	// post dialog
@@ -19,8 +23,12 @@ const PostCreateCard = () => {
 
 	return (
 		<>
-			<Card className="p-0 px-4">
-				<CardBody className="flex justify-center items-center gap-2 p-2">
+			<Card
+				className={`p-0 px-4 rounded-none md:rounded-lg ${
+					theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
+				}`}
+			>
+				<CardBody className="flex justify-center items-center gap-2 p-2 px-1">
 					<div className="min-w-[3rem] flex justify-center items-end">
 						<Avatar
 							withBorder
@@ -28,7 +36,8 @@ const PostCreateCard = () => {
 							variant="circular"
 							alt="candice"
 							color="cyan"
-							src={auth.profile_url}
+							onError={e => (e.target.src = DefaultProfileAvatar)}
+							src={auth?.profile_url}
 						/>
 					</div>
 					<Textarea

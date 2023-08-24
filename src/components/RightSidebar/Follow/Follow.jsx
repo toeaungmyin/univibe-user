@@ -9,179 +9,125 @@ import {
 	Button,
 	CardHeader,
 } from '@material-tailwind/react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../ThemeContext';
+import { followRequest, suggestUser } from '../../../service/Follow';
+import { DefaultProfileAvatar } from '../../../assets/images';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSuggestedUsers } from '../../../features/auth/AuthSlice';
 
 export function Follow() {
-	const {theme} = useContext(ThemeContext);
+	const { theme } = useContext(ThemeContext);
+	const suggestedUsers = useSelector(state => state.authReducer.suggestedUsers);
+
+	const dispatch = useDispatch();
+
+	const handleFollow = async userId => {
+		try {
+			const response = await followRequest(userId);
+			if (response.status === 200) {
+				const filteredUser = suggestedUsers.filter(user => user.id !== userId);
+				dispatch(getSuggestedUsers(filteredUser));
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		const getUserSuggestion = async () => {
+			try {
+				const response = await suggestUser();
+				if (response.status === 200) {
+					dispatch(getSuggestedUsers([...response.data.random_users]));
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getUserSuggestion();
+	}, [dispatch]);
+
 	return (
-		<Card className="w-full"
-		style={{backgroundColor:theme === "dark"? "#0E0F11" :"#F5F5F5" }}>
+		<Card
+			className={`w-full overflow-hidden ${
+				theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
+			}`}
+		>
 			<CardHeader
 				floated={false}
 				shadow={false}
-				className="my-2 rounded-none"
 				color="transparent"
+				className="my-2 rounded-none"
 			>
 				<Typography
 					variant="h6"
-					color="blue-gray"
+					className={`${
+						theme !== 'dark' ? 'text-blue-gray-900' : 'text-blue-gray-100'
+					}`}
 				>
 					People you may know
 				</Typography>
 			</CardHeader>
-			<List className="p-0 gap-0">
-				<ListItem
-					className="bg-white hover:bg-white focus:bg-white rounded-none"
-					ripple={false}
-				>
-					<ListItemPrefix>
-						<Avatar
-							withBorder
-							className="p-0.5"
-							variant="circular"
-							alt="candice"
-							src="https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=600"
-						/>
-					</ListItemPrefix>
-					<div>
-						<Typography
-							variant="h6"
-							color="blue-gray"
+			{suggestedUsers && (
+				<List className="p-0 gap-0 overflow-auto no-scrollbar">
+					{suggestedUsers?.map((user, index) => (
+						<ListItem
+							key={index}
+							className={`rounded-none ${
+								theme !== 'dark'
+									? 'bg-white shadow hover:bg-white focus:bg-white'
+									: 'bg-gray-900 shadow hover:bg-gray-900 focus:bg-gray-900'
+							}`}
+							ripple={false}
 						>
-							Lucas Ramirez
-						</Typography>
-					</div>
-					<ListItemSuffix>
-						<Button
-							size="sm"
-							color="cyan"
-						>
-							Follow
-						</Button>
-					</ListItemSuffix>
-				</ListItem>
-				<ListItem
-					className="bg-white hover:bg-white focus:bg-white rounded-none"
-					ripple={false}
-				>
-					<ListItemPrefix>
-						<Avatar
-							withBorder
-							className="p-0.5"
-							variant="circular"
-							alt="alexander"
-							src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&w=600"
-						/>
-					</ListItemPrefix>
-					<div>
-						<Typography
-							variant="h6"
-							color="blue-gray"
-						>
-							Alexander
-						</Typography>
-					</div>
-					<ListItemSuffix>
-						<Button
-							size="sm"
-							color="cyan"
-						>
-							Follow
-						</Button>
-					</ListItemSuffix>
-				</ListItem>
-				<ListItem
-					className="bg-white hover:bg-white focus:bg-white rounded-none"
-					ripple={false}
-				>
-					<ListItemPrefix>
-						<Avatar
-							withBorder
-							className="p-0.5"
-							variant="circular"
-							alt="emma"
-							src="https://images.pexels.com/photos/1547971/pexels-photo-1547971.jpeg?auto=compress&cs=tinysrgb&w=600"
-						/>
-					</ListItemPrefix>
-					<div>
-						<Typography
-							variant="h6"
-							color="blue-gray"
-						>
-							Emma Willever
-						</Typography>
-					</div>
-					<ListItemSuffix>
-						<Button
-							size="sm"
-							color="cyan"
-						>
-							Follow
-						</Button>
-					</ListItemSuffix>
-				</ListItem>
-				<ListItem
-					className="bg-white hover:bg-white focus:bg-white rounded-none"
-					ripple={false}
-				>
-					<ListItemPrefix>
-						<Avatar
-							variant="circular"
-							withBorder
-							className="p-0.5"
-							alt="emma"
-							src="https://images.pexels.com/photos/1264210/pexels-photo-1264210.jpeg?auto=compress&cs=tinysrgb&w=600"
-						/>
-					</ListItemPrefix>
-					<div>
-						<Typography
-							variant="h6"
-							color="blue-gray"
-						>
-							Emma Willever
-						</Typography>
-					</div>
-					<ListItemSuffix>
-						<Button
-							size="sm"
-							color="cyan"
-						>
-							Follow
-						</Button>
-					</ListItemSuffix>
-				</ListItem>
-				<ListItem
-					className="bg-white hover:bg-white focus:bg-white rounded-none"
-					ripple={false}
-				>
-					<ListItemPrefix>
-						<Avatar
-							variant="circular"
-							withBorder
-							className="p-0.5"
-							alt="emma"
-							src="https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=600"
-						/>
-					</ListItemPrefix>
-					<div>
-						<Typography
-							variant="h6"
-							color="blue-gray"
-						>
-							Emma Willever
-						</Typography>
-					</div>
-					<ListItemSuffix>
-						<Button
-							size="sm"
-							color="cyan"
-						>
-							Follow
-						</Button>
-					</ListItemSuffix>
-				</ListItem>
-			</List>
+							<ListItemPrefix>
+								{user?.porfile_url ? (
+									<Avatar
+										withBorder
+										className="p-0.5"
+										variant="circular"
+										alt="candice"
+										src={user?.porfile_url}
+									/>
+								) : (
+									<Avatar
+										withBorder
+										className="p-0.5"
+										variant="circular"
+										alt="candice"
+										src={DefaultProfileAvatar}
+									/>
+								)}
+							</ListItemPrefix>
+							<div>
+								{user.username && (
+									<Typography
+										variant="h6"
+										className={`${
+											theme !== 'dark'
+												? 'text-blue-gray-900'
+												: 'text-blue-gray-100'
+										}`}
+									>
+										{user?.username}
+									</Typography>
+								)}
+							</div>
+							<ListItemSuffix>
+								<Button
+									size="sm"
+									color="cyan"
+									onClick={() => handleFollow(user.id)}
+									className="px-2"
+								>
+									Follow
+								</Button>
+							</ListItemSuffix>
+						</ListItem>
+					))}
+				</List>
+			)}
 		</Card>
 	);
 }

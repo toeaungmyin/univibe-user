@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { PostCard } from './PostCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { postsRequest } from '../../../service/Post';
-import { getNextPosts, getPosts } from '../../../features/auth/PostSlice';
 import { useInView } from 'react-intersection-observer';
 import { Spinner } from '@material-tailwind/react';
+import { getNextUserPosts, getUserPosts } from '../../features/auth/UserSlice';
+import { PostCard } from '../Section/Post/PostCard';
+import { getUserPostsRequest } from '../../service/Post';
+import { useParams } from 'react-router';
 
-const Posts = () => {
-	const posts = useSelector(state => state.postReducer.posts);
-
+const UserPosts = () => {
+	const posts = useSelector(state => state.userReducer.userPosts);
+	const { userId } = useParams();
 	const dispatch = useDispatch();
 	const { ref, inView } = useInView({
 		threshold: 0,
 	});
-	const [page, setPage] = useState(1);
+	const [page, setPage] = useState(null);
 
 	const fetchNextPage = async page_no => {
 		try {
-			const response = await postsRequest(page);
+			const response = await getUserPostsRequest(userId, page_no);
 			if (response?.status === 200) {
 				const responseData = response.data;
 				const nextPage = response.data.next_page;
 				if (page_no === 1) {
-					dispatch(getPosts(responseData));
+					dispatch(getUserPosts(responseData));
 				} else {
 					const nextPosts = responseData.data.filter(
 						npost => !posts.data.some(post => post.id === npost.id)
 					);
 
-					dispatch(getNextPosts([...posts.data, ...nextPosts]));
+					dispatch(getNextUserPosts([...posts.data, ...nextPosts]));
 				}
 				setPage(nextPage);
 			}
@@ -50,8 +51,8 @@ const Posts = () => {
 	return (
 		<>
 			{posts && (
-				<div className="flex flex-col justify-center items-center gap-4">
-					{posts.data.map((post, index) => (
+				<div className="flex flex-col justify-center items-center gap-4 mb-2">
+					{posts?.data?.map((post, index) => (
 						<PostCard
 							key={index}
 							post={post}
@@ -76,4 +77,4 @@ const Posts = () => {
 	);
 };
 
-export default Posts;
+export default UserPosts;

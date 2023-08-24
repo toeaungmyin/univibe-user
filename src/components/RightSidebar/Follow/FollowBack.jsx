@@ -7,156 +7,112 @@ import {
 	Typography,
 	Button,
 	ListItemSuffix,
-	IconButton,
 	CardHeader,
 } from '@material-tailwind/react';
-import { XMarkIcon } from '@heroicons/react/24/solid';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../ThemeContext';
+import { useSelector } from 'react-redux';
+import { followRequest } from '../../../service/Follow';
+import { DefaultProfileAvatar } from '../../../assets/images';
 
 export function Followback() {
-	const {theme} = useContext(ThemeContext);
+	const { theme } = useContext(ThemeContext);
+	const authUser = useSelector(state => state.authReducer.user);
+	const followers = authUser?.followers;
+
+	const handleFollow = async userId => {
+		try {
+			const response = await followRequest(userId);
+			if (response.status === 200) {
+				console.log(response);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
-		<Card
-			className="w-full"
-			shadow={false}
-			color="transparent"
-			style={{backgroundColor:theme === "dark"? "#3A434A" :"#F5F5F5" }}
-		>
-			<CardHeader
-				floated={false}
-				shadow={false}
-				className="mx-0 my-2 rounded-none"
-				color="transparent"
-				style={{backgroundColor:theme === "dark"? "#0E0F11" :"#F5F5F5" }}
-			>
-				<Typography
-					variant="h6"
-					color="blue-gray"
-					style={{color:theme === "dark"? "#fffffff" :"#0000000" }}
+		<>
+			{followers.length !== 0 && (
+				<Card
+					className="w-full"
+					shadow={false}
+					color="transparent"
 				>
-					People who followed you
-				</Typography>
-			</CardHeader>
-			<List className="p-0 gap-4">
-				<ListItem
-					className="bg-white shadow hover:bg-white focus:bg-white"
-					ripple={false}
-				>
-					<ListItemPrefix className="flex gap-2">
-						<IconButton
-							variant="text"
-							className="rounded-full"
-							size="sm"
-						>
-							<XMarkIcon className="w-5 h-5" />
-						</IconButton>
-						<Avatar
-							variant="circular"
-							size="sm"
-							withBorder
-							className="p-0.5"
-							alt="candice"
-							src="https://images.pexels.com/photos/5378700/pexels-photo-5378700.jpeg?auto=compress&cs=tinysrgb&w=600"
-						/>
-					</ListItemPrefix>
-					<div>
+					<CardHeader
+						floated={false}
+						shadow={false}
+						className="mx-0 mt-0 mb-2 rounded-none"
+						color="transparent"
+					>
 						<Typography
 							variant="h6"
-							color="blue-gray"
+							className={`${
+								theme !== 'dark' ? 'text-blue-gray-900' : 'text-blue-gray-500'
+							}`}
 						>
-							Tania Andrew
+							People who followed you
 						</Typography>
-					</div>
-					<ListItemSuffix>
-						<Button
-							size="sm"
-							color="cyan"
-							className="hover:shadow-none"
-						>
-							Follow Back
-						</Button>
-					</ListItemSuffix>
-				</ListItem>
-				<ListItem
-					className="bg-white shadow hover:bg-white focus:bg-white"
-					ripple={false}
-				>
-					<ListItemPrefix className="flex gap-2">
-						<IconButton
-							variant="text"
-							className="rounded-full"
-							size="sm"
-						>
-							<XMarkIcon className="w-5 h-5" />
-						</IconButton>
-						<Avatar
-							variant="circular"
-							size="sm"
-							withBorder
-							className="p-0.5"
-							alt="candice"
-							src="https://images.pexels.com/photos/6976943/pexels-photo-6976943.jpeg?auto=compress&cs=tinysrgb&w=600"
-						/>
-					</ListItemPrefix>
-					<div>
-						<Typography
-							variant="h6"
-							color="blue-gray"
-						>
-							Ava Thompson
-						</Typography>
-					</div>
-					<ListItemSuffix>
-						<Button
-							size="sm"
-							color="cyan"
-							className="hover:shadow-none"
-						>
-							Follow Back
-						</Button>
-					</ListItemSuffix>
-				</ListItem>
-				<ListItem
-					className="bg-white shadow hover:bg-white focus:bg-white"
-					ripple={false}
-				>
-					<ListItemPrefix className="flex gap-2">
-						<IconButton
-							variant="text"
-							className="rounded-full"
-							size="sm"
-						>
-							<XMarkIcon className="w-5 h-5" />
-						</IconButton>
-						<Avatar
-							variant="circular"
-							size="sm"
-							withBorder
-							className="p-0.5"
-							alt="candice"
-							src="https://images.pexels.com/photos/2773977/pexels-photo-2773977.jpeg?auto=compress&cs=tinysrgb&w=600"
-						/>
-					</ListItemPrefix>
-					<div>
-						<Typography
-							variant="h6"
-							color="blue-gray"
-						>
-							Amelia Lewis
-						</Typography>
-					</div>
-					<ListItemSuffix>
-						<Button
-							size="sm"
-							color="cyan"
-							className="hover:shadow-none"
-						>
-							Follow Back
-						</Button>
-					</ListItemSuffix>
-				</ListItem>
-			</List>
-		</Card>
+					</CardHeader>
+					<List className="p-0 gap-4">
+						{followers?.map((follower, index) => (
+							<ListItem
+								key={index}
+								className={
+									theme !== 'dark'
+										? 'bg-white shadow hover:bg-white focus:bg-white'
+										: 'bg-gray-900 shadow hover:bg-gray-900 focus:bg-gray-900'
+								}
+								ripple={false}
+							>
+								<ListItemPrefix className="flex gap-2">
+									{follower?.profile_url ? (
+										<Avatar
+											variant="circular"
+											size="sm"
+											withBorder
+											className="p-0.5"
+											alt="candice"
+											onError={e => (e.target.src = DefaultProfileAvatar)}
+											src={follower?.profile_url}
+										/>
+									) : (
+										<Avatar
+											variant="circular"
+											size="sm"
+											withBorder
+											className="p-0.5"
+											alt="candice"
+											src={DefaultProfileAvatar}
+										/>
+									)}
+								</ListItemPrefix>
+								<div>
+									{follower?.username && (
+										<Typography
+											variant="h6"
+											className="font-medium"
+											color={theme !== 'dark' ? 'blue-gray' : 'white'}
+										>
+											{follower?.username}
+										</Typography>
+									)}
+								</div>
+								<ListItemSuffix>
+									<Button
+										onClick={() => handleFollow(follower.id)}
+										size="sm"
+										color="cyan"
+										className="hover:shadow-none px-2"
+									>
+										Follow Back
+									</Button>
+								</ListItemSuffix>
+							</ListItem>
+						))}
+					</List>
+				</Card>
+			)}
+		</>
 	);
 }

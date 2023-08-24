@@ -5,23 +5,24 @@ import { ThemeContext } from '../../../ThemeContext';
 export function Announcement() {
 	const {theme} = useContext(ThemeContext)
 	return (
-		<Card className="w-full"
-		style={{backgroundColor:theme === "dark"? "#0E0F11" :"#F5F5F5" }}
-		>
+		<Card className={`w-full ${theme !== 'dark' ? 'bg-white' : 'bg-gray-900'}`}>
 			<CardBody>
 				<Typography
 					variant="h5"
 					color="blue-gray"
-					className="mb-2"
-					style={{color:theme === "dark"? "#ffffff" :"#000000" }}
+					className={`mb-2 ${
+						theme !== 'dark' ? 'text-blue-gray-900' : 'text-blue-gray-50'
+					}`}
 				>
 					Welcome to
 					<span className="suezOne text-cyan-700 ms-2 tracking-wider text-xl">
 						UniVibe
 					</span>
 				</Typography>
-				<Typography className="text-justify leading-tight text-blue-gray-600 font-normal"
-				style={{color:theme === "dark"? "#ffffff" :"#000000" }}>
+				<Typography
+					className="text-justify leading-tight text-blue-gray-600 font-normal"
+					style={{ color: theme === 'dark' ? '#ffffff' : '#000000' }}
+				>
 					Hey UCSM Students, Get ready to experience{' '}
 					<span className="font-semibold text-cyan-500">UniVibe</span>, your
 					all-in-one social network! Connect, collaborate, and have a blast with

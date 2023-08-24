@@ -4,12 +4,16 @@ const initialState = {
 	posts: null,
 };
 
-const loginSlice = createSlice({
+const postSlice = createSlice({
 	name: 'posts',
 	initialState,
 	reducers: {
 		getPosts(state, action) {
 			state.posts = action.payload;
+		},
+		updatePost(state, action) {
+			state.posts.data = action.payload;
+			
 		},
 		getNextPosts(state, action) {
 			state.posts.data = action.payload;
@@ -17,6 +21,6 @@ const loginSlice = createSlice({
 	},
 });
 
-export const { getPosts, getNextPosts } = loginSlice.actions;
+export const { getPosts, updatePost, getNextPosts } = postSlice.actions;
 
-export default loginSlice.reducer;
+export default postSlice.reducer;

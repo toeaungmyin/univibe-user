@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import imageCompression from 'browser-image-compression';
 import { Spinner } from '@material-tailwind/react';
+import { ThemeContext } from '../../../../ThemeContext';
 
 registerPlugin(FilePondPluginImageExifOrientation);
 
 export const PhotoUpload = ({ image, setImage }) => {
 	const [compressedImageURL, setCompressedImageURL] = useState(null);
 	const [isLoading, setLoading] = useState(false);
+	const { theme } = useContext(ThemeContext);
 
 	const handleImageUpload = async image => {
 		if (image && image.length > 0) {
@@ -44,7 +46,13 @@ export const PhotoUpload = ({ image, setImage }) => {
 	};
 
 	return (
-		<div className="bg-blue-gray-50 border-2 pt-6 p-4 border-cyan-400 border-dashed rounded-lg">
+		<div
+			className={`border-2 pt-6 p-4 border-cyan-400 border-dashed rounded-lg ${
+				theme !== 'dark'
+					? 'bg-blue-gray-50 '
+					: 'bg-blue-gray-900 [&_*]:bg-blue-gray-900 [&_*]:text-blue-gray-50'
+			}`}
+		>
 			<FilePond
 				onupdatefiles={handleImageUpload}
 				allowImageCompression

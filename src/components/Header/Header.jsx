@@ -1,16 +1,35 @@
 import React from 'react';
-import { Navbar, Typography, Input } from '@material-tailwind/react';
+import {
+	Navbar,
+	Typography,
+	Input,
+	Tabs,
+	TabsHeader,
+	Tab,
+} from '@material-tailwind/react';
 import { useContext } from 'react';
 import TextLogo from './../../assets/logo/logo-02.svg';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import {
+	HomeIcon,
+	BellIcon,
+	ChatBubbleBottomCenterIcon,
+} from '@heroicons/react/24/solid';
 import ProfileMenu from './ProfileMenu';
 import { ThemeContext } from '../../ThemeContext';
 export function Header() {
-	const {theme} = useContext(ThemeContext);
+	const { theme } = useContext(ThemeContext);
+	const [activeTab, setActiveTab] = React.useState('html');
 	return (
-		<Navbar className="mx-auto max-w-full py-2 px-4 lg:px-8 lg:py-2 rounded-none"
-		style={{backgroundColor:theme === "dark"? "#000000" :"#FFFFFF" }}>
-			<div className="flex items-center justify-between text-blue-gray-900">
+		<Navbar
+			fullWidth
+			className={`mx-auto max-w-full py-2 px-4 lg:px-8 lg:py-2 rounded-none ${
+				theme !== 'dark'
+					? 'text-0 '
+					: 'text-white bg-gray-900 border-none border-b-4 border-white'
+			}`}
+		>
+			<div className={`flex items-center justify-between`}>
 				<div className="flex justify-center items-center gap-2">
 					<img
 						className="w-14 transition duration-150 object-contain"
@@ -27,7 +46,7 @@ export function Header() {
 					</Typography>
 				</div>
 				<div className="flex gap-2">
-					<div className="w-72">
+					<div className="w-72 hidden sm:block">
 						<Input
 							label="Search"
 							icon={<MagnifyingGlassIcon className="w-5 h-5" />}
@@ -37,6 +56,52 @@ export function Header() {
 					<ProfileMenu />
 				</div>
 			</div>
+			<Tabs
+				value={activeTab}
+				className=" md:hidden"
+			>
+				<TabsHeader
+					className="rounded-none bg-transparent p-0"
+					indicatorProps={{
+						className: 'bg-transparent shadow-none rounded-none',
+					}}
+				>
+					<Tab
+						value="Home"
+						onClick={() => setActiveTab('Home')}
+					>
+						<HomeIcon
+							className={`w-6 h-6 ${
+								activeTab === 'Home' ? 'text-cyan-500' : 'text-blue-gray-900'
+							}`}
+						/>
+					</Tab>
+					<Tab
+						value="Notifications"
+						onClick={() => setActiveTab('Notifications')}
+					>
+						<BellIcon
+							className={`w-6 h-6 ${
+								activeTab === 'Notifications'
+									? 'text-cyan-500'
+									: 'text-blue-gray-900'
+							}`}
+						/>
+					</Tab>
+					<Tab
+						value="Messages"
+						onClick={() => setActiveTab('Messages')}
+					>
+						<ChatBubbleBottomCenterIcon
+							className={`w-6 h-6 ${
+								activeTab === 'Messages'
+									? 'text-cyan-500'
+									: 'text-blue-gray-900'
+							}`}
+						/>
+					</Tab>
+				</TabsHeader>
+			</Tabs>
 		</Navbar>
 	);
 }

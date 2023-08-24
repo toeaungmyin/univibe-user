@@ -4,7 +4,7 @@ import { Follow } from './Follow/Follow';
 
 const RightSidebar = () => {
 	return (
-		<div className="flex flex-col gap-4 p-4 overflow-auto no-scrollbar max-h-full ">
+		<div className="flex flex-col gap-4 px-4 py-2 overflow-auto no-scrollbar max-h-full ">
 			<Followback />
 			<Follow />
 		</div>

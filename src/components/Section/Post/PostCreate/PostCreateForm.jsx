@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
 	Button,
 	Dialog,
@@ -18,11 +18,14 @@ import { XMarkIcon, PhotoIcon } from '@heroicons/react/24/solid';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { PhotoUpload } from './PhotoUpload';
 import { useForm } from 'react-hook-form';
-import { createPostRequest } from '../../../../server/Post';
+import { createPostRequest } from '../../../../service/Post';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../../../features/auth/PostSlice';
+import { ThemeContext } from '../../../../ThemeContext';
 
 export function PostCreateForm({ open, handleOpen }) {
+	const { theme } = useContext(ThemeContext);
+
 	const [photoUpload, setPhotoUpload] = useState(false);
 	const [image, setImage] = useState(null);
 	const handlePhotoUpload = () => setPhotoUpload(cur => !cur);
@@ -101,7 +104,11 @@ export function PostCreateForm({ open, handleOpen }) {
 				className="bg-transparent shadow-none"
 			>
 				<form onSubmit={handleSubmit(createPost)}>
-					<Card className="mx-auto w-full p-0 overflow-hidden">
+					<Card
+						className={`mx-auto w-full p-0 overflow-hidden ${
+							theme === 'dark' ? 'bg-gray-900' : 'bg-white'
+						}`}
+					>
 						<CardHeader
 							variant="filled"
 							color="transparent"
@@ -112,7 +119,7 @@ export function PostCreateForm({ open, handleOpen }) {
 							<div className="w-full flex justify-between items-center">
 								<Typography
 									variant="h5"
-									className="text-blue-gray-800"
+									color={theme !== 'dark' ? 'black' : 'white'}
 								>
 									Create New Post
 								</Typography>
@@ -172,11 +179,20 @@ export function PostCreateForm({ open, handleOpen }) {
 						</CardBody>
 						<CardFooter className="pt-2 flex flex-col gap-2">
 							<div className="flex justify-between items-center">
-								<div className="w-40">
+								<div
+									className={`w-40  ${
+										theme === 'dark' &&
+										'[&_ul]:bg-blue-gray-900 [&_ul]:border-blue-gray-700'
+									}`}
+								>
 									<Select
 										label="Post Audience"
 										size="md"
-										color="cyan"
+										className={`${
+											theme !== 'dark'
+												? 'bg-white'
+												: 'bg-gray-900 text-blue-gray-50'
+										}`}
 										value={audience}
 										onChange={handleAudienceChange}
 									>

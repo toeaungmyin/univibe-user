@@ -9,7 +9,7 @@ import {
 } from '@material-tailwind/react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { registerRequest } from '../../server/Auth';
+import { registerRequest } from '../../service/Auth';
 
 const CreateAccount = ({ handleNext, setUserId }) => {
 	const [isLoading, setLoading] = useState(false);

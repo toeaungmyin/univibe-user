@@ -24,7 +24,7 @@ api.interceptors.response.use(
 		} else if (status === 403) {
 			window.location.href = '/';
 		} else {
-			throw error.response;
+			throw error;
 		}
 	}
 );

@@ -5,6 +5,7 @@ import Registerpage from '../pages/Registerpage';
 import Layout from '../layout/Layout';
 import HomePage from '../pages/HomePage';
 import NotificationPage from '../pages/NotificationPage';
+import ProfilePage from '../pages/ProfilePage';
 
 const Router = () => {
 	const routes = useRoutes([
@@ -29,6 +30,10 @@ const Router = () => {
 					element: <NotificationPage />,
 				},
 			],
+		},
+		{
+			path: '/profile/:userId',
+			element: <ProfilePage />,
 		},
 	]);
 

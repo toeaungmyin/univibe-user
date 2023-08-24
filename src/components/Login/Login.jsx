@@ -14,7 +14,7 @@ import {
 } from '@material-tailwind/react';
 import TextLogo from './../../assets/logo/logo-02.svg';
 import { useForm } from 'react-hook-form';
-import { loginRequest } from '../../server/Auth';
+import { loginRequest } from '../../service/Auth';
 import { useNavigate } from 'react-router';
 
 const Login = () => {

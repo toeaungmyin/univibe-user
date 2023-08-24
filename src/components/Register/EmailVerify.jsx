@@ -11,7 +11,7 @@ import axios from 'axios';
 import {
 	emailVerifyRequest,
 	reSendEmailVerifyRequest,
-} from '../../server/Auth';
+} from '../../service/Auth';
 
 const EmailVerify = ({ handleNext, userId }) => {
 	const [isLoading, setLoading] = useState(false);

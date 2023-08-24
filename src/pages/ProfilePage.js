@@ -1,15 +1,17 @@
 import React, { useContext, useEffect } from 'react';
-import { Outlet } from 'react-router';
 import { Header } from '../components/Header/Header';
-import RightSidebar from '../components/RightSidebar/RightSidebar';
 import LeftSidebar from '../components/LeftSidebar/LeftSidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { authUserDataRequest } from '../service/Auth';
 import { getAuthUser } from '../features/auth/AuthSlice';
 import PreLoader from '../components/Loader/PreLoader';
 import { ThemeContext } from '../ThemeContext';
+import { Profile } from '../components/Profile/Profile';
+import PostCreateCard from '../components/Section/Post/PostCreate/PostCreateCard';
+import Posts from '../components/Section/Post/Posts';
+import UserPosts from '../components/Profile/UserPosts';
 
-const Layout = () => {
+const ProfilePage = () => {
 	const auth = useSelector(state => state.authReducer);
 	const dispatch = useDispatch();
 	const { theme } = useContext(ThemeContext);
@@ -44,11 +46,12 @@ const Layout = () => {
 							<LeftSidebar />
 						</div>
 						<div className="w-full  lg:w-6/12 xl:w-5/12">
-							<Outlet />
+							<div className="w-full h-full flex flex-col gap-2 overflow-auto no-scrollbar md:px-4">
+								<Profile />
+								<UserPosts />
+							</div>
 						</div>
-						<div className="hidden lg:block lg:w-3/12 min-w-[22rem]">
-							<RightSidebar />
-						</div>
+						<div className="hidden lg:block lg:w-3/12 min-w-[22rem]"></div>
 					</div>
 				</div>
 			) : (
@@ -58,4 +61,4 @@ const Layout = () => {
 	);
 };
 
-export default Layout;
+export default ProfilePage;
