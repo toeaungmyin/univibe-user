@@ -145,7 +145,11 @@ export function PostCard({ post, posts }) {
 						/>
 					)}
 
-					<div className="p-4 pt-0">
+					<div
+						className={`p-4 pt-0 border-b-2 ${
+							theme !== 'dark' ? 'border-blue-gray-50' : 'border-blue-gray-900'
+						}`}
+					>
 						{post?.content && (
 							<Typography
 								variant="paragraph"
@@ -172,11 +176,7 @@ export function PostCard({ post, posts }) {
 						)}
 					</div>
 				</CardBody>
-				<CardFooter
-					className={`flex p-0 border-t-2 ${
-						theme !== 'dark' ? 'border-blue-gray-50' : 'border-blue-gray-900'
-					}`}
-				>
+				<CardFooter className={`flex p-0 `}>
 					<div className="flex gap-4 items-center px-4 py-2">
 						<div className="flex items-center gap-2">
 							<motion.div

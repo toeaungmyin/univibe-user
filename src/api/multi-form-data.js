@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const multi_form_data = axios.create({
-	// baseURL: 'https://univibe-server-production.up.railway.app/api/v1',
-	baseURL: 'http://127.0.0.1:8000/api/v1',
+	baseURL: 'https://univibe-server-production-2df7.up.railway.app/api/v1',
+	// baseURL: 'http://127.0.0.1:8000/api/v1',
 });
 
 multi_form_data.interceptors.request.use(config => {
