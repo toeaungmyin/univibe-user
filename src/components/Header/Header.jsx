@@ -19,38 +19,43 @@ import ProfileMenu from './ProfileMenu';
 import { ThemeContext } from '../../ThemeContext';
 export function Header() {
 	const { theme } = useContext(ThemeContext);
-	const [activeTab, setActiveTab] = React.useState('html');
+	const [activeTab, setActiveTab] = React.useState('home');
+
+	const activeTabClasses = 'text-cyan-500';
+	const noActiveTabClasses =
+		theme !== 'dark' ? 'text-blue-gray-900' : 'text-blue-gray-500';
+
 	return (
 		<Navbar
 			fullWidth
 			className={`mx-auto max-w-full py-2 px-4 lg:px-8 lg:py-2 rounded-none ${
 				theme !== 'dark'
 					? 'text-0 '
-					: 'text-white bg-gray-900 border-none border-b-4 border-white'
+					: 'text-white bg-gray-900 border-none border-b-4'
 			}`}
 		>
 			<div className={`flex items-center justify-between`}>
-				<div className="flex justify-center items-center gap-2">
+				<div className='flex justify-center items-center gap-2'>
 					<img
-						className="w-14 transition duration-150 object-contain"
+						className='w-14 transition duration-150 object-contain'
 						width={'100%'}
 						height={'100%'}
 						src={TextLogo}
-						alt="logo"
+						alt='logo'
 					/>
 					<Typography
-						variant="h1"
-						className="suezOne text-cyan-700 tracking-wider text-2xl"
+						variant='h1'
+						className='suezOne text-cyan-700 tracking-wider text-2xl'
 					>
 						UniVibe
 					</Typography>
 				</div>
-				<div className="flex gap-2">
-					<div className="w-72 hidden sm:block">
+				<div className='flex gap-2'>
+					<div className='w-72 hidden sm:block'>
 						<Input
-							label="Search"
-							icon={<MagnifyingGlassIcon className="w-5 h-5" />}
-							color="cyan"
+							label='Search'
+							icon={<MagnifyingGlassIcon className='w-5 h-5' />}
+							color='cyan'
 						/>
 					</div>
 					<ProfileMenu />
@@ -58,45 +63,47 @@ export function Header() {
 			</div>
 			<Tabs
 				value={activeTab}
-				className=" md:hidden"
+				className=' md:hidden'
 			>
 				<TabsHeader
-					className="rounded-none bg-transparent p-0"
+					className='rounded-none bg-transparent p-0'
 					indicatorProps={{
 						className: 'bg-transparent shadow-none rounded-none',
 					}}
 				>
 					<Tab
-						value="Home"
+						value='Home'
 						onClick={() => setActiveTab('Home')}
 					>
 						<HomeIcon
 							className={`w-6 h-6 ${
-								activeTab === 'Home' ? 'text-cyan-500' : 'text-blue-gray-900'
+								activeTab === 'Home'
+									? activeTabClasses
+									: noActiveTabClasses
 							}`}
 						/>
 					</Tab>
 					<Tab
-						value="Notifications"
+						value='Notifications'
 						onClick={() => setActiveTab('Notifications')}
 					>
 						<BellIcon
 							className={`w-6 h-6 ${
 								activeTab === 'Notifications'
-									? 'text-cyan-500'
-									: 'text-blue-gray-900'
+									? activeTabClasses
+									: noActiveTabClasses
 							}`}
 						/>
 					</Tab>
 					<Tab
-						value="Messages"
+						value='Messages'
 						onClick={() => setActiveTab('Messages')}
 					>
 						<ChatBubbleBottomCenterIcon
 							className={`w-6 h-6 ${
 								activeTab === 'Messages'
-									? 'text-cyan-500'
-									: 'text-blue-gray-900'
+									? activeTabClasses
+									: noActiveTabClasses
 							}`}
 						/>
 					</Tab>

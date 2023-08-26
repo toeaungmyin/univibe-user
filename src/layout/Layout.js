@@ -36,17 +36,17 @@ const Layout = () => {
 					className={`w-full h-screen relative
 					${theme !== 'dark' ? ' bg-blue-gray-50' : 'bg-black'}`}
 				>
-					<div className="fixed top-0 left-0 w-full z-[999]">
+					<div className='fixed top-0 left-0 w-full z-[999]'>
 						<Header />
 					</div>
-					<div className="relative top-[5rem] w-full md:h-[calc(100%-5rem)] flex justify-center overflow-auto">
-						<div className="hidden lg:block  lg:w-3/12 min-w-[18rem]">
+					<div className='relative top-28 md:top-20 w-full h-[calc(100%-7rem)] md:h-[calc(100%-5rem)] flex justify-center overflow-auto'>
+						<div className='hidden lg:block  lg:w-3/12 min-w-[18rem]'>
 							<LeftSidebar />
 						</div>
-						<div className="w-full  lg:w-6/12 xl:w-5/12">
+						<div className='w-full  lg:w-6/12 xl:w-5/12'>
 							<Outlet />
 						</div>
-						<div className="hidden lg:block lg:w-3/12 min-w-[22rem]">
+						<div className='hidden lg:block lg:w-3/12 min-w-[22rem]'>
 							<RightSidebar />
 						</div>
 					</div>

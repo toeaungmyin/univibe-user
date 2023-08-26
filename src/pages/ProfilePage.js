@@ -7,8 +7,6 @@ import { getAuthUser } from '../features/auth/AuthSlice';
 import PreLoader from '../components/Loader/PreLoader';
 import { ThemeContext } from '../ThemeContext';
 import { Profile } from '../components/Profile/Profile';
-import PostCreateCard from '../components/Section/Post/PostCreate/PostCreateCard';
-import Posts from '../components/Section/Post/Posts';
 import UserPosts from '../components/Profile/UserPosts';
 
 const ProfilePage = () => {
