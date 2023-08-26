@@ -34,22 +34,21 @@ const ProfilePage = () => {
 			{auth.isLoggedIn ? (
 				<div
 					className={`w-full h-screen relative
-					${theme !== 'dark' ? ' bg-blue-gray-50' : 'bg-black'}`}
-				>
-					<div className="fixed top-0 left-0 w-full z-[999]">
+					${theme !== 'dark' ? ' bg-blue-gray-50' : 'bg-black'}`}>
+					<div className='fixed top-0 left-0 w-full z-[999]'>
 						<Header />
 					</div>
-					<div className="relative top-[5rem] w-full md:h-[calc(100%-5rem)] flex justify-center overflow-auto">
-						<div className="hidden lg:block  lg:w-3/12 min-w-[18rem]">
+					<div className='relative top-[4.5rem] w-full md:h-[calc(100%-5rem)] flex justify-center overflow-auto'>
+						<div className='hidden lg:block  lg:w-3/12 min-w-[18rem]'>
 							<LeftSidebar />
 						</div>
-						<div className="w-full  lg:w-6/12 xl:w-5/12">
-							<div className="w-full h-full flex flex-col gap-2 overflow-auto no-scrollbar md:px-4">
+						<div className='w-full lg:w-6/12 xl:w-5/12'>
+							<div className='flex flex-col w-full h-full gap-2 overflow-auto no-scrollbar md:px-4'>
 								<Profile />
 								<UserPosts />
 							</div>
 						</div>
-						<div className="hidden lg:block lg:w-3/12 min-w-[22rem]"></div>
+						<div className='hidden lg:block lg:w-3/12 min-w-[22rem]'></div>
 					</div>
 				</div>
 			) : (

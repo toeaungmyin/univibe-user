@@ -62,10 +62,11 @@ export function PostCreateForm({ open, handleOpen }) {
 		}
 
 		try {
-			console.log(formData.get('image'));
 			const res = await createPostRequest(formData);
 			if (res?.status === 200) {
-				dispatch(getPosts({ ...posts, data: [res.data.post, ...posts.data] }));
+				dispatch(
+					getPosts({ ...posts, data: [res.data.post, ...posts.data] })
+				);
 				handleOpen();
 				reset();
 			}

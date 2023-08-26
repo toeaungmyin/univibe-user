@@ -29,7 +29,6 @@ export const PhotoUpload = ({ image, setImage }) => {
 						imageFile.file,
 						options
 					);
-
 					setImage(compressedFile);
 					setCompressedImageURL(URL.createObjectURL(compressedFile));
 				} catch (error) {

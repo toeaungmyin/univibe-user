@@ -24,10 +24,26 @@ import CommentBox from './CommentBox';
 export function PostDetail({ post, reaction, giveReaction, open, handleOpen }) {
 	const { theme } = useContext(ThemeContext);
 	const [expand, setExpand] = useState(false);
+
 	useEffect(() => {
-		window.addEventListener('resize', () =>
-			window.innerWidth >= 960 ? setExpand(false) : setExpand(true)
-		);
+		// Define a media query for screens with a max width of 960px
+		const mediaQuery = window.matchMedia('(max-width: 960px)');
+
+		// Initial check and set state based on the media query
+		setExpand(mediaQuery.matches);
+
+		// Add a listener for changes to the media query
+		const mediaQueryListener = event => {
+			setExpand(event.matches);
+		};
+
+		// Add the listener to the media query
+		mediaQuery.addListener(mediaQueryListener);
+
+		// Clean up the listener when the component unmounts
+		return () => {
+			mediaQuery.removeListener(mediaQueryListener);
+		};
 	}, []);
 	return (
 		<Dialog

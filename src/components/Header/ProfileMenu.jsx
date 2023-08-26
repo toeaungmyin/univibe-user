@@ -45,7 +45,7 @@ const ProfileMeu = ({ authUser }) => {
 			.catch(error => error.response);
 		if (response.status === 200) {
 			localStorage.removeItem('user-token');
-			navigate('sign-in');
+			navigate('/sign-in');
 		}
 	};
 

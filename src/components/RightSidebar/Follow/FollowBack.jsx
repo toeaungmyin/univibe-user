@@ -33,28 +33,27 @@ export function Followback() {
 
 	return (
 		<>
-			{followers.length !== 0 && (
+			{followers?.length !== 0 && (
 				<Card
-					className="w-full"
+					className='w-full'
 					shadow={false}
-					color="transparent"
-				>
+					color='transparent'>
 					<CardHeader
 						floated={false}
 						shadow={false}
-						className="mx-0 mt-0 mb-2 rounded-none"
-						color="transparent"
-					>
+						className='mx-0 mt-0 mb-2 rounded-none'
+						color='transparent'>
 						<Typography
-							variant="h6"
+							variant='h6'
 							className={`${
-								theme !== 'dark' ? 'text-blue-gray-900' : 'text-blue-gray-500'
-							}`}
-						>
+								theme !== 'dark'
+									? 'text-blue-gray-900'
+									: 'text-blue-gray-500'
+							}`}>
 							People who followed you
 						</Typography>
 					</CardHeader>
-					<List className="p-0 gap-4">
+					<List className='p-0 gap-4'>
 						{followers?.map((follower, index) => (
 							<ListItem
 								key={index}
@@ -63,26 +62,28 @@ export function Followback() {
 										? 'bg-white shadow hover:bg-white focus:bg-white'
 										: 'bg-gray-900 shadow hover:bg-gray-900 focus:bg-gray-900'
 								}
-								ripple={false}
-							>
-								<ListItemPrefix className="flex gap-2">
+								ripple={false}>
+								<ListItemPrefix className='flex gap-2'>
 									{follower?.profile_url ? (
 										<Avatar
-											variant="circular"
-											size="sm"
+											variant='circular'
+											size='sm'
 											withBorder
-											className="p-0.5"
-											alt="candice"
-											onError={e => (e.target.src = DefaultProfileAvatar)}
+											className='p-0.5'
+											alt='candice'
+											onError={e =>
+												(e.target.src =
+													DefaultProfileAvatar)
+											}
 											src={follower?.profile_url}
 										/>
 									) : (
 										<Avatar
-											variant="circular"
-											size="sm"
+											variant='circular'
+											size='sm'
 											withBorder
-											className="p-0.5"
-											alt="candice"
+											className='p-0.5'
+											alt='candice'
 											src={DefaultProfileAvatar}
 										/>
 									)}
@@ -90,21 +91,25 @@ export function Followback() {
 								<div>
 									{follower?.username && (
 										<Typography
-											variant="h6"
-											className="font-medium"
-											color={theme !== 'dark' ? 'blue-gray' : 'white'}
-										>
+											variant='h6'
+											className='font-medium'
+											color={
+												theme !== 'dark'
+													? 'blue-gray'
+													: 'white'
+											}>
 											{follower?.username}
 										</Typography>
 									)}
 								</div>
 								<ListItemSuffix>
 									<Button
-										onClick={() => handleFollow(follower.id)}
-										size="sm"
-										color="cyan"
-										className="hover:shadow-none px-2"
-									>
+										onClick={() =>
+											handleFollow(follower.id)
+										}
+										size='sm'
+										color='cyan'
+										className='hover:shadow-none px-2'>
 										Follow Back
 									</Button>
 								</ListItemSuffix>

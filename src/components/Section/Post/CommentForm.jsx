@@ -9,6 +9,7 @@ import { ThemeContext } from '../../../ThemeContext';
 
 export function CommentForm({ post }) {
 	const { theme } = useContext(ThemeContext);
+
 	const authUser = useSelector(state => state.authReducer.user);
 	const posts = useSelector(state => state.postReducer.posts.data);
 	const dispatch = useDispatch();
@@ -19,6 +20,26 @@ export function CommentForm({ post }) {
 		handleSubmit,
 		reset,
 	} = useForm({});
+
+	const isDarkTheme = theme === 'dark';
+	const commentErrorMessage = errors.comment?.message || errors.root?.message;
+	const placeholderText = commentErrorMessage
+		? commentErrorMessage
+		: 'Write your opinion...';
+
+	const textareaClasses = [
+		'min-h-full',
+		'!border-0',
+		'focus:border-transparent',
+		isDarkTheme ? ' text-blue-gray-50' : 'bg-gray-800 text-blue-gray-900',
+		errors.comment || errors.root
+			? isDarkTheme
+				? 'placeholder:text-red-500'
+				: 'placeholder:text-red-900'
+			: isDarkTheme
+			? 'placeholder:text-blue-gray-500'
+			: 'placeholder:text-blue-gray-900',
+	].join(' ');
 
 	// Handle the comment submission
 	const createComment = async ({ comment }) => {
@@ -37,7 +58,10 @@ export function CommentForm({ post }) {
 
 				if (postIndex !== -1) {
 					const mutablePost = { ...updatedPosts[postIndex] };
-					mutablePost.comments = [...mutablePost.comments, updatedComment];
+					mutablePost.comments = [
+						...mutablePost.comments,
+						updatedComment,
+					];
 					updatedPosts[postIndex] = mutablePost;
 				}
 
@@ -64,26 +88,6 @@ export function CommentForm({ post }) {
 		}
 	};
 
-	const isDarkTheme = theme === 'dark';
-	const commentErrorMessage = errors.comment?.message || errors.root?.message;
-	const placeholderText = commentErrorMessage
-		? commentErrorMessage
-		: 'Write your opinion...';
-
-	const textareaClasses = [
-		'min-h-full',
-		'!border-0',
-		'focus:border-transparent',
-		isDarkTheme ? ' text-blue-gray-50' : 'bg-gray-800 text-blue-gray-900',
-		errors.comment || errors.root
-			? isDarkTheme
-				? 'placeholder:text-red-500'
-				: 'placeholder:text-red-900'
-			: isDarkTheme
-			? 'placeholder:text-blue-gray-500'
-			: 'placeholder:text-blue-gray-900',
-	].join(' ');
-
 	return (
 		<div
 			className={`w-full rounded-3xl border p-1 ${
@@ -92,24 +96,27 @@ export function CommentForm({ post }) {
 					: 'border-gray-900/10 bg-gray-300'
 			}`}
 		>
-			<form className="flex flex-row items-center gap-2">
+			<form
+				className='flex flex-row items-center gap-2'
+				onSubmit={handleSubmit}
+			>
 				{authUser?.profile_url ? (
 					<Avatar
 						withBorder
-						className="p-0.5"
-						variant="circular"
-						alt="candice"
-						color="cyan"
+						className='p-0.5'
+						variant='circular'
+						alt='candice'
+						color='cyan'
 						onError={e => (e.target.src = DefaultProfileAvatar)}
 						src={authUser?.profile_url}
 					/>
 				) : (
 					<Avatar
 						withBorder
-						className="p-0.5"
-						variant="circular"
-						alt="candice"
-						color="cyan"
+						className='p-0.5'
+						variant='circular'
+						alt='candice'
+						color='cyan'
 						src={DefaultProfileAvatar}
 					/>
 				)}
@@ -124,28 +131,30 @@ export function CommentForm({ post }) {
 					labelProps={{
 						className: 'before:content-none after:content-none',
 					}}
-					{...register('comment', { required: 'Comment is required' })}
+					{...register('comment', {
+						required: 'Comment is required',
+					})}
 					error={!!errors.comment}
 				/>
 
 				<div>
 					<IconButton
-						variant="text"
-						className="rounded-full"
+						variant='text'
+						className='rounded-full'
 						onClick={handleSubmit(createComment)}
 					>
 						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
+							xmlns='http://www.w3.org/2000/svg'
+							fill='none'
+							viewBox='0 0 24 24'
+							stroke='currentColor'
 							strokeWidth={2}
-							className="h-5 w-5"
+							className='h-5 w-5'
 						>
 							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								d='M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5'
 							/>
 						</svg>
 					</IconButton>

@@ -17,9 +17,9 @@ const CommentBox = ({ post }) => {
 		scrollToBottom();
 	}, [post.comments]);
 	return (
-		<div className="p-2">
+		<div className='p-2'>
 			<div
-				className="h-72 flex flex-col gap-2 p-2 overflow-scroll no-scrollbar"
+				className='max-h-72 flex flex-col gap-2 p-2 overflow-scroll no-scrollbar'
 				ref={containerRef}
 			>
 				{post?.comments &&

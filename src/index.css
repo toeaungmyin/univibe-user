@@ -37,3 +37,8 @@
 .text-primary{
   color:  #2d6ca2;
 }
+
+*::selection{
+  background-color: #2d6ca2;
+  color: white;
+}

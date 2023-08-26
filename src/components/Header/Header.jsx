@@ -28,12 +28,13 @@ export function Header() {
 	return (
 		<Navbar
 			fullWidth
+			variant='filled'
+			blurred={false}
 			className={`mx-auto max-w-full py-2 px-4 lg:px-8 lg:py-2 rounded-none ${
 				theme !== 'dark'
 					? 'text-0 '
 					: 'text-white bg-gray-900 border-none border-b-4'
-			}`}
-		>
+			}`}>
 			<div className={`flex items-center justify-between`}>
 				<div className='flex justify-center items-center gap-2'>
 					<img
@@ -45,8 +46,7 @@ export function Header() {
 					/>
 					<Typography
 						variant='h1'
-						className='suezOne text-cyan-700 tracking-wider text-2xl'
-					>
+						className='suezOne text-cyan-700 tracking-wider text-2xl'>
 						UniVibe
 					</Typography>
 				</div>
@@ -63,18 +63,15 @@ export function Header() {
 			</div>
 			<Tabs
 				value={activeTab}
-				className=' md:hidden'
-			>
+				className=' md:hidden'>
 				<TabsHeader
 					className='rounded-none bg-transparent p-0'
 					indicatorProps={{
 						className: 'bg-transparent shadow-none rounded-none',
-					}}
-				>
+					}}>
 					<Tab
 						value='Home'
-						onClick={() => setActiveTab('Home')}
-					>
+						onClick={() => setActiveTab('Home')}>
 						<HomeIcon
 							className={`w-6 h-6 ${
 								activeTab === 'Home'
@@ -85,8 +82,7 @@ export function Header() {
 					</Tab>
 					<Tab
 						value='Notifications'
-						onClick={() => setActiveTab('Notifications')}
-					>
+						onClick={() => setActiveTab('Notifications')}>
 						<BellIcon
 							className={`w-6 h-6 ${
 								activeTab === 'Notifications'
@@ -97,8 +93,7 @@ export function Header() {
 					</Tab>
 					<Tab
 						value='Messages'
-						onClick={() => setActiveTab('Messages')}
-					>
+						onClick={() => setActiveTab('Messages')}>
 						<ChatBubbleBottomCenterIcon
 							className={`w-6 h-6 ${
 								activeTab === 'Messages'

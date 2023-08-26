@@ -1,4 +1,4 @@
-import api from '../api/api';
+import { api } from './api';
 
 export const registerRequest = async data => {
 	try {
@@ -53,6 +53,6 @@ export const logoutRequest = async () => {
 		localStorage.removeItem('user-token');
 		return response;
 	} catch (error) {
-		throw error.response; // Throw the error to be caught in the catch block
+		throw error.response;
 	}
 };

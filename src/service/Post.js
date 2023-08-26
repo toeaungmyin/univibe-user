@@ -1,9 +1,17 @@
-import api from '../api/api';
-import multi_form_data from '../api/multi-form-data';
+import { api, fileUploadApi } from './api';
 
 export const createPostRequest = async data => {
 	try {
-		const response = await multi_form_data.post('posts', data);
+		const response = await fileUploadApi.post('posts', data);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};
+
+export const updatePostRequest = async (data, postId) => {
+	try {
+		const response = await fileUploadApi.put(`posts/${postId}`, data);
 		return response;
 	} catch (error) {
 		throw error;
