@@ -7,7 +7,7 @@ export const HOST = {
 	LOCAL: 'http://127.0.0.1:8000/api/v1',
 };
 
-export const API_SERVER_URL = HOST.LOCAL;
+export const API_SERVER_URL = HOST.SERVER;
 
 const createApiInstance = (baseURL, contentType) => {
 	const instance = axios.create({
