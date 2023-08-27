@@ -7,7 +7,7 @@ export const HOST = {
 	LOCAL: 'http://127.0.0.1:8000/api/v1',
 };
 
-export const API_SERVER_URL = HOST.SERVER;
+export const API_SERVER_URL = HOST.LOCAL;
 
 const createApiInstance = (baseURL, contentType) => {
 	const instance = axios.create({
@@ -40,6 +40,6 @@ const createApiInstance = (baseURL, contentType) => {
 };
 
 const api = createApiInstance(API_SERVER_URL, 'application/json');
-const fileUploadApi = createApiInstance(API_SERVER_URL, 'multipart/form-data');
+const fileUploadApi = createApiInstance(API_SERVER_URL, 'multipart/form-data;');
 
 export { api, fileUploadApi };

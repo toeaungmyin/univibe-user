@@ -18,8 +18,9 @@ import UploadProfile from './UploadProfile';
 
 export function Profile() {
 	const { theme } = useContext(ThemeContext);
-	const user = useSelector(state => state.userReducer.selectedUser);
+	const selectedUser = useSelector(state => state.userReducer.selectedUser);
 	const auth = useSelector(state => state.authReducer.user);
+	const user = auth?.id === selectedUser?.id ? auth : selectedUser;
 	const posts = useSelector(state => state.userReducer.userPosts);
 	const { userId } = useParams();
 	const dispatch = useDispatch();
@@ -62,27 +63,26 @@ export function Profile() {
 										(e.target.src = DefaultProfileAvatar)
 									}
 									alt='profile'
-									className='object-cover object-center w-full h-full'
+									className='object-cover object-center rounded-full w-full h-full'
 								/>
 							) : (
 								<img
 									src={DefaultProfileAvatar}
 									alt='profile'
-									className='object-cover object-center w-full h-full'
+									className='object-cover object-center rounded-full w-full h-full'
 								/>
 							)}
 							<UploadProfile />
 						</div>
 					</div>
 					<div className='w-full h-full sm:w-3/5 flex flex-col justify-center items-center'>
-						<div className='w-full flex flex-col justify-center items-center md:items-start'>
+						<div className='w-full flex flex-col gap-2 justify-center items-center md:items-start'>
 							{user?.username && (
 								<Typography
 									variant='h4'
 									color={
 										theme !== 'dark' ? 'blue-gray' : 'white'
-									}
-									className='mb-2'>
+									}>
 									{user?.username}
 								</Typography>
 							)}
@@ -90,7 +90,7 @@ export function Profile() {
 								<Typography
 									variant='lead'
 									color='cyan'
-									className='mb-2 text-sm'>
+									className='text-sm'>
 									{user?.email}
 								</Typography>
 							)}
@@ -170,7 +170,7 @@ export function Profile() {
 						</IconButton>
 					)}
 				</CardHeader>
-				<CardBody className='grid grid-cols-3 gap-1 w-full h-full p-2 pt-4 rounded-none'>
+				<CardBody className='grid grid-cols-3 gap-1 w-full h-full p-2 pt-6 rounded-none'>
 					{images?.map((img, index) => (
 						<div
 							key={index}

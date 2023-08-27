@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Navbar,
 	Typography,
@@ -17,10 +17,27 @@ import {
 } from '@heroicons/react/24/solid';
 import ProfileMenu from './ProfileMenu';
 import { ThemeContext } from '../../ThemeContext';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
+
+const route = {
+	home: '/',
+	notification: '/notification',
+	message: '/message',
+};
+
 export function Header() {
 	const { theme } = useContext(ThemeContext);
-	const [activeTab, setActiveTab] = React.useState('home');
+	const authUser = useSelector(state => state.authReducer.user);
 
+	const location = useLocation();
+	console.log(location);
+	const [activeTab, setActiveTab] = React.useState(location.pathname);
+	const handleTab = route => {
+		navigate(route);
+		setActiveTab(route);
+	};
+	const navigate = useNavigate();
 	const activeTabClasses = 'text-cyan-500';
 	const noActiveTabClasses =
 		theme !== 'dark' ? 'text-blue-gray-900' : 'text-blue-gray-500';
@@ -58,7 +75,7 @@ export function Header() {
 							color='cyan'
 						/>
 					</div>
-					<ProfileMenu />
+					<ProfileMenu authUser={authUser} />
 				</div>
 			</div>
 			<Tabs
@@ -70,33 +87,35 @@ export function Header() {
 						className: 'bg-transparent shadow-none rounded-none',
 					}}>
 					<Tab
-						value='Home'
-						onClick={() => setActiveTab('Home')}>
+						value='/'
+						onClick={() => {
+							handleTab('/');
+						}}>
 						<HomeIcon
 							className={`w-6 h-6 ${
-								activeTab === 'Home'
+								activeTab === '/'
 									? activeTabClasses
 									: noActiveTabClasses
 							}`}
 						/>
 					</Tab>
 					<Tab
-						value='Notifications'
-						onClick={() => setActiveTab('Notifications')}>
+						value='/notifications'
+						onClick={() => handleTab('/notifications')}>
 						<BellIcon
 							className={`w-6 h-6 ${
-								activeTab === 'Notifications'
+								activeTab === '/notifications'
 									? activeTabClasses
 									: noActiveTabClasses
 							}`}
 						/>
 					</Tab>
 					<Tab
-						value='Messages'
-						onClick={() => setActiveTab('Messages')}>
+						value='/chat'
+						onClick={() => handleTab('/chat')}>
 						<ChatBubbleBottomCenterIcon
 							className={`w-6 h-6 ${
-								activeTab === 'Messages'
+								activeTab === '/chat'
 									? activeTabClasses
 									: noActiveTabClasses
 							}`}

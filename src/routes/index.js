@@ -6,6 +6,8 @@ import Layout from '../layout/Layout';
 import HomePage from '../pages/HomePage';
 import NotificationPage from '../pages/NotificationPage';
 import ProfilePage from '../pages/ProfilePage';
+import MessagePage from '../pages/MessagePage';
+import Error404 from '../pages/Error404';
 
 const Router = () => {
 	const routes = useRoutes([
@@ -28,6 +30,14 @@ const Router = () => {
 				{
 					path: '/notifications',
 					element: <NotificationPage />,
+				},
+				{
+					path: '/chat',
+					element: <MessagePage />,
+				},
+				{
+					path: '/*',
+					element: <Error404 />,
 				},
 			],
 		},

@@ -21,6 +21,7 @@ import {
 import { DefaultProfileAvatar } from '../../assets/images';
 
 const ProfileMeu = ({ authUser }) => {
+
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 	const closeMenu = () => setIsMenuOpen(false);
 	const navigate = useNavigate();
@@ -53,37 +54,34 @@ const ProfileMeu = ({ authUser }) => {
 		<Menu
 			open={isMenuOpen}
 			handler={setIsMenuOpen}
-			placement="bottom-end"
-		>
+			placement='bottom-end'>
 			<MenuHandler>
 				<Button
-					variant="text"
-					color="blue-gray"
-					className="flex items-center gap-2 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
-				>
+					variant='text'
+					color='blue-gray'
+					className='flex items-center gap-2 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto'>
 					{authUser?.username && (
 						<Typography
-							variant="h6"
-							className="text-sm font-medium ps-2 hidden sm:inline-block"
-						>
+							variant='h6'
+							className='text-sm font-medium ps-2 hidden sm:inline-block'>
 							{authUser.username}
 						</Typography>
 					)}
 					{authUser?.profile_url ? (
 						<Avatar
-							variant="circular"
-							size="sm"
-							alt="tania andrew"
-							className="border border-blue-500 p-0.5"
+							variant='circular'
+							size='sm'
+							alt='tania andrew'
+							className='border border-blue-500 p-0.5'
 							onError={e => (e.target.src = DefaultProfileAvatar)}
 							src={authUser?.profile_url}
 						/>
 					) : (
 						<Avatar
-							variant="circular"
-							size="sm"
-							alt="tania andrew"
-							className="border border-blue-500 p-0.5"
+							variant='circular'
+							size='sm'
+							alt='tania andrew'
+							className='border border-blue-500 p-0.5'
 							src={DefaultProfileAvatar}
 						/>
 					)}
@@ -95,33 +93,27 @@ const ProfileMeu = ({ authUser }) => {
 					/>
 				</Button>
 			</MenuHandler>
-			<MenuList className="p-1">
+			<MenuList className='p-1'>
 				<MenuItem
-					onClick={() => {
-						handleNavigate('/me');
-					}}
-					className={`flex items-center gap-2 rounded`}
-				>
-					<UserCircleIcon className="w-5 h-5" />
+					onClick={() => navigate(`/profile/${authUser?.id}`)}
+					className={`flex items-center gap-2 rounded`}>
+					<UserCircleIcon className='w-5 h-5' />
 					<Typography
-						as="span"
-						variant="small"
-						className="font-normal"
-					>
+						as='span'
+						variant='small'
+						className='font-normal'>
 						Profile
 					</Typography>
 				</MenuItem>
 				<MenuItem
 					onClick={() => openLogoutDialoag()}
-					className="flex items-center gap-2 rounded hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-				>
-					<PowerIcon className="w-5 h-5 text-red-500" />
+					className='flex items-center gap-2 rounded hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10'>
+					<PowerIcon className='w-5 h-5 text-red-500' />
 					<Typography
-						as="span"
-						variant="small"
-						className="font-normal"
-						color="red"
-					>
+						as='span'
+						variant='small'
+						className='font-normal'
+						color='red'>
 						Sign Out
 					</Typography>
 				</MenuItem>

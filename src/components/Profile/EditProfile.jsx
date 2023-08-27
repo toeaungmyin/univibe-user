@@ -21,6 +21,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { updateUserRequest } from '../../service/User';
 import { getAuthUser } from '../../features/auth/AuthSlice';
+import { getSelectedUser } from '../../features/auth/UserSlice';
 
 export function EditProfile({ handleOpen, open }) {
 	const authUser = useSelector(state => state.authReducer.user);
@@ -115,7 +116,8 @@ export function EditProfile({ handleOpen, open }) {
 		<Dialog
 			open={open}
 			handler={handleOpen}
-			size={expand ? 'xxl' : 'xs'}>
+			size={expand ? 'xxl' : 'md'}
+		>
 			{authUser && (
 				<DialogHeader className='justify-between items-center'>
 					<div className='flex gap-2 items-center'>
