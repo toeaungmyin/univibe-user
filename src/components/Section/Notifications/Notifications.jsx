@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NotificationCard } from './NotificationCard';
-import { Card, List, Spinner } from '@material-tailwind/react';
+import {
+	Card,
+	CardBody,
+	List,
+	Spinner,
+	Typography,
+} from '@material-tailwind/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationRequest } from '../../../service/Notifications';
 import { getNotifications } from '../../../features/auth/AuthSlice';
+import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 
 const Notifications = () => {
 	const notifications = useSelector(state => state.authReducer.notifications);
 	const dispatch = useDispatch();
+	const { theme } = useContext(ThemeContext);
 
 	useEffect(() => {
 		const fetchNotification = async () => {
@@ -25,18 +33,31 @@ const Notifications = () => {
 	return (
 		<Card className='max-w-[38rem] mx-auto overflow-hidden bg-transparent shadow-none'>
 			<List className={`items-center gap-2`}>
-				{notifications?.length !== 0 ? (
+				{notifications?.length !== 0 && notifications !== null ? (
 					notifications?.map((notification, index) => (
 						<NotificationCard
 							key={index}
 							notification={notification}
 						/>
 					))
-				) : (
+				) : notifications === null ? (
 					<Spinner
 						className='mt-5 h-12 w-12'
 						color='cyan'
 					/>
+				) : (
+					<Card
+						shadow={false}
+						color='transparent'
+						className='w-full text-center'>
+						<CardBody>
+							<Typography
+								variant='h5'
+								className='mb-2 to-blue-gray-700'>
+								No New Notifications
+							</Typography>
+						</CardBody>
+					</Card>
 				)}
 			</List>
 		</Card>

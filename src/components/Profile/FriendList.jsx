@@ -23,6 +23,7 @@ export function FriendList() {
 	const [allFriends, setAllFriends] = useState(false);
 	const [allFollowers, setAllFollowers] = useState(false);
 	const [allFollowings, setAllFollowings] = useState(false);
+
 	return (
 		<div className='flex flex-col gap-4 mt-2 max-h-[calc(100%-0.5rem)] overflow-auto no-scrollbar'>
 			{selectedUser?.friends && selectedUser?.friends?.length !== 0 && (

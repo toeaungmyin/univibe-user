@@ -1,10 +1,10 @@
 import React from 'react';
-import { FriendList } from '../components/Profile/FriendList';
+import { Friends } from '../components/Section/Friends/Friends';
 
 const FriendsPage = () => {
 	return (
 		<div className='w-full h-full p-1'>
-			<FriendList />
+			<Friends />
 		</div>
 	);
 };
