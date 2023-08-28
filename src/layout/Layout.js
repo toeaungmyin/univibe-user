@@ -21,6 +21,7 @@ const Layout = () => {
 			await authUserDataRequest()
 				.then(response => {
 					if (response?.status === 200) {
+						console.log(response.data);
 						dispatch(getAuthUser(response.data));
 					}
 				})

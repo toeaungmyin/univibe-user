@@ -206,8 +206,8 @@ export function Profile() {
 							</div>
 						</div>
 
-						{!isAuthUser && (
-							<div className='flex justify-center p-4 pb-0 gap-4'>
+						{selectedUser && !isAuthUser && (
+							<div className='w-full flex justify-center md:justify-start p-4 md:px-0 pb-0 gap-4'>
 								<Button
 									onClick={handleRelationship}
 									size='md'

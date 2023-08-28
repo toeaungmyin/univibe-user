@@ -28,7 +28,7 @@ export function FriendList() {
 		<div className='flex flex-col gap-4 mt-2 max-h-[calc(100%-0.5rem)] overflow-auto no-scrollbar'>
 			{selectedUser?.friends && selectedUser?.friends?.length !== 0 && (
 				<Card
-					className={`w-full border rounded-none md:rounded-lg ${
+					className={`w-full rounded-none md:rounded-lg ${
 						theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 					}`}>
 					<CardHeader
@@ -104,17 +104,19 @@ export function FriendList() {
 							))}
 					</List>
 					<CardFooter className='flex justify-center p-2'>
-						<Chip
-							variant='ghost'
-							color='cyan'
-							className={
-								theme !== 'dark'
-									? '[&>span]:text-cyan-900'
-									: '[&>span]:text-cyan-50'
-							}
-							value='see more'
-							onClick={() => setAllFriends(pre => !pre)}
-						/>
+						{selectedUser?.friends?.length > 3 && (
+							<Chip
+								variant='ghost'
+								color='cyan'
+								className={
+									theme !== 'dark'
+										? '[&>span]:text-cyan-900'
+										: '[&>span]:text-cyan-50'
+								}
+								value='see more'
+								onClick={() => setAllFriends(pre => !pre)}
+							/>
+						)}
 					</CardFooter>
 				</Card>
 			)}
@@ -199,17 +201,21 @@ export function FriendList() {
 								))}
 						</List>
 						<CardFooter className='flex justify-center p-2'>
-							<Chip
-								variant='ghost'
-								color='cyan'
-								className={
-									theme !== 'dark'
-										? '[&>span]:text-cyan-900'
-										: '[&>span]:text-cyan-50'
-								}
-								value='see more'
-								onClick={() => setAllFollowings(pre => !pre)}
-							/>
+							{selectedUser?.followings?.length > 3 && (
+								<Chip
+									variant='ghost'
+									color='cyan'
+									className={
+										theme !== 'dark'
+											? '[&>span]:text-cyan-900'
+											: '[&>span]:text-cyan-50'
+									}
+									value='see more'
+									onClick={() =>
+										setAllFollowings(pre => !pre)
+									}
+								/>
+							)}
 						</CardFooter>
 					</Card>
 				)}
@@ -294,17 +300,19 @@ export function FriendList() {
 								))}
 						</List>
 						<CardFooter className='flex justify-center p-2'>
-							<Chip
-								variant='ghost'
-								color='cyan'
-								className={
-									theme !== 'dark'
-										? '[&>span]:text-cyan-900'
-										: '[&>span]:text-cyan-50'
-								}
-								value='see more'
-								onClick={() => setAllFollowers(pre => !pre)}
-							/>
+							{selectedUser?.followers?.length > 3 && (
+								<Chip
+									variant='ghost'
+									color='cyan'
+									className={
+										theme !== 'dark'
+											? '[&>span]:text-cyan-900'
+											: '[&>span]:text-cyan-50'
+									}
+									value='see more'
+									onClick={() => setAllFollowers(pre => !pre)}
+								/>
+							)}
 						</CardFooter>
 					</Card>
 				)}
