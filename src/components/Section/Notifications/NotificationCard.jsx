@@ -24,7 +24,9 @@ import { formatDistanceToNow, isToday, isYesterday } from 'date-fns';
 export function NotificationCard({ notification }) {
 	const { theme } = useContext(ThemeContext);
 	const [isLoading, setLoading] = useState(false);
-	const notifications = useSelector(state => state.authReducer.notifications);
+	const auth = useSelector(state => state.authReducer);
+	const notifications = auth.notifications;
+	const authUser = auth.user;
 	const dispatch = useDispatch();
 
 	const createdAt = new Date(notification.created_at);
@@ -89,36 +91,35 @@ export function NotificationCard({ notification }) {
 				</div>
 			</ListItemPrefix>
 			<div>
-				<Typography
-					variant='h6'
-					color={theme !== 'dark' ? 'blue-gray' : 'white'}>
-					<span className='font-medium'>
-						{notification?.data?.user?.username}
+				<Typography color={theme !== 'dark' ? 'blue-gray' : 'white'}>
+					<span className='font-semibold text-sm'>
+						{notification?.data?.user?.id === authUser.id
+							? 'You'
+							: notification?.data?.user?.username}
 					</span>
 					<span
-						className={`font-medium text-sm ms-[0.05rem] ${
+						className={`font-medium text-sm ms-[0.3rem] ${
 							theme !== 'dark'
 								? 'text-blue-gray-700'
 								: 'text-blue-gray-200'
 						}`}>
 						{notification.data.message}
 					</span>
-				</Typography>
-				<Typography
-					variant='small'
-					className={`font-normal ${
-						theme !== 'dark'
-							? 'text-blue-gray-700'
-							: 'text-blue-gray-200'
-					}`}>
-					{timeAgo}
+					<span
+						className={`line-clamp-1 font-medium text-sm ${
+							theme !== 'dark'
+								? 'text-blue-gray-700'
+								: 'text-blue-gray-200'
+						}`}>
+						{timeAgo}
+					</span>
 				</Typography>
 			</div>
 			<ListItemSuffix>
 				{isLoading ? (
 					<Spinner className='w-5 h-5' />
 				) : (
-					<Menu>
+					<Menu placement='bottom-start'>
 						<MenuHandler>
 							<IconButton
 								variant='text'
@@ -127,7 +128,7 @@ export function NotificationCard({ notification }) {
 							</IconButton>
 						</MenuHandler>
 						<MenuList>
-							<MenuItem>
+							<MenuItem className='flex gap-2'>
 								<CheckBadgeIcon className='w-5 h-5' />
 								<Typography variant='small'>Report</Typography>
 							</MenuItem>
