@@ -1,7 +1,7 @@
 import { Card, CardHeader, Typography, Avatar } from '@material-tailwind/react';
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { ThemeContext } from '../../../ThemeContext';
+import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { useNavigate } from 'react-router';
 

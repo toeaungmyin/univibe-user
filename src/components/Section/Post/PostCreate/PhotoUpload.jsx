@@ -5,7 +5,7 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import imageCompression from 'browser-image-compression';
 import { Spinner } from '@material-tailwind/react';
-import { ThemeContext } from '../../../../ThemeContext';
+import { ThemeContext } from '../../../../ThemeContext/ThemeContext';
 
 registerPlugin(FilePondPluginImageExifOrientation);
 
@@ -50,9 +50,9 @@ export const PhotoUpload = ({ image, setImage }) => {
 				theme !== 'dark'
 					? 'bg-blue-gray-50 '
 					: 'bg-blue-gray-900 [&_*]:bg-blue-gray-900 [&_*]:text-blue-gray-50'
-			}`}
-		>
+			}`}>
 			<FilePond
+				acceptedFileTypes={['image/jpeg', 'image/png', 'image/gif']}
 				onupdatefiles={handleImageUpload}
 				allowImageCompression
 				allowMultiple={false}
@@ -63,17 +63,17 @@ export const PhotoUpload = ({ image, setImage }) => {
 					setCompressedImageURL(null);
 				}}
 			/>
-			<div className="px-4 flex justify-center items-center">
+			<div className='px-4 flex justify-center items-center'>
 				{isLoading ? (
 					<Spinner
-						className="h-16 w-16"
-						color="cyan"
+						className='h-16 w-16'
+						color='cyan'
 					/>
 				) : (
 					compressedImageURL && (
 						<img
 							src={compressedImageURL}
-							alt="Compressed"
+							alt='Compressed'
 							style={{ maxWidth: '100%' }}
 						/>
 					)

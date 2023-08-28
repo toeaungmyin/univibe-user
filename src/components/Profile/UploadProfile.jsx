@@ -6,22 +6,29 @@ import {
 	DialogHeader,
 	IconButton,
 	Spinner,
+	Typography,
 } from '@material-tailwind/react';
-import React, { useEffect, useState } from 'react';
-import { CameraIcon } from '@heroicons/react/24/outline';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+	CameraIcon,
+	ChevronLeftIcon,
+	XMarkIcon,
+} from '@heroicons/react/24/outline';
 import imageCompression from 'browser-image-compression';
 import Cropper from 'react-easy-crop';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserRequest } from '../../service/User';
 import { getAuthUser } from '../../features/auth/AuthSlice';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 const UploadProfile = () => {
+	const { theme } = useContext(ThemeContext);
 	const authUser = useSelector(state => state.authReducer.user);
 	const dispatch = useDispatch();
-
 	const [image, setImage] = useState(null);
 	const [compressedImageURL, setCompressedImageURL] = useState(null);
 	const [isLoading, setLoading] = useState(false);
+	const [isUploading, setUploading] = useState(false);
 	const [open, setOpen] = React.useState(false);
 	//crop Profile
 	const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -117,6 +124,7 @@ const UploadProfile = () => {
 
 	const UploadProfileImage = async () => {
 		try {
+			setUploading(true);
 			let formData = new FormData();
 			const filename =
 				authUser.username.replace(/ /g, '').toLowerCase() +
@@ -133,6 +141,8 @@ const UploadProfile = () => {
 			if (error.status === 422) {
 				console.log(error);
 			}
+		} finally {
+			setUploading(false);
 		}
 	};
 	return (
@@ -156,15 +166,47 @@ const UploadProfile = () => {
 			<Dialog
 				open={open}
 				handler={handleOpen}
-				size={expand ? 'xxl' : 'xs'}>
-				<DialogHeader>Profile Preview</DialogHeader>
+				size={expand ? 'xxl' : 'xs'}
+				className={`${expand ? 'w-full h-screen' : 'w-full h-[33rem]'}
+				${theme !== 'dark' ? 'bg-white' : 'bg-gray-900'}`}>
+				<DialogHeader className='justify-between'>
+					<div className='flex gap-2'>
+						{expand && (
+							<IconButton
+								color='blue-gray'
+								size='sm'
+								variant='text'
+								onClick={handleOpen}>
+								<ChevronLeftIcon className='w-5 h-5' />
+							</IconButton>
+						)}
+						<Typography
+							variant='h5'
+							color={theme !== 'dark' ? 'blue-gray' : 'white'}>
+							Profile Preview
+						</Typography>
+					</div>
+					{!expand && (
+						<IconButton
+							color='blue-gray'
+							size='sm'
+							variant='text'
+							onClick={handleOpen}>
+							<XMarkIcon className='w-5 h-5' />
+						</IconButton>
+					)}
+				</DialogHeader>
 				<DialogBody
-					className='w-96 h-96 mx-auto'
-					divider>
+					className={`w-full h-full max-w-md max-h-96 m-0 mx-auto p-0 `}>
 					{isLoading ? (
-						<Spinner className='w-10 h-10 text-cyan-500' />
+						<div className='w-full h-full flex justify-center items-center'>
+							<Spinner
+								className='w-10 h-10'
+								color='cyan'
+							/>
+						</div>
 					) : (
-						<>
+						<div className='relative w-full h-full flex justify-center items-center'>
 							<div className='crop-container'>
 								<Cropper
 									image={compressedImageURL}
@@ -180,15 +222,25 @@ const UploadProfile = () => {
 								/>
 							</div>
 							<div className='controls' />
-						</>
+						</div>
 					)}
 				</DialogBody>
 				<DialogFooter>
 					<Button
-						variant='gradient'
-						color='green'
+						fullWidth
+						variant='filled'
+						color='cyan'
+						className='flex gap-2 justify-center items-center'
 						onClick={UploadProfileImage}>
-						<span>Confirm</span>
+						{isUploading ? (
+							<Spinner
+								className='h-5 w-5 me-3'
+								color='white'
+							/>
+						) : (
+							''
+						)}
+						<span>Upload</span>
 					</Button>
 				</DialogFooter>
 			</Dialog>

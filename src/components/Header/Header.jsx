@@ -1,37 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Navbar,
 	Typography,
-	Input,
 	Tabs,
 	TabsHeader,
 	Tab,
+	IconButton,
 } from '@material-tailwind/react';
 import { useContext } from 'react';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+
 import TextLogo from './../../assets/logo/logo-02.svg';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import {
 	HomeIcon,
 	BellIcon,
-	ChatBubbleBottomCenterIcon,
+	UsersIcon,
+	UserCircleIcon,
+	Bars3Icon,
 } from '@heroicons/react/24/solid';
-import ProfileMenu from './ProfileMenu';
-import { ThemeContext } from '../../ThemeContext';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
+import { useLocation, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 
-const route = {
-	home: '/',
-	notification: '/notification',
-	message: '/message',
-};
+import { MenuContext } from '../../ThemeContext/MenuContext';
+import SearchUser from './SearchUser';
 
 export function Header() {
 	const { theme } = useContext(ThemeContext);
+	const { openMenu } = useContext(MenuContext);
 	const authUser = useSelector(state => state.authReducer.user);
 
 	const location = useLocation();
-	console.log(location);
 	const [activeTab, setActiveTab] = React.useState(location.pathname);
 	const handleTab = route => {
 		navigate(route);
@@ -43,86 +42,112 @@ export function Header() {
 		theme !== 'dark' ? 'text-blue-gray-900' : 'text-blue-gray-500';
 
 	return (
-		<Navbar
-			fullWidth
-			variant='filled'
-			blurred={false}
-			className={`mx-auto max-w-full py-2 px-4 lg:px-8 lg:py-2 rounded-none ${
-				theme !== 'dark'
-					? 'text-0 '
-					: 'text-white bg-gray-900 border-none border-b-4'
-			}`}>
-			<div className={`flex items-center justify-between`}>
-				<div className='flex justify-center items-center gap-2'>
-					<img
-						className='w-14 transition duration-150 object-contain'
-						width={'100%'}
-						height={'100%'}
-						src={TextLogo}
-						alt='logo'
-					/>
-					<Typography
-						variant='h1'
-						className='suezOne text-cyan-700 tracking-wider text-2xl'>
-						UniVibe
-					</Typography>
-				</div>
-				<div className='flex gap-2'>
-					<div className='w-72 hidden sm:block'>
-						<Input
-							label='Search'
-							icon={<MagnifyingGlassIcon className='w-5 h-5' />}
-							color='cyan'
+		<>
+			<Navbar
+				fullWidth
+				variant='filled'
+				blurred={false}
+				className={`mx-auto max-w-full py-2 px-4 lg:px-8 lg:py-2 rounded-none ${
+					theme !== 'dark'
+						? 'text-0 '
+						: 'text-white bg-gray-900 border-none border-b-4'
+				}`}>
+				<div
+					className={`min-h-[3.5rem] flex items-center justify-between`}>
+					<div className='flex justify-center items-center gap-2'>
+						<img
+							className='w-14 transition duration-150 object-contain'
+							width={'100%'}
+							height={'100%'}
+							src={TextLogo}
+							alt='logo'
 						/>
+						<Typography
+							variant='h1'
+							className='suezOne text-cyan-700 tracking-wider text-2xl'>
+							UniVibe
+						</Typography>
 					</div>
-					<ProfileMenu authUser={authUser} />
+
+					<div className='w-72 hidden md:block'>
+						<SearchUser />
+					</div>
+
+					<IconButton
+						onClick={()=>navigate('/search')}
+						variant='filled'
+						className='block md:hidden text-blue-500 bg-blue-500/10 rounded-full shadow-none'>
+						<MagnifyingGlassIcon className='w-5 h-5' />
+					</IconButton>
 				</div>
-			</div>
-			<Tabs
-				value={activeTab}
-				className=' md:hidden'>
-				<TabsHeader
-					className='rounded-none bg-transparent p-0'
-					indicatorProps={{
-						className: 'bg-transparent shadow-none rounded-none',
-					}}>
-					<Tab
-						value='/'
-						onClick={() => {
-							handleTab('/');
+				<Tabs
+					value={activeTab}
+					className=' md:hidden'>
+					<TabsHeader
+						className='rounded-none bg-transparent p-0'
+						indicatorProps={{
+							className:
+								'bg-transparent shadow-none rounded-none',
 						}}>
-						<HomeIcon
-							className={`w-6 h-6 ${
-								activeTab === '/'
-									? activeTabClasses
-									: noActiveTabClasses
-							}`}
-						/>
-					</Tab>
-					<Tab
-						value='/notifications'
-						onClick={() => handleTab('/notifications')}>
-						<BellIcon
-							className={`w-6 h-6 ${
-								activeTab === '/notifications'
-									? activeTabClasses
-									: noActiveTabClasses
-							}`}
-						/>
-					</Tab>
-					<Tab
-						value='/chat'
-						onClick={() => handleTab('/chat')}>
-						<ChatBubbleBottomCenterIcon
-							className={`w-6 h-6 ${
-								activeTab === '/chat'
-									? activeTabClasses
-									: noActiveTabClasses
-							}`}
-						/>
-					</Tab>
-				</TabsHeader>
-			</Tabs>
-		</Navbar>
+						<Tab
+							value='/'
+							onClick={() => {
+								handleTab('/');
+							}}>
+							<HomeIcon
+								className={`w-6 h-6 ${
+									activeTab === '/'
+										? activeTabClasses
+										: noActiveTabClasses
+								}`}
+							/>
+						</Tab>
+						<Tab
+							value='/friends'
+							onClick={() => handleTab('/friends')}>
+							<UsersIcon
+								className={`w-6 h-6 ${
+									activeTab === '/friends'
+										? activeTabClasses
+										: noActiveTabClasses
+								}`}
+							/>
+						</Tab>
+						<Tab
+							value='/notifications'
+							onClick={() => handleTab('/notifications')}>
+							<BellIcon
+								className={`w-6 h-6 ${
+									activeTab === '/notifications'
+										? activeTabClasses
+										: noActiveTabClasses
+								}`}
+							/>
+						</Tab>
+						<Tab
+							value={`/profile/${authUser?.id}`}
+							onClick={() =>
+								handleTab(`/profile/${authUser?.id}`)
+							}>
+							<UserCircleIcon
+								className={`w-6 h-6 ${
+									activeTab === `/profile/${authUser?.id}`
+										? activeTabClasses
+										: noActiveTabClasses
+								}`}
+							/>
+						</Tab>
+						<Tab
+							color='blue-gray'
+							value=''
+							onClick={openMenu}>
+							<Bars3Icon
+								className={`w-6 h-6 ${noActiveTabClasses}`}
+							/>
+						</Tab>
+					</TabsHeader>
+				</Tabs>
+			</Navbar>
+		</>
 	);
 }

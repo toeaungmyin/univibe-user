@@ -6,6 +6,7 @@ import {
 	Card,
 	ListItemPrefix,
 	Switch,
+	Typography,
 } from '@material-tailwind/react';
 import {
 	HomeIcon,
@@ -17,7 +18,7 @@ import {
 } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router';
 import { useContext } from 'react';
-import { ThemeContext } from '../../../ThemeContext';
+import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { useSelector } from 'react-redux';
 export function LeftNavList() {
 	const authUser = useSelector(state => state.authReducer.user);
@@ -79,15 +80,31 @@ export function LeftNavList() {
 						/>
 					</ListItemSuffix>
 				</ListItem>
-				<ListItem>
+				<ListItem
+					className={
+						theme !== 'dark'
+							? 'bg-white hover:bg-white focus:bg-white'
+							: 'bg-gray-900 hover:bg-gray-900 focus:bg-gray-900'
+					}>
 					<ListItemPrefix>
 						{theme === 'dark' ? (
-							<MoonIcon className='w-5 h-5' />
+							<MoonIcon
+								color='white'
+								className='w-5 h-5'
+							/>
 						) : (
-							<SunIcon className='w-5 h-5' />
+							<SunIcon
+								color='black'
+								className='w-5 h-5'
+							/>
 						)}
 					</ListItemPrefix>
-					{theme === 'dark' ? 'Dark Theme' : 'White Theme'}
+					<Typography
+						variant='h6'
+						color={theme !== 'dark' ? 'blue-gray' : 'white'}
+						className='font-medium'>
+						{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+					</Typography>
 					<ListItemSuffix>
 						<Switch
 							color='cyan'

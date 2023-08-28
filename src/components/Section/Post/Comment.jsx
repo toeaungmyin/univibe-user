@@ -1,6 +1,6 @@
 import { Avatar, Typography } from '@material-tailwind/react';
 import React, { useContext } from 'react';
-import { ThemeContext } from '../../../ThemeContext';
+import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { useSelector } from 'react-redux';
 
@@ -9,10 +9,7 @@ const Comment = ({ comment }) => {
 	const { theme } = useContext(ThemeContext);
 
 	return (
-		<div
-			className={`flex gap-2 ${
-				comment.user.id === authUser.id && 'flex-row-reverse'
-			}`}>
+		<div className={`flex gap-2`}>
 			<div className='min-w-[2.5rem]'>
 				<Avatar
 					withBorder
@@ -36,7 +33,7 @@ const Comment = ({ comment }) => {
 						<>
 							<Typography
 								variant='small'
-								className='text-sm font-medium'
+								className='text-sm font-semibold'
 								color={
 									theme !== 'dark' ? 'blue-gray' : 'white'
 								}>

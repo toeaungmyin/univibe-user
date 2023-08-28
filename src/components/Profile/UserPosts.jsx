@@ -46,6 +46,10 @@ const UserPosts = () => {
 
 	useEffect(() => {
 		fetchNextPage(1);
+
+		return () => {
+			dispatch(getUserPosts(null));
+		};
 	}, []);
 
 	return (

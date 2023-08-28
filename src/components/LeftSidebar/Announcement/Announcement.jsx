@@ -1,6 +1,6 @@
 import { Card, CardBody, Typography } from '@material-tailwind/react';
 import { useContext } from 'react';
-import { ThemeContext } from '../../../ThemeContext';
+import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 
 export function Announcement() {
 	const {theme} = useContext(ThemeContext)

@@ -20,8 +20,7 @@ const CommentBox = ({ post }) => {
 		<div className='p-2'>
 			<div
 				className='max-h-72 flex flex-col gap-2 p-2 overflow-scroll no-scrollbar'
-				ref={containerRef}
-			>
+				ref={containerRef}>
 				{post?.comments &&
 					post.comments.map((comment, index) => (
 						<Comment

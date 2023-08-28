@@ -21,7 +21,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { updateUserRequest } from '../../service/User';
 import { getAuthUser } from '../../features/auth/AuthSlice';
-import { getSelectedUser } from '../../features/auth/UserSlice';
 
 export function EditProfile({ handleOpen, open }) {
 	const authUser = useSelector(state => state.authReducer.user);

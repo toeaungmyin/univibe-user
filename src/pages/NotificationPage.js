@@ -4,7 +4,7 @@ import Notifications from '../components/Section/Notifications/Notifications';
 const NotificationPage = () => {
 	return (
 		<>
-			<div className="w-full h-full overflow-auto no-scrollbar md:p-4">
+			<div className='w-full h-full overflow-auto no-scrollbar md:px-4'>
 				<Notifications />
 			</div>
 		</>

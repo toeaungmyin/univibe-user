@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	user: null,
+	notifications: [],
 	suggestedUsers: [],
 	isLoggedIn: false,
 };
@@ -17,6 +18,9 @@ const authSlice = createSlice({
 		getSuggestedUsers(state, action) {
 			state.suggestedUsers = action.payload;
 		},
+		getNotifications(state, action) {
+			state.notifications = action.payload;
+		},
 		logout(state) {
 			state.user = null;
 			state.isLoggedIn = false;
@@ -26,6 +30,7 @@ const authSlice = createSlice({
 	},
 });
 
-export const { getAuthUser, getSuggestedUsers, logout } = authSlice.actions;
+export const { getAuthUser, getSuggestedUsers, getNotifications, logout } =
+	authSlice.actions;
 
 export default authSlice.reducer;

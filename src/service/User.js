@@ -20,3 +20,12 @@ export const updateUserRequest = async (userId, data) => {
 		throw error;
 	}
 };
+
+export const searchUserRequest = async key => {
+	try {
+		const response = await fileUploadApi.get(`search-user?query=${key}`);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};

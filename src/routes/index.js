@@ -8,6 +8,8 @@ import NotificationPage from '../pages/NotificationPage';
 import ProfilePage from '../pages/ProfilePage';
 import MessagePage from '../pages/MessagePage';
 import Error404 from '../pages/Error404';
+import SearchFriend from '../pages/SearchFriend';
+import FriendsPage from '../pages/FriendsPage';
 
 const Router = () => {
 	const routes = useRoutes([
@@ -32,8 +34,16 @@ const Router = () => {
 					element: <NotificationPage />,
 				},
 				{
+					path: '/friends',
+					element: <FriendsPage />,
+				},
+				{
 					path: '/chat',
 					element: <MessagePage />,
+				},
+				{
+					path: '/search',
+					element: <SearchFriend />,
 				},
 				{
 					path: '/*',

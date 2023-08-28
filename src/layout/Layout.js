@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authUserDataRequest } from '../service/Auth';
 import { getAuthUser } from '../features/auth/AuthSlice';
 import PreLoader from '../components/Loader/PreLoader';
-import { ThemeContext } from '../ThemeContext';
+import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { SidebarMenu } from '../components/SidebarMenu/SidebarMenu';
+import echo from '../broadcast';
 
 const Layout = () => {
 	const auth = useSelector(state => state.authReducer);
@@ -29,17 +31,31 @@ const Layout = () => {
 		fetchUser();
 	}, [dispatch]);
 
+	useEffect(() => {
+		echo.private(`App.Models.User.${auth?.user?.id}`).listen(
+			'new-comment',
+			data => {
+				alert('Received comment notification:', data);
+			}
+		);
+
+		return () => {
+			// Unsubscribe or disconnect when the component unmounts, if necessary
+			// echo.leave(`App.Models.User.${auth?.user?.id}`);
+			// echo.disconnect();
+		};
+	}, [auth?.user?.id]);
+
 	return (
 		<>
 			{auth.isLoggedIn ? (
 				<div
 					className={`w-full h-screen relative
-					${theme !== 'dark' ? ' bg-blue-gray-50' : 'bg-black'}`}
-				>
+					${theme !== 'dark' ? ' bg-blue-gray-50' : 'bg-black'}`}>
 					<div className='fixed top-0 left-0 w-full z-[999]'>
 						<Header />
 					</div>
-					<div className='relative top-28 md:top-20 w-full h-[calc(100%-7rem)] md:h-[calc(100%-5rem)] flex justify-center overflow-auto'>
+					<div className='relative top-[6.5rem] md:top-20 w-full h-[calc(100%-7rem)] md:h-[calc(100%-5rem)] flex justify-center overflow-auto'>
 						<div className='hidden lg:block  lg:w-3/12 min-w-[18rem]'>
 							<LeftSidebar />
 						</div>
@@ -50,6 +66,7 @@ const Layout = () => {
 							<RightSidebar />
 						</div>
 					</div>
+					<SidebarMenu />
 				</div>
 			) : (
 				<PreLoader />

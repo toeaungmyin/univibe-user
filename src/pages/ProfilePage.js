@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authUserDataRequest } from '../service/Auth';
 import { getAuthUser } from '../features/auth/AuthSlice';
 import PreLoader from '../components/Loader/PreLoader';
-import { ThemeContext } from '../ThemeContext';
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { Profile } from '../components/Profile/Profile';
 import UserPosts from '../components/Profile/UserPosts';
+import { SidebarMenu } from '../components/SidebarMenu/SidebarMenu';
+import { FriendList } from '../components/Profile/FriendList';
 
 const ProfilePage = () => {
 	const auth = useSelector(state => state.authReducer);
@@ -48,8 +50,11 @@ const ProfilePage = () => {
 								<UserPosts />
 							</div>
 						</div>
-						<div className='hidden lg:block lg:w-3/12 min-w-[22rem]'></div>
+						<div className='hidden lg:block lg:w-3/12 min-w-[22rem]'>
+							<FriendList />
+						</div>
 					</div>
+					<SidebarMenu />
 				</div>
 			) : (
 				<PreLoader />

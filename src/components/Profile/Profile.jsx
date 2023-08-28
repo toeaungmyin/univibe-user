@@ -4,23 +4,35 @@ import {
 	CardBody,
 	Typography,
 	IconButton,
+	Button,
 } from '@material-tailwind/react';
 import { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '../../ThemeContext';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { DefaultProfileAvatar, ErrorImage } from '../../assets/images';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { getUserDetail } from '../../service/User';
 import { getSelectedUser } from '../../features/auth/UserSlice';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { EditProfile } from './EditProfile';
 import UploadProfile from './UploadProfile';
+import { followRequest, unfollowRequest } from '../../service/Follow';
+import { getAuthUser } from '../../features/auth/AuthSlice';
 
 export function Profile() {
 	const { theme } = useContext(ThemeContext);
+	const navigate = useNavigate();
 	const selectedUser = useSelector(state => state.userReducer.selectedUser);
 	const auth = useSelector(state => state.authReducer.user);
+	const isAuthUser = auth?.id === selectedUser?.id;
 	const user = auth?.id === selectedUser?.id ? auth : selectedUser;
+	const isFriend = auth?.friends.some(
+		friend => friend.id === selectedUser?.id
+	);
+	const isFollowing = auth?.followings.some(
+		following => following.id === selectedUser?.id
+	);
+
 	const posts = useSelector(state => state.userReducer.userPosts);
 	const { userId } = useParams();
 	const dispatch = useDispatch();
@@ -33,6 +45,36 @@ export function Profile() {
 
 	const handleOpen = () => setOpen(!open);
 
+	const handleRelationship = () => {
+		if (isFriend || isFollowing) {
+			handleUnFollow(user.id);
+		} else {
+			handleFollow(user.id);
+		}
+	};
+
+	const handleFollow = async userId => {
+		try {
+			const response = await followRequest(userId);
+			if (response.status === 200) {
+				dispatch(getAuthUser(response.data.auth));
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleUnFollow = async userId => {
+		try {
+			const response = await unfollowRequest(userId);
+			if (response.status === 200) {
+				dispatch(getAuthUser(response.data.auth));
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
 		const fetchUserDetail = async () => {
 			try {
@@ -43,6 +85,10 @@ export function Profile() {
 			}
 		};
 		fetchUserDetail();
+
+		return () => {
+			dispatch(getSelectedUser(null));
+		};
 	}, [dispatch, userId]);
 	return (
 		<>
@@ -72,7 +118,9 @@ export function Profile() {
 									className='object-cover object-center rounded-full w-full h-full'
 								/>
 							)}
-							<UploadProfile />
+							{userId === JSON.stringify(auth.id) && (
+								<UploadProfile />
+							)}
 						</div>
 					</div>
 					<div className='w-full h-full sm:w-3/5 flex flex-col justify-center items-center'>
@@ -96,7 +144,7 @@ export function Profile() {
 							)}
 						</div>
 						<div className='w-full flex justify-center md:justify-start items-center gap-8'>
-							<div className='flex flex-col '>
+							<div className='flex flex-col items-center '>
 								{user?.followers && (
 									<Typography
 										variant='h5'
@@ -116,7 +164,7 @@ export function Profile() {
 									Followers
 								</Typography>
 							</div>
-							<div className='flex flex-col '>
+							<div className='flex flex-col items-center '>
 								{user?.followings && (
 									<Typography
 										variant='h5'
@@ -136,7 +184,7 @@ export function Profile() {
 									Followings
 								</Typography>
 							</div>
-							<div className='flex flex-col '>
+							<div className='flex flex-col items-center '>
 								{user?.friends && (
 									<Typography
 										variant='h5'
@@ -157,6 +205,29 @@ export function Profile() {
 								</Typography>
 							</div>
 						</div>
+
+						{!isAuthUser && (
+							<div className='flex justify-center p-4 pb-0 gap-4'>
+								<Button
+									onClick={handleRelationship}
+									size='md'
+									color='cyan'
+									className='hover:shadow-none'>
+									{isFriend
+										? 'Unfriend'
+										: isFollowing
+										? 'UnFollow'
+										: 'Follow'}
+								</Button>
+								<Button
+									onClick={() => navigate('/chat')}
+									size='md'
+									color='cyan'
+									className='hover:shadow-none'>
+									Message
+								</Button>
+							</div>
+						)}
 					</div>
 					{userId === JSON.stringify(auth.id) && (
 						<IconButton

@@ -15,15 +15,17 @@ import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { reactToPostRequest } from '../../../service/Post';
 
-import { ThemeContext } from '../../../ThemeContext';
+import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { ErrorImage, DefaultProfileAvatar } from '../../../assets/images';
 import { updatePost } from '../../../features/auth/PostSlice';
 import { PostDetail } from './PostDetail';
+import { useNavigate } from 'react-router';
 
 export function PostCard({ post, posts }) {
 	const { theme } = useContext(ThemeContext);
 	const authUser = useSelector(state => state.authReducer.user);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [reaction, setReaction] = useState();
 	const [openDetail, setOpenDetail] = useState(false);
 
@@ -59,7 +61,9 @@ export function PostCard({ post, posts }) {
 
 	useEffect(() => {
 		// Check if the authenticated user has reacted to the post
-		const userReacted = post?.reactions?.some(user => user.id === authUser.id);
+		const userReacted = post?.reactions?.some(
+			user => user.id === authUser.id
+		);
 		// Set the setReaction state based on the user's reaction status
 		setReaction(userReacted);
 	}, [post, authUser]);
@@ -75,7 +79,11 @@ export function PostCard({ post, posts }) {
 					shadow={false}
 					color='transparent'
 					className='m-0 rounded-none flex justify-between p-4'>
-					<div className='flex items-center gap-2'>
+					<div
+						onClickCapture={() => {
+							navigate(`/profile/${post.user?.id}`);
+						}}
+						className='flex items-center gap-2  cursor-pointer'>
 						{post?.user?.profile_url ? (
 							<Avatar
 								withBorder

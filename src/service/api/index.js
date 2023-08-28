@@ -3,11 +3,11 @@
 import axios from 'axios';
 
 export const HOST = {
-	SERVER: 'https://univibe-server-production-2df7.up.railway.app/api/v1',
+	PRODUCTION: 'https://univibe-server-production-2df7.up.railway.app/api/v1',
 	LOCAL: 'http://127.0.0.1:8000/api/v1',
 };
 
-export const API_SERVER_URL = HOST.SERVER;
+export const API_SERVER_URL = HOST.LOCAL;
 
 const createApiInstance = (baseURL, contentType) => {
 	const instance = axios.create({

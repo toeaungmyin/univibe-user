@@ -5,7 +5,7 @@ import { createCommentRequest } from '../../../service/Post';
 import { updatePost } from '../../../features/auth/PostSlice';
 import { Textarea, IconButton, Avatar } from '@material-tailwind/react';
 import { DefaultProfileAvatar } from '../../../assets/images';
-import { ThemeContext } from '../../../ThemeContext';
+import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 
 export function CommentForm({ post }) {
 	const { theme } = useContext(ThemeContext);

@@ -9,6 +9,15 @@ export const followRequest = async user => {
 	}
 };
 
+export const unfollowRequest = async user => {
+	try {
+		const response = await api.post(`/users/${user}/unfollow`);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};
+
 export const suggestUser = async user => {
 	try {
 		const response = await api.get(`/users/suggest/random`);
