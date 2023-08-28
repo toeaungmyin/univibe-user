@@ -7,11 +7,11 @@ import {
 	Spinner,
 	Typography,
 } from '@material-tailwind/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { useNavigate } from 'react-router';
 import { DefaultProfileAvatar } from '../../../assets/images';
-import { followRequest, suggestUser } from '../../../service/Follow';
+import { followRequest } from '../../../service/Follow';
 import { getSuggestedUsers } from '../../../features/auth/AuthSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -41,21 +41,6 @@ const SuggestedUserItems = ({ user }) => {
 		}
 	};
 
-	useEffect(() => {
-		const getUserSuggestion = async () => {
-			try {
-				const response = await suggestUser();
-				if (response.status === 200) {
-					dispatch(
-						getSuggestedUsers([...response.data.random_users])
-					);
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		getUserSuggestion();
-	}, [dispatch]);
 	return (
 		<ListItem
 			className={`rounded-none ${
