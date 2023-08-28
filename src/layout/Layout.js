@@ -5,11 +5,12 @@ import RightSidebar from '../components/RightSidebar/RightSidebar';
 import LeftSidebar from '../components/LeftSidebar/LeftSidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { authUserDataRequest } from '../service/Auth';
-import { getAuthUser } from '../features/auth/AuthSlice';
+import { getAuthUser, getNotifications } from '../features/auth/AuthSlice';
 import PreLoader from '../components/Loader/PreLoader';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { SidebarMenu } from '../components/SidebarMenu/SidebarMenu';
 import echo from '../broadcast';
+import { getNotificationRequest } from '../service/Notifications';
 
 const Layout = () => {
 	const auth = useSelector(state => state.authReducer);
@@ -30,6 +31,21 @@ const Layout = () => {
 				});
 		};
 		fetchUser();
+	}, [dispatch]);
+
+
+	useEffect(() => {
+		const fetchNotification = async () => {
+			try {
+				const response = await getNotificationRequest();
+				if (response.status === 200) {
+					dispatch(getNotifications(response.data.notifications));
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchNotification();
 	}, [dispatch]);
 
 	useEffect(() => {

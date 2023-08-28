@@ -19,13 +19,21 @@ const userSlice = createSlice({
 		getNextUserPosts(state, action) {
 			state.userPosts.data = [...state.userPosts.data, ...action.payload];
 		},
+		updateUserPost(state, action) {
+			state.userPosts.data = action.payload;
+		},
 		getSelectedUser(state, action) {
 			state.selectedUser = action.payload;
 		},
 	},
 });
 
-export const { getSuggestedUsers, getUserPosts, getNextUserPosts,getSelectedUser } =
-	userSlice.actions;
+export const {
+	getSuggestedUsers,
+	getUserPosts,
+	getNextUserPosts,
+	updateUserPost,
+	getSelectedUser,
+} = userSlice.actions;
 
 export default userSlice.reducer;

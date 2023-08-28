@@ -10,6 +10,7 @@ import MessagePage from '../pages/MessagePage';
 import Error404 from '../pages/Error404';
 import SearchFriend from '../pages/SearchFriend';
 import FriendsPage from '../pages/FriendsPage';
+import ConversationDetail from '../components/Section/Message/ConversationDetail';
 
 const Router = () => {
 	const routes = useRoutes([
@@ -39,7 +40,17 @@ const Router = () => {
 				},
 				{
 					path: '/chat',
-					element: <MessagePage />,
+					children: [
+						{
+							element: <MessagePage />,
+							index: true,
+						},
+
+						{
+							path: '/chat/:conversationId',
+							element: <ConversationDetail />,
+						},
+					],
 				},
 				{
 					path: '/search',

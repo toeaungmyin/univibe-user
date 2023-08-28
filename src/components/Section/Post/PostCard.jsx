@@ -20,10 +20,12 @@ import { ErrorImage, DefaultProfileAvatar } from '../../../assets/images';
 import { updatePost } from '../../../features/auth/PostSlice';
 import { PostDetail } from './PostDetail';
 import { useNavigate } from 'react-router';
+import { updateUserPost } from '../../../features/auth/UserSlice';
 
 export function PostCard({ post, posts }) {
 	const { theme } = useContext(ThemeContext);
 	const authUser = useSelector(state => state.authReducer.user);
+	const selectedUserPost = useSelector(state => state.userReducer.userPosts);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [reaction, setReaction] = useState();
@@ -52,6 +54,17 @@ export function PostCard({ post, posts }) {
 
 				// Dispatch the updated posts.
 				dispatch(updatePost(updatedPosts));
+
+				const updatedUserPost = [...selectedUserPost?.data];
+				const userPostIndex = updatedUserPost.findIndex(
+					p => p.id === post.id
+				);
+				if (userPostIndex !== -1) {
+					updatedUserPost[userPostIndex] = updatedPost;
+
+					// Dispatch the updatedUserPost action with the updated data
+					dispatch(updateUserPost(updatedUserPost));
+				}
 			}
 			// Clone the existing posts array and find the index of the post to update.
 		} catch (error) {

@@ -11,12 +11,14 @@ import {
 } from '@material-tailwind/react';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
+import { updateUserPost } from '../../../features/auth/UserSlice';
 
 export function CommentForm({ post }) {
 	const { theme } = useContext(ThemeContext);
 
 	const authUser = useSelector(state => state.authReducer.user);
 	const posts = useSelector(state => state.postReducer.posts.data);
+	const selectedUserPost = useSelector(state => state.userReducer.userPosts);
 	const [isLoading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const {
@@ -73,6 +75,22 @@ export function CommentForm({ post }) {
 				}
 
 				dispatch(updatePost(updatedPosts));
+
+				const updatedUserPost = [...selectedUserPost?.data];
+				const userPostIndex = updatedUserPost.findIndex(
+					p => p.id === post.id
+				);
+				if (userPostIndex !== -1) {
+					const mutablePost = { ...updatedUserPost[postIndex] };
+					mutablePost.comments = [
+						...mutablePost.comments,
+						updatedComment,
+					];
+					updatedUserPost[userPostIndex] = mutablePost;
+
+					// Dispatch the updatedUserPost action with the updated data
+					dispatch(updateUserPost(updatedUserPost));
+				}
 				reset();
 			}
 		} catch (error) {

@@ -22,6 +22,8 @@ import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { useSelector } from 'react-redux';
 export function LeftNavList() {
 	const authUser = useSelector(state => state.authReducer.user);
+	const notifications = useSelector(state => state.authReducer.notifications);
+
 	const navigate = useNavigate();
 	const { theme, toggleTheme } = useContext(ThemeContext);
 	const handleTheme = () => {
@@ -58,7 +60,7 @@ export function LeftNavList() {
 					<ListItemSuffix>
 						<Chip
 							color='cyan'
-							value='18'
+							value={notifications?.length}
 							variant='ghost'
 							size='sm'
 							className='rounded-full'
