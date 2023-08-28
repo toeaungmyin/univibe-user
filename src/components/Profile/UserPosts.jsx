@@ -42,6 +42,9 @@ const UserPosts = () => {
 		if (inView) {
 			if (page !== null) fetchNextPage(page);
 		}
+		return () => {
+			dispatch(getUserPosts(null));
+		};
 	}, [inView]);
 
 	useEffect(() => {
@@ -50,7 +53,7 @@ const UserPosts = () => {
 		return () => {
 			dispatch(getUserPosts(null));
 		};
-	}, []);
+	}, [dispatch, userId]);
 
 	return (
 		<>

@@ -10,12 +10,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationRequest } from '../../../service/Notifications';
 import { getNotifications } from '../../../features/auth/AuthSlice';
-import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 
 const Notifications = () => {
 	const notifications = useSelector(state => state.authReducer.notifications);
 	const dispatch = useDispatch();
-	const { theme } = useContext(ThemeContext);
 
 	useEffect(() => {
 		const fetchNotification = async () => {
