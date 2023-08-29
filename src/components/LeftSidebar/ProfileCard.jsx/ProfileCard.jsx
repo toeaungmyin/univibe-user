@@ -11,14 +11,14 @@ export function ProfileCard() {
 	const navigate = useNavigate();
 	return (
 		<Card
-			className={`w-full flex justify-start items-center p-4 ${
+			className={`w-full rounded-md flex justify-start items-center p-4 ${
 				theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 			}`}>
 			<CardHeader
 				color='transparent'
 				floated={false}
 				shadow={false}
-				className='flex justify-center items-center gap-6 m-0 rounded-none'
+				className='flex justify-center items-center gap-2 m-0 rounded-none'
 				onClick={() => navigate(`/profile/${authUser?.id}`)}>
 				<div className='min-w-[3rem] flex justify-center items-end'>
 					<Avatar
@@ -34,7 +34,7 @@ export function ProfileCard() {
 				<div className='flex w-full flex-col gap-0.5'>
 					{authUser?.username && (
 						<Typography
-							variant='h6'
+							variant='h5'
 							color={`${
 								theme !== 'dark' ? 'blue-gray' : 'white'
 							}`}>

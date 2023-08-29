@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Login.css';
 import {
 	Card,
 	CardHeader,
@@ -7,46 +6,36 @@ import {
 	CardFooter,
 	Typography,
 	Input,
-	Checkbox,
 	Button,
 	Spinner,
 	Alert,
 } from '@material-tailwind/react';
 import TextLogo from './../../assets/logo/logo-02.svg';
 import { useForm } from 'react-hook-form';
-import { loginRequest } from '../../service/Auth';
+import { recoveryEmailRequest } from '../../service/Auth';
 import { useNavigate } from 'react-router';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
-const Login = () => {
+const RecoveryEmailForm = () => {
 	const [isLoading, setLoading] = useState(false);
 	const navigate = useNavigate();
-	const [isEyeOpen, setEye] = useState(false);
-	const handleEye = () => setEye(isEyeOpen => !isEyeOpen);
 	const {
 		register,
-		setValue,
 		formState: { errors },
 		setError,
 		handleSubmit,
 	} = useForm({
 		defaultValues: {
 			email: '',
-			password: '',
-			remember_me: '0',
 		},
 	});
 
-	const login = async data => {
+	const emailRequest = async data => {
 		setLoading(true);
 		try {
-			const response = await loginRequest(data);
+			const response = await recoveryEmailRequest(data);
 			if (response?.status === 200) {
-				const token = response.data.token;
-				localStorage.clear();
-				localStorage.setItem('user-token', token);
-				localStorage.setItem('remember_me', data.remember_me);
-				navigate('/');
+				console.log(response);
+				navigate('/recover-email/verify');
 			}
 		} catch (error) {
 			console.error('Error:', error);
@@ -56,11 +45,6 @@ const Login = () => {
 					setError('email', {
 						type: 'server',
 						message: errors.email,
-					});
-				} else if (errors && errors.password) {
-					setError('password', {
-						type: 'server',
-						message: errors.password,
 					});
 				} else if (error.data.message) {
 					setError('root', {
@@ -99,7 +83,9 @@ const Login = () => {
 								UniVibe
 							</Typography>
 						</CardHeader>
-						<form onSubmit={handleSubmit(login)}>
+						<form
+							onSubmit={handleSubmit(emailRequest)}
+							className='h-72 flex flex-col justify-between'>
 							<CardBody className='flex flex-col gap-6 '>
 								{errors.root && (
 									<Alert
@@ -127,73 +113,25 @@ const Login = () => {
 										</Typography>
 									)}
 								</div>
-								<div className='flex flex-col gap-2'>
-									<Input
-										label='Password'
-										size='lg'
-										type={isEyeOpen ? 'text' : 'password'}
-										icon={
-											isEyeOpen ? (
-												<EyeIcon
-													className='w-5 h-5 transition ease-in-out focus:scale-95'
-													onClick={handleEye}
-												/>
-											) : (
-												<EyeSlashIcon
-													className='w-5 h-5 transition ease-in-out focus:scale-95'
-													onClick={handleEye}
-												/>
-											)
-										}
-										{...register('password', {
-											required:
-												'Password Field is required',
-										})}
-										error={errors.password ? true : false}
-									/>
-									{errors.password && (
-										<Typography
-											className=' text-xs font-medium'
-											color='red'
-											variant='small'>
-											{errors.password.message}
-										</Typography>
-									)}
-								</div>
-								<div className='flex justify-between items-center'>
-									<div className='-ml-2.5'>
-										<Checkbox
-											label='Remember Me'
-											onClick={e =>
-												e.target.checked
-													? setValue(
-															'remember_me',
-															'1'
-													  )
-													: setValue(
-															'remember_me',
-															'0'
-													  )
-											}
-										/>
-									</div>
-									<Button
-										onClick={() =>
-											navigate('/recover-email-form')
-										}
-										variant='text'
-										size='sm'>
-										Forgot Password?
-									</Button>
-								</div>
 							</CardBody>
-							<CardFooter className='pt-0'>
+							<CardFooter className='pt-0 flex justify-between items-center'>
+								<Typography
+									as='a'
+									href=''
+									onClick={e => {
+										e.preventDefault();
+										navigate(-1);
+									}}
+									variant='small'
+									color='blue'
+									className='ml-1 font-bold'>
+									Back
+								</Typography>
 								<Button
 									variant='filled'
 									className='hover:shadow-none bg-primary flex justify-center items-center'
 									type='submit'
 									color='cyan'
-									fullWidth
 									disabled={isLoading}>
 									{isLoading ? (
 										<Spinner
@@ -203,25 +141,8 @@ const Login = () => {
 									) : (
 										''
 									)}
-									Sign In
+									Send Recovery Email
 								</Button>
-								<Typography
-									variant='small'
-									className='mt-6 flex justify-center'>
-									Don't have an account?
-									<Typography
-										as='a'
-										href=''
-										onClick={e => {
-											e.preventDefault();
-											navigate('/sign-up');
-										}}
-										variant='small'
-										color='blue'
-										className='ml-1 font-bold'>
-										Sign up
-									</Typography>
-								</Typography>
 							</CardFooter>
 						</form>
 					</Card>
@@ -237,4 +158,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default RecoveryEmailForm;

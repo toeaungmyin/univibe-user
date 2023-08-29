@@ -220,7 +220,9 @@ export function Profile() {
 										: 'Follow'}
 								</Button>
 								<Button
-									onClick={() => navigate('/chat')}
+									onClick={() =>
+										navigate(`/chats/${selectedUser.id}`)
+									}
 									size='md'
 									color='cyan'
 									className='hover:shadow-none'>

@@ -127,7 +127,7 @@ export function PostCreateForm({ open, handleOpen }) {
 	return (
 		<>
 			<Dialog
-				size={expand ? 'xxl' : 'sm'}
+				size={expand ? 'xxl' : 'md'}
 				open={open}
 				handler={handleOpen}
 				className={`bg-transparent shadow-none ${

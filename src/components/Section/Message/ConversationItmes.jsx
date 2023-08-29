@@ -8,52 +8,64 @@ import {
 import React from 'react';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 
-const ConversationItmes = () => {
+const ConversationItmes = ({ conversation }) => {
+	const authUser = useSelector(state => state.authReducer.user);
 	const navigate = useNavigate();
+	const otherUser =
+		conversation.user1.id !== authUser.id
+			? conversation.user1
+			: conversation.user2;
 	return (
-		<ListItem onClick={() => navigate('/chat/1')}>
+		<ListItem onClick={() => navigate(`/chats/${otherUser.id}`)}>
 			<ListItemPrefix>
-				{/* {notification?.data?.user?.profile_url ? (
+				{otherUser?.profile_url ? (
 					<Avatar
 						variant='circular'
 						size='sm'
 						alt='tania andrew'
 						className='border border-blue-500 p-0.5'
 						onError={e => (e.target.src = DefaultProfileAvatar)}
-						src={notification?.data?.user?.profile_url}
+						src={otherUser?.profile_url}
 					/>
-				) : ( */}
-				<Avatar
-					variant='circular'
-					size='sm'
-					alt='tania andrew'
-					className='border border-blue-500 p-0.5'
-					src={DefaultProfileAvatar}
-				/>
-				{/* )} */}
+				) : (
+					<Avatar
+						variant='circular'
+						size='sm'
+						alt='tania andrew'
+						className='border border-blue-500 p-0.5'
+						src={DefaultProfileAvatar}
+					/>
+				)}
 			</ListItemPrefix>
 			<div>
-				<Typography
-					variant='h6'
-					color='blue-gray'>
-					Tania Andrew
-				</Typography>
-				<Typography
-					variant='small'
-					color='gray'
-					className='font-normal'>
-					How are you?
-				</Typography>
+				{otherUser.username && (
+					<Typography
+						variant='h6'
+						color='blue-gray'>
+						{otherUser.username}
+					</Typography>
+				)}
+				{conversation?.latest_message && (
+					<Typography
+						variant='small'
+						color='gray'
+						className='font-normal'>
+						{conversation.latest_message}
+					</Typography>
+				)}
 			</div>
-			<ListItemSuffix>
-				<Typography
-					variant='small'
-					color='gray'
-					className='font-normal'>
-					15 min ago
-				</Typography>
-			</ListItemSuffix>
+			{conversation?.latest_message_at && (
+				<ListItemSuffix>
+					<Typography
+						variant='small'
+						color='gray'
+						className='font-normal text-xs'>
+						{conversation?.latest_message_at}
+					</Typography>
+				</ListItemSuffix>
+			)}
 		</ListItem>
 	);
 };

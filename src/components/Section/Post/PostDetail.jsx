@@ -74,7 +74,7 @@ export function PostDetail({ post, reaction, giveReaction, open, handleOpen }) {
 			<DialogBody
 				className={`${
 					expand ? 'h-screen' : 'h-[38rem]'
-				}  overflow-y-scroll no-scrollbar p-0 md p-2 ${
+				}  overflow-y-scroll no-scrollbar p-0 md:p-2 ${
 					theme !== 'dark' ? 'bg-blue-gray-50' : 'bg-gray-900'
 				}`}>
 				<Card

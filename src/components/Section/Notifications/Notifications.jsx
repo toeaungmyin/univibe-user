@@ -48,11 +48,11 @@ const Notifications = () => {
 						shadow={false}
 						color='transparent'
 						className='w-full text-center'>
-						<CardBody>
+						<CardBody className='flex justify-center p-5'>
 							<Typography
 								variant='h5'
-								className='mb-2 to-blue-gray-700'>
-								No New Notifications
+								className='mb-2 text-blue-gray-700 uppercase'>
+								No More Notifications Here
 							</Typography>
 						</CardBody>
 					</Card>

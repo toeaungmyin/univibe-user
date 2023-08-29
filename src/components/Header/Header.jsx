@@ -24,6 +24,7 @@ import { useSelector } from 'react-redux';
 
 import { MenuContext } from '../../ThemeContext/MenuContext';
 import SearchUser from './SearchUser';
+import ProfileMenu from './ProfileMenu';
 
 export function Header() {
 	const { theme } = useContext(ThemeContext);
@@ -69,12 +70,10 @@ export function Header() {
 						</Typography>
 					</div>
 
-					<div className='w-72 hidden md:block'>
-						<SearchUser />
-					</div>
+					<SearchUser />
 
 					<IconButton
-						onClick={()=>navigate('/search')}
+						onClick={() => navigate('/search')}
 						variant='filled'
 						className='block md:hidden text-blue-500 bg-blue-500/10 rounded-full shadow-none'>
 						<MagnifyingGlassIcon className='w-5 h-5' />

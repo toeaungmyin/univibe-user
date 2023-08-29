@@ -84,7 +84,7 @@ export function PostCard({ post, posts }) {
 	return (
 		<>
 			<Card
-				className={`w-full overflow-hidden rounded-none md:rounded-lg ${
+				className={`w-full overflow-hidden rounded-none md:rounded-md ${
 					theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 				}`}>
 				<CardHeader
@@ -99,8 +99,8 @@ export function PostCard({ post, posts }) {
 						className='flex items-center gap-2  cursor-pointer'>
 						{post?.user?.profile_url ? (
 							<Avatar
-								withBorder
-								className='p-0.5'
+								// withBorder
+								// className='p-0.5'
 								variant='circular'
 								alt='candice'
 								color='cyan'
@@ -111,8 +111,8 @@ export function PostCard({ post, posts }) {
 							/>
 						) : (
 							<Avatar
-								withBorder
-								className='p-0.5'
+								// withBorder
+								// className='p-0.5'
 								variant='circular'
 								alt='candice'
 								color='cyan'
@@ -176,7 +176,7 @@ export function PostCard({ post, posts }) {
 							<Typography
 								variant='paragraph'
 								color={theme !== 'dark' ? 'blue-gray' : 'white'}
-								className='font-normal'>
+								className='font-normal py-2'>
 								{post.content.length > 100 ? (
 									<>
 										{post.content.slice(0, 100) + '...'}

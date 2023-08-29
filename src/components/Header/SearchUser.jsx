@@ -13,8 +13,9 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { DefaultProfileAvatar } from '../../assets/images';
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
 import { useNavigate } from 'react-router';
+import ProfileMenu from './ProfileMenu';
 
-const SearchUser = ({ setSearchOpen }) => {
+const SearchUser = () => {
 	const { theme } = useContext(ThemeContext);
 
 	const [open, setOpen] = React.useState(false);
@@ -42,7 +43,6 @@ const SearchUser = ({ setSearchOpen }) => {
 	const handleResultClick = user => {
 		navigate(`/profile/${user?.id}`);
 		setOpen(false);
-		setSearchOpen(false);
 	};
 
 	const [expand, setExpand] = useState(false);
@@ -70,91 +70,91 @@ const SearchUser = ({ setSearchOpen }) => {
 
 	return (
 		<>
-			<Input
-				label='Search'
-				variant={expand ? 'standard' : 'outlined'}
-				onChange={e => handleSearchUser(e.target.value)}
-				icon={<MagnifyingGlassIcon className='w-5 h-5' />}
-				color='cyan'
-				style={{ zIndex: 9999 }}
-			/>
-			{open && (
-				<>
-					<div className='relative'>
-						<Card
-							className={`!absolute top-5 z-50 w-72 max-h-96 overflow-auto rounded-lg ${
-								theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
-							}`}>
-							<List>
-								{result.length !== 0 ? (
-									result.map((user, index) => (
-										<ListItem
-											key={index}
-											onClick={() =>
-												handleResultClick(user)
-											}>
-											<ListItemPrefix>
-												{user?.profile_url ? (
-													<Avatar
-														variant='circular'
-														size='sm'
-														withBorder
-														className='p-0.5'
-														alt='candice'
-														onError={e =>
-															(e.target.src =
-																DefaultProfileAvatar)
-														}
-														src={user?.profile_url}
-													/>
-												) : (
-													<Avatar
-														variant='circular'
-														size='sm'
-														withBorder
-														className='p-0.5'
-														alt='candice'
-														src={
-															DefaultProfileAvatar
-														}
-													/>
-												)}
-											</ListItemPrefix>
-											{user?.username && (
-												<Typography
-													variant='h6'
-													className='font-medium'
-													color={
-														theme !== 'dark'
-															? 'blue-gray'
-															: 'white'
-													}>
-													{user?.username}
-												</Typography>
+			<div className='relative'>
+				<div className='w-80 hidden md:flex gap-2'>
+					<Input
+						label='Search'
+						variant={expand ? 'standard' : 'outlined'}
+						onChange={e => handleSearchUser(e.target.value)}
+						icon={<MagnifyingGlassIcon className='w-5 h-5' />}
+						color='cyan'
+						style={{ zIndex: 9999 }}
+					/>
+					<ProfileMenu />
+				</div>
+				{open && (
+					<Card
+						className={`!absolute border top-[3.5rem] z-50 rounded py-2 ${
+							theme !== 'dark'
+								? 'bg-white border-blue-gray-300'
+								: 'bg-gray-900 border-blue-gray-900'
+						}`}>
+						<List className='w-72 max-h-96 overflow-auto'>
+							{result.length !== 0 ? (
+								result.map((user, index) => (
+									<ListItem
+										key={index}
+										onClick={() => handleResultClick(user)}>
+										<ListItemPrefix>
+											{user?.profile_url ? (
+												<Avatar
+													variant='circular'
+													size='sm'
+													withBorder
+													className='p-0.5'
+													alt='candice'
+													onError={e =>
+														(e.target.src =
+															DefaultProfileAvatar)
+													}
+													src={user?.profile_url}
+												/>
+											) : (
+												<Avatar
+													variant='circular'
+													size='sm'
+													withBorder
+													className='p-0.5'
+													alt='candice'
+													src={DefaultProfileAvatar}
+												/>
 											)}
-										</ListItem>
-									))
-								) : (
-									<Typography
-										variant='h5'
-										className='font-semibold text-center'
-										color={
-											theme !== 'dark'
-												? 'blue-gray'
-												: 'white'
-										}>
-										Result Not Found
-									</Typography>
-								)}
-							</List>
-						</Card>
-					</div>
-					<div
-						className='!absolute top-[4.5rem] left-0 bg-black/30 w-screen h-screen'
-						onClick={() => {
-							setOpen(false);
-						}}></div>
-				</>
+										</ListItemPrefix>
+										{user?.username && (
+											<Typography
+												variant='h6'
+												className='font-medium'
+												color={
+													theme !== 'dark'
+														? 'blue-gray'
+														: 'white'
+												}>
+												{user?.username}
+											</Typography>
+										)}
+									</ListItem>
+								))
+							) : (
+								<Typography
+									variant='h6'
+									className={`font-medium text-center ${
+										theme !== 'dark'
+											? 'text-blue-gray-700'
+											: 'text-white'
+									}`}>
+									Result Not Found
+								</Typography>
+							)}
+						</List>
+					</Card>
+				)}
+			</div>
+			{open && (
+				<div
+					className='!absolute top-[4.5rem] left-0 bg-black/30 w-screen h-screen'
+					onClick={() => {
+						setOpen(false);
+					}}></div>
 			)}
 		</>
 	);

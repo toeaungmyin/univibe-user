@@ -1,32 +1,59 @@
-import { Avatar, Card, Typography } from '@material-tailwind/react';
+import { Avatar, Card, IconButton, Typography } from '@material-tailwind/react';
 import React, { useContext } from 'react';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
+import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 
 const ConversationHeader = () => {
 	const { theme } = useContext(ThemeContext);
-
+	const selectedUser = useSelector(state => state.userReducer.selectedUser);
+	const navigate = useNavigate();
 	return (
-		<Card className='bg-gray-100 w-full shadow-none rounded-none border-b-2 p-4 flex flex-row justify-start gap-3 items-center'>
-			<ChevronLeftIcon
-				className={`w-5 h-5 font-medium ${
-					theme !== 'dark' ? 'text-black' : 'text-blue-gray-100'
-				}`}
-			/>
-			<Avatar
-				variant='circular'
-				size='sm'
-				alt='tania andrew'
-				className='border border-blue-500 p-0.5'
-				src={DefaultProfileAvatar}
-			/>
-			<Typography
-				variant='h6'
-				color={theme !== 'dark' ? 'blue-gray' : 'white'}
-				className='font-semibold'>
-				Lucifer
-			</Typography>
+		<Card className='bg-cyan-600 w-full shadow-none rounded-none border-none p-2 flex flex-row justify-start gap-3 items-center'>
+			<IconButton
+				variant='text'
+				onClick={() => navigate(-1)}>
+				<ChevronLeftIcon
+					className={`w-5 h-5 font-medium ${
+						theme !== 'dark'
+							? 'text-blue-gray-50'
+							: 'text-blue-gray-100'
+					}`}
+				/>
+			</IconButton>
+			{selectedUser?.profile_url ? (
+				<Avatar
+					withBorder
+					variant='circular'
+					size='md'
+					alt='tania andrew'
+					color='cyan'
+					className='border-4 bg-white p-1 border-cyan-600'
+					src={selectedUser?.profile_url}
+					onError={e => (e.target.src = DefaultProfileAvatar)}
+				/>
+			) : (
+				<Avatar
+					withBorder
+					variant='circular'
+					size='md'
+					alt='tania andrew'
+					color='cyan'
+					className='border-4 bg-white p-1 border-cyan-600'
+					src={DefaultProfileAvatar}
+				/>
+			)}
+			{selectedUser?.username && (
+				<Typography
+					variant='h6'
+					className={`font-semibold ${
+						theme !== 'dark' ? 'text-blue-gray-50' : 'text-white'
+					}`}>
+					{selectedUser?.username}
+				</Typography>
+			)}
 		</Card>
 	);
 };

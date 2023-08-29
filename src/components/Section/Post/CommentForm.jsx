@@ -59,40 +59,33 @@ export function CommentForm({ post }) {
 			});
 
 			if (response.status === 200) {
-				const updatedComment = response.data.comment;
-				const updatedPosts = [...posts];
-				const postIndex = updatedPosts.findIndex(
-					post => post.id === updatedComment.post_id
-				);
+				const updatedPost = response.data.post;
+				if (posts) {
+					const updatedPosts = [...posts];
+					const postIndex = updatedPosts.findIndex(
+						post => post.id === updatedPost.id
+					);
 
-				if (postIndex !== -1) {
-					const mutablePost = { ...updatedPosts[postIndex] };
-					mutablePost.comments = [
-						...mutablePost.comments,
-						updatedComment,
-					];
-					updatedPosts[postIndex] = mutablePost;
+					if (postIndex !== -1) {
+						updatedPosts[postIndex] = updatedPost;
+					}
+					dispatch(updatePost(updatedPosts));
 				}
 
-				dispatch(updatePost(updatedPosts));
-
-				const updatedUserPost = [...selectedUserPost?.data];
-				const userPostIndex = updatedUserPost.findIndex(
-					p => p.id === post.id
-				);
-				if (userPostIndex !== -1) {
-					const mutablePost = { ...updatedUserPost[postIndex] };
-					mutablePost.comments = [
-						...mutablePost.comments,
-						updatedComment,
-					];
-					updatedUserPost[userPostIndex] = mutablePost;
-
-					// Dispatch the updatedUserPost action with the updated data
-					dispatch(updateUserPost(updatedUserPost));
+				if (selectedUserPost?.data) {
+					const updatedUserPosts = [...selectedUserPost?.data];
+					const userPostIndex = updatedUserPosts.findIndex(
+						p => p.id === updatedPost.id
+					);
+					if (userPostIndex !== -1) {
+						updatedUserPosts[userPostIndex] = updatedPost;
+						// Dispatch the updatedUserPost action with the updated data
+						dispatch(updateUserPost(updatedUserPosts));
+					}
 				}
-				reset();
 			}
+
+			reset();
 		} catch (error) {
 			console.error('Error:', error);
 

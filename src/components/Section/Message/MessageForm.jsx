@@ -9,11 +9,16 @@ import {
 	Textarea,
 } from '@material-tailwind/react';
 import { DefaultProfileAvatar } from '../../../assets/images';
+import { sendMssageRequest } from '../../../service/Message';
+import { getMessages } from '../../../features/auth/MessageSlice';
 
 const MessageForm = () => {
 	const { theme } = useContext(ThemeContext);
 
 	const authUser = useSelector(state => state.authReducer.user);
+	const selectedUser = useSelector(state => state.userReducer.selectedUser);
+	const messages = useSelector(state => state.messageReducer.messages);
+
 	const [isLoading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const {
@@ -22,7 +27,36 @@ const MessageForm = () => {
 		setError,
 		handleSubmit,
 		reset,
-	} = useForm({});
+	} = useForm({
+		defaultValues: {
+			sender_id: authUser?.id,
+			receiver_id: selectedUser?.id,
+			content: '',
+		},
+	});
+
+	const sendMessage = async data => {
+		try {
+			setLoading(true);
+			const body = {
+				...data,
+				sender_id: authUser?.id,
+				receiver_id: selectedUser?.id,
+			};
+
+			const response = await sendMssageRequest(body);
+			console.log(response);
+			if (response.status === 200) {
+				console.log(response.data);
+				dispatch(getMessages([...messages, response.data.message]));
+				reset();
+			}
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const isDarkTheme = theme === 'dark';
 	const ErrorMessage = errors.comment?.message || errors.root?.message;
@@ -51,7 +85,7 @@ const MessageForm = () => {
 				}`}>
 				<form
 					className='flex flex-row items-center gap-2'
-					onSubmit={handleSubmit}>
+					onSubmit={handleSubmit(sendMessage)}>
 					{authUser?.profile_url ? (
 						<Avatar
 							withBorder
@@ -83,17 +117,18 @@ const MessageForm = () => {
 						labelProps={{
 							className: 'before:content-none after:content-none',
 						}}
-						{...register('Message', {
+						{...register('content', {
 							required: 'Message is required',
 						})}
-						error={!!errors.comment}
+						error={!!errors.content}
 					/>
 
 					<div>
 						<IconButton
 							variant='text'
 							className='rounded-full'
-							disabled={isLoading}>
+							disabled={isLoading}
+							type='submit'>
 							{isLoading ? (
 								<Spinner className='w-5 h-5' />
 							) : (

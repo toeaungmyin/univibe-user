@@ -11,6 +11,9 @@ import Error404 from '../pages/Error404';
 import SearchFriend from '../pages/SearchFriend';
 import FriendsPage from '../pages/FriendsPage';
 import ConversationDetail from '../components/Section/Message/ConversationDetail';
+import RecoveryEmailForm from '../components/RecoverAccount/RecoveryEmailForm';
+import RecoveryEmailVerify from '../components/RecoverAccount/RecoveryEmailVerify';
+import ResetPassword from '../components/RecoverAccount/ResetPassword';
 
 const Router = () => {
 	const routes = useRoutes([
@@ -21,6 +24,18 @@ const Router = () => {
 		{
 			path: '/sign-up',
 			element: <Registerpage />,
+		},
+		{
+			path: '/recover-email-form',
+			element: <RecoveryEmailForm />,
+		},
+		{
+			path: '/recover-email/verify',
+			element: <RecoveryEmailVerify />,
+		},
+		{
+			path: '/reset-password',
+			element: <ResetPassword />,
 		},
 		{
 			path: '/',
@@ -39,7 +54,7 @@ const Router = () => {
 					element: <FriendsPage />,
 				},
 				{
-					path: '/chat',
+					path: '/chats',
 					children: [
 						{
 							element: <MessagePage />,
@@ -47,7 +62,7 @@ const Router = () => {
 						},
 
 						{
-							path: '/chat/:conversationId',
+							path: '/chats/:userId',
 							element: <ConversationDetail />,
 						},
 					],

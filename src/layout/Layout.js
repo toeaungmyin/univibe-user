@@ -22,7 +22,6 @@ const Layout = () => {
 			await authUserDataRequest()
 				.then(response => {
 					if (response?.status === 200) {
-						console.log(response.data);
 						dispatch(getAuthUser(response.data));
 					}
 				})
@@ -32,7 +31,6 @@ const Layout = () => {
 		};
 		fetchUser();
 	}, [dispatch]);
-
 
 	useEffect(() => {
 		const fetchNotification = async () => {
@@ -72,7 +70,7 @@ const Layout = () => {
 					<div className='fixed top-0 left-0 w-full z-[999]'>
 						<Header />
 					</div>
-					<div className='relative top-[6.5rem] md:top-20 w-full h-[calc(100%-7rem)] md:h-[calc(100%-5rem)] flex justify-center overflow-auto'>
+					<div className='relative top-[6.5rem] md:top-[4.5rem] w-full h-[calc(100%-7rem)] md:h-[calc(100%-5rem)] flex justify-center overflow-auto'>
 						<div className='hidden lg:block  lg:w-3/12 min-w-[18rem]'>
 							<LeftSidebar />
 						</div>

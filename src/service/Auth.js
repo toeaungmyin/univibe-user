@@ -47,6 +47,33 @@ export const authUserDataRequest = async () => {
 	}
 };
 
+export const recoveryEmailRequest = async data => {
+	try {
+		const response = await api.post('/recovery-email/send', data);
+		return response;
+	} catch (error) {
+		throw error; // Throw the error to be caught in the catch block
+	}
+};
+
+export const recoveryEmailVerifyRequest = async data => {
+	try {
+		const response = await api.post('/recovery-email/verify', data);
+		return response;
+	} catch (error) {
+		throw error; // Throw the error to be caught in the catch block
+	}
+};
+
+export const updatePasswordRequest = async data => {
+	try {
+		const response = await api.post('/password/reset', data);
+		return response;
+	} catch (error) {
+		throw error; // Throw the error to be caught in the catch block
+	}
+};
+
 export const logoutRequest = async () => {
 	try {
 		const response = await api.post('/logout');

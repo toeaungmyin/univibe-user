@@ -33,7 +33,7 @@ export function Follow() {
 		<>
 			{suggestedUsers?.length !== 0 && (
 				<Card
-					className={`w-full overflow-hidden ${
+					className={`w-full rounded-md overflow-hidden ${
 						theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 					}`}>
 					<CardHeader
@@ -52,7 +52,7 @@ export function Follow() {
 						</Typography>
 					</CardHeader>
 
-					<List className='p-0 gap-0 overflow-auto no-scrollbar'>
+					<List className='p-0 gap-1 pb-2 overflow-auto no-scrollbar'>
 						{suggestedUsers?.map((user, index) => (
 							<SuggestedUserItems
 								key={index}

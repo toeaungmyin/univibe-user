@@ -31,7 +31,7 @@ export function LeftNavList() {
 	};
 	return (
 		<Card
-			className={`w-full ${
+			className={`w-full rounded-md ${
 				theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 			}`}>
 			<List
@@ -60,14 +60,18 @@ export function LeftNavList() {
 					<ListItemSuffix>
 						<Chip
 							color='cyan'
-							value={notifications?.length}
+							value={
+								notifications?.length
+									? notifications?.length
+									: 0
+							}
 							variant='ghost'
 							size='sm'
 							className='rounded-full'
 						/>
 					</ListItemSuffix>
 				</ListItem>
-				<ListItem onClick={() => navigate('/chat')}>
+				<ListItem onClick={() => navigate('/chats')}>
 					<ListItemPrefix>
 						<ChatBubbleOvalLeftIcon className='w-5 h-5' />
 					</ListItemPrefix>

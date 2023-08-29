@@ -241,7 +241,7 @@ export function FriendList() {
 										? 'text-blue-gray-900'
 										: 'text-blue-gray-100'
 								}`}>
-								Followings
+								Followers
 							</Typography>
 						</CardHeader>
 						<List>

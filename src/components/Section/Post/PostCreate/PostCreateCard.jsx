@@ -24,7 +24,7 @@ const PostCreateCard = () => {
 	return (
 		<>
 			<Card
-				className={`p-0 px-4 rounded-none md:rounded-lg ${
+				className={`p-0 px-4 rounded-none md:rounded-md ${
 					theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 				}`}>
 				<CardBody className='flex justify-center items-center gap-2 p-2 px-1'>
@@ -52,13 +52,6 @@ const PostCreateCard = () => {
 							className: 'before:content-none after:content-none',
 						}}
 					/>
-					<IconButton
-						onClick={handleOpen}
-						variant='text'
-						color='cyan'
-						className='p-1'>
-						<PaperAirplaneIcon className='w-6 h-6' />
-					</IconButton>
 					<IconButton
 						onClick={handleOpen}
 						variant='text'

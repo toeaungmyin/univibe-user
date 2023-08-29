@@ -43,10 +43,10 @@ const SuggestedUserItems = ({ user }) => {
 
 	return (
 		<ListItem
-			className={`rounded-none ${
+			className={`rounded-none border-none p-2 px-4 ${
 				theme !== 'dark'
-					? 'bg-white shadow hover:bg-white focus:bg-white'
-					: 'bg-gray-900 shadow hover:bg-gray-900 focus:bg-gray-900'
+					? 'bg-white hover:bg-white focus:bg-white'
+					: 'bg-gray-900 hover:bg-gray-900 focus:bg-gray-900'
 			}`}
 			ripple={false}>
 			<ListItemPrefix onClick={() => navigate(`/profile/${user?.id}`)}>

@@ -13,7 +13,7 @@ export function Followback() {
 		<>
 			{followers?.length !== 0 && (
 				<Card
-					className='w-full'
+					className='w-full rounded-md'
 					shadow={false}
 					color='transparent'>
 					<CardHeader
