@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
 	Navbar,
 	Typography,
@@ -8,8 +8,8 @@ import {
 	IconButton,
 } from '@material-tailwind/react';
 import { useContext } from 'react';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid';
 import TextLogo from './../../assets/logo/logo-02.svg';
 import {
 	HomeIcon,
@@ -24,7 +24,6 @@ import { useSelector } from 'react-redux';
 
 import { MenuContext } from '../../ThemeContext/MenuContext';
 import SearchUser from './SearchUser';
-import ProfileMenu from './ProfileMenu';
 
 export function Header() {
 	const { theme } = useContext(ThemeContext);
@@ -72,12 +71,20 @@ export function Header() {
 
 					<SearchUser />
 
-					<IconButton
-						onClick={() => navigate('/search')}
-						variant='filled'
-						className='block md:hidden text-blue-500 bg-blue-500/10 rounded-full shadow-none'>
-						<MagnifyingGlassIcon className='w-5 h-5' />
-					</IconButton>
+					<div className='flex gap-2'>
+						<IconButton
+							onClick={() => navigate('/search')}
+							variant='filled'
+							className='block md:hidden text-black bg-gray-900/10 rounded-full shadow-none'>
+							<MagnifyingGlassIcon className='w-5 h-5' />
+						</IconButton>
+						<IconButton
+							onClick={() => navigate('/chats')}
+							variant='filled'
+							className='block md:hidden text-cyan-500 bg-blue-500/10 rounded-full shadow-none'>
+							<ChatBubbleOvalLeftIcon className='w-5 h-5' />
+						</IconButton>
+					</div>
 				</div>
 				<Tabs
 					value={activeTab}

@@ -4,6 +4,7 @@ const initialState = {
 	user: null,
 	notifications: null,
 	suggestedUsers: [],
+	chatSuggestUser: [],
 	isLoggedIn: false,
 };
 
@@ -18,6 +19,16 @@ const authSlice = createSlice({
 		getSuggestedUsers(state, action) {
 			state.suggestedUsers = action.payload;
 		},
+		getChatSuggestUser(state) {
+			const allUsers = [
+				...state.user.friends,
+				...state.user.followings,
+				...state.user.followers,
+			];
+
+			state.chatSuggestUser = [...new Set(allUsers)];
+		},
+
 		getNotifications(state, action) {
 			state.notifications = action.payload;
 		},
@@ -30,7 +41,12 @@ const authSlice = createSlice({
 	},
 });
 
-export const { getAuthUser, getSuggestedUsers, getNotifications, logout } =
-	authSlice.actions;
+export const {
+	getAuthUser,
+	getSuggestedUsers,
+	getNotifications,
+	getChatSuggestUser,
+	logout,
+} = authSlice.actions;
 
 export default authSlice.reducer;
