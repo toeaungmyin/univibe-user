@@ -50,13 +50,14 @@ const SuggestedUserItems = ({ user }) => {
 			}`}
 			ripple={false}>
 			<ListItemPrefix onClick={() => navigate(`/profile/${user?.id}`)}>
-				{user?.porfile_url ? (
+				{user?.profile_url ? (
 					<Avatar
 						withBorder
 						className='p-0.5'
 						variant='circular'
 						alt='candice'
-						src={user?.porfile_url}
+						onError={e => (e.target.src = DefaultProfileAvatar)}
+						src={user.profile_url}
 					/>
 				) : (
 					<Avatar

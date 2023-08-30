@@ -57,7 +57,7 @@ const ConversationList = () => {
 						<IconButton
 							onClick={() => navigate('/search')}
 							size='lg'
-							className='text-black bg-gray-900/10 rounded-full shadow-none'>
+							className='text-black bg-gray-900/10 rounded-full shadow-none hover:shadow-none focus:shadow-none'>
 							<MagnifyingGlassIcon className='w-6 h-6' />
 						</IconButton>
 					)}
