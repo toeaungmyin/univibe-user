@@ -68,13 +68,13 @@ export function Friends() {
 									}`}
 									ripple={false}>
 									<ListItemPrefix>
-										{user?.porfile_url ? (
+										{user?.profile_url ? (
 											<Avatar
 												withBorder
 												className='p-0.5'
 												variant='circular'
 												alt='candice'
-												src={user?.porfile_url}
+												src={user?.profile_url}
 											/>
 										) : (
 											<Avatar
@@ -164,13 +164,13 @@ export function Friends() {
 									}`}
 									ripple={false}>
 									<ListItemPrefix>
-										{user?.porfile_url ? (
+										{user?.profile_url ? (
 											<Avatar
 												withBorder
 												className='p-0.5'
 												variant='circular'
 												alt='candice'
-												src={user?.porfile_url}
+												src={user?.profile_url}
 											/>
 										) : (
 											<Avatar
@@ -260,13 +260,13 @@ export function Friends() {
 									}`}
 									ripple={false}>
 									<ListItemPrefix>
-										{user?.porfile_url ? (
+										{user?.profile_url ? (
 											<Avatar
 												withBorder
 												className='p-0.5'
 												variant='circular'
 												alt='candice'
-												src={user?.porfile_url}
+												src={user?.profile_url}
 											/>
 										) : (
 											<Avatar
