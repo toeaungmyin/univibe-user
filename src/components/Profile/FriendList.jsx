@@ -28,7 +28,7 @@ export function FriendList() {
 		<div className='flex flex-col gap-4 mt-2 max-h-[calc(100%-0.5rem)] overflow-auto no-scrollbar'>
 			{selectedUser?.friends && selectedUser?.friends?.length !== 0 && (
 				<Card
-					className={`w-full rounded-none md:rounded-lg ${
+					className={`w-full rounded-none border-none md:rounded-lg ${
 						theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 					}`}>
 					<CardHeader
@@ -75,7 +75,11 @@ export function FriendList() {
 												className='p-0.5'
 												variant='circular'
 												alt='candice'
-												src={user?.porfile_url}
+												onError={e =>
+													(e.target.src =
+														DefaultProfileAvatar)
+												}
+												src={user?.profile_url}
 											/>
 										) : (
 											<Avatar
@@ -123,7 +127,7 @@ export function FriendList() {
 			{selectedUser?.followings &&
 				selectedUser?.followings?.length !== 0 && (
 					<Card
-						className={`w-full border rounded-none md:rounded-lg ${
+						className={`w-full border-none rounded-none md:rounded-lg ${
 							theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 						}`}>
 						<CardHeader
@@ -166,13 +170,17 @@ export function FriendList() {
 										}`}
 										ripple={false}>
 										<ListItemPrefix>
-											{user?.porfile_url ? (
+											{user?.profile_url ? (
 												<Avatar
 													withBorder
 													className='p-0.5'
 													variant='circular'
 													alt='candice'
-													src={user?.porfile_url}
+													onError={e =>
+														(e.target.src =
+															DefaultProfileAvatar)
+													}
+													src={user?.profile_url}
 												/>
 											) : (
 												<Avatar
@@ -201,7 +209,7 @@ export function FriendList() {
 								))}
 						</List>
 						<CardFooter className='flex justify-center p-2'>
-							{selectedUser?.followings?.length > 3 && (
+							{selectedUser?.followers?.length > 3 && (
 								<Chip
 									variant='ghost'
 									color='cyan'
@@ -222,7 +230,7 @@ export function FriendList() {
 			{selectedUser?.followers &&
 				selectedUser?.followers?.length !== 0 && (
 					<Card
-						className={`w-full border rounded-none md:rounded-lg ${
+						className={`w-full border-none rounded-none md:rounded-lg ${
 							theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 						}`}>
 						<CardHeader
@@ -265,13 +273,17 @@ export function FriendList() {
 										}`}
 										ripple={false}>
 										<ListItemPrefix>
-											{user?.porfile_url ? (
+											{user?.profile_url ? (
 												<Avatar
 													withBorder
 													className='p-0.5'
 													variant='circular'
 													alt='candice'
-													src={user?.porfile_url}
+													onError={e =>
+														(e.target.src =
+															DefaultProfileAvatar)
+													}
+													src={user?.profile_url}
 												/>
 											) : (
 												<Avatar
