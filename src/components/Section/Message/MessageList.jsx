@@ -36,7 +36,7 @@ const MessageList = () => {
 		scrollToBottom();
 		const intervalId = setInterval(() => {
 			fetchMessages();
-		}, 10000);
+		}, 5000);
 
 		return () => clearInterval(intervalId);
 	}, [dispatch, userId]);
