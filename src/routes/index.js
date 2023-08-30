@@ -14,6 +14,7 @@ import ConversationDetail from '../components/Section/Message/ConversationDetail
 import RecoveryEmailForm from '../components/RecoverAccount/RecoveryEmailForm';
 import RecoveryEmailVerify from '../components/RecoverAccount/RecoveryEmailVerify';
 import ResetPassword from '../components/RecoverAccount/ResetPassword';
+import ChatPage from '../pages/ChatPage';
 
 const Router = () => {
 	const routes = useRoutes([
@@ -63,7 +64,7 @@ const Router = () => {
 
 						{
 							path: '/chats/:userId',
-							element: <ConversationDetail />,
+							element: <ChatPage />,
 						},
 					],
 				},

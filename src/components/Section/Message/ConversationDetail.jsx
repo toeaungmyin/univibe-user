@@ -33,7 +33,7 @@ const ConversationDetail = ({ conversation }) => {
 	}, [dispatch, userId]);
 	return (
 		<Card
-			className={`w-full h-full md:h-[calc(100%-1.3rem)] rounded-none overflow-hidden md:rounded-lg md:mt-2 flex flex-col justify-between ${
+			className={`h-full md:h-[calc(100%-1.3rem)] rounded-none overflow-hidden md:rounded-lg md:mt-2 flex flex-col justify-between ${
 				theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 			}`}>
 			<ConversationHeader />

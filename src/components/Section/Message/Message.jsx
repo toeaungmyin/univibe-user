@@ -1,5 +1,5 @@
 import { Avatar, Typography } from '@material-tailwind/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { useSelector } from 'react-redux';
@@ -14,20 +14,32 @@ const Message = ({ message }) => {
 			className={`flex gap-2 ${
 				message?.sender?.id === authUser?.id && 'flex-row-reverse'
 			}`}>
-			<div className='min-w-[2.5rem]'>
-				{message?.sender?.profile_url && (
-					<Avatar
-						withBorder
-						size='sm'
-						className='p-0.5'
-						variant='circular'
-						alt='candice'
-						color='cyan'
-						onError={e => (e.target.src = DefaultProfileAvatar)}
-						src={message?.sender?.profile_url}
-					/>
-				)}
-			</div>
+			{message?.sender?.id !== authUser?.id && (
+				<div className='min-w-[2.5rem]'>
+					{message?.sender?.profile_url ? (
+						<Avatar
+							withBorder
+							size='sm'
+							className='p-0.5'
+							variant='circular'
+							alt='candice'
+							color='cyan'
+							onError={e => (e.target.src = DefaultProfileAvatar)}
+							src={message?.sender?.profile_url}
+						/>
+					) : (
+						<Avatar
+							withBorder
+							size='sm'
+							className='p-0.5'
+							variant='circular'
+							alt='candice'
+							color='cyan'
+							src={DefaultProfileAvatar}
+						/>
+					)}
+				</div>
+			)}
 			<div
 				className={`flex flex-col ${
 					message?.sender?.id === authUser?.id
@@ -36,7 +48,9 @@ const Message = ({ message }) => {
 				}`}>
 				<div
 					className={`border ${
-						theme !== 'dark'
+						message?.sender?.id === authUser?.id
+							? 'border-cyan-600 bg-cyan-600'
+							: theme !== 'dark'
 							? 'border-blue-gray-100 bg-blue-gray-50'
 							: 'border-gray-800 bg-gray-800'
 					}  p-2 rounded-lg `}>
@@ -44,7 +58,13 @@ const Message = ({ message }) => {
 						<Typography
 							variant='small'
 							className='text-sm font-medium'
-							color={theme !== 'dark' ? 'blue-gray' : 'white'}>
+							color={
+								message?.sender?.id === authUser?.id
+									? 'white'
+									: theme !== 'dark'
+									? 'blue-gray'
+									: 'white'
+							}>
 							{message?.content}
 						</Typography>
 					)}

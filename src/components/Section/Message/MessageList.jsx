@@ -34,11 +34,11 @@ const MessageList = () => {
 		};
 		fetchMessages();
 		scrollToBottom();
-		const intervalId = setInterval(() => {
-			fetchMessages();
-		}, 10000);
+		// const intervalId = setInterval(() => {
+		// 	fetchMessages();
+		// }, 10000);
 
-		return () => clearInterval(intervalId);
+		// return () => clearInterval(intervalId);
 	}, [dispatch, userId]);
 
 	return (

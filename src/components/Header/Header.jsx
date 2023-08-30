@@ -71,7 +71,7 @@ export function Header() {
 
 					<SearchUser />
 
-					<div className='flex gap-2'>
+					<div className='flex gap-2 md:hidden'>
 						<IconButton
 							onClick={() => navigate('/search')}
 							variant='filled'

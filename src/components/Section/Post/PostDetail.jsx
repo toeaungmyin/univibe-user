@@ -49,7 +49,7 @@ export function PostDetail({ post, reaction, giveReaction, open, handleOpen }) {
 		<Dialog
 			open={open}
 			handler={handleOpen}
-			size={expand ? 'xxl' : 'sm'}
+			size={expand ? 'xxl' : 'md'}
 			className='overflow-hidden'>
 			<DialogHeader
 				className={`flex justify-start gap-2 items-center border-b ${
