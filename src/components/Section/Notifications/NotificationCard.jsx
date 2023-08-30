@@ -59,6 +59,8 @@ export function NotificationCard({ notification }) {
 		}
 	};
 
+	console.log(notifications[0].data.user);
+
 	return (
 		<ListItem
 			onClick={handleMarkAsRead}
