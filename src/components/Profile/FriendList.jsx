@@ -69,7 +69,7 @@ export function FriendList() {
 									}`}
 									ripple={false}>
 									<ListItemPrefix>
-										{user?.porfile_url ? (
+										{user?.profile_url ? (
 											<Avatar
 												withBorder
 												className='p-0.5'
