@@ -87,7 +87,7 @@ const SuggestedUserItems = ({ user }) => {
 					size='sm'
 					color='cyan'
 					onClick={() => handleFollow(user.id)}
-					className='px-2'>
+					className='shadow-none hover:shadow-none px-2 flex gap-2 items-center'>
 					{isLoading ? (
 						<Spinner
 							className='h-4 w-4 me-3'
@@ -95,7 +95,7 @@ const SuggestedUserItems = ({ user }) => {
 						/>
 					) : (
 						''
-					)}{' '}
+					)}
 					Follow
 				</Button>
 			</ListItemSuffix>

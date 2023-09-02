@@ -7,10 +7,25 @@ import {
 	Avatar,
 	IconButton,
 	Button,
+	MenuHandler,
+	Menu,
+	MenuItem,
+	MenuList,
 } from '@material-tailwind/react';
 import { motion } from 'framer-motion';
-import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
-import { HeartIcon, ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import {
+	EllipsisHorizontalIcon,
+	UserGroupIcon,
+	UsersIcon,
+	EyeSlashIcon,
+} from '@heroicons/react/24/solid';
+import {
+	HeartIcon,
+	ChatBubbleLeftIcon,
+	FlagIcon,
+	PencilSquareIcon,
+	TrashIcon,
+} from '@heroicons/react/24/outline';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { reactToPostRequest } from '../../../service/Post';
@@ -21,6 +36,8 @@ import { updatePost } from '../../../features/auth/PostSlice';
 import { PostDetail } from './PostDetail';
 import { useNavigate } from 'react-router';
 import { updateUserPost } from '../../../features/auth/UserSlice';
+import { PostUpdateForm } from './PostUpdate/PostUpdateForm';
+import { PostReport } from './PostReport/PostReport';
 
 export function PostCard({ post, posts }) {
 	const { theme } = useContext(ThemeContext);
@@ -30,13 +47,18 @@ export function PostCard({ post, posts }) {
 	const navigate = useNavigate();
 	const [reaction, setReaction] = useState();
 	const [openDetail, setOpenDetail] = useState(false);
-
+	const [openPostReportDialoag, setOpenPostReportDialoag] = useState(false);
+	const handleOpenPostReportDialoag = () =>
+		setOpenPostReportDialoag(prev => !prev);
 	const handleOpenDetail = () => setOpenDetail(!openDetail);
 
 	const giveReaction = () => {
 		reactToPost();
 		setReaction(!reaction);
 	};
+
+	const [isUpdateFormOpen, setUpdateFormOpen] = useState(false);
+	const handleUpdateFormOpen = () => setUpdateFormOpen(cur => !cur);
 
 	const reactToPost = async () => {
 		try {
@@ -55,15 +77,17 @@ export function PostCard({ post, posts }) {
 				// Dispatch the updated posts.
 				dispatch(updatePost(updatedPosts));
 
-				const updatedUserPost = [...selectedUserPost?.data];
-				const userPostIndex = updatedUserPost.findIndex(
-					p => p.id === post.id
-				);
-				if (userPostIndex !== -1) {
-					updatedUserPost[userPostIndex] = updatedPost;
+				if (selectedUserPost) {
+					const updatedUserPost = [...selectedUserPost?.data];
+					const userPostIndex = updatedUserPost.findIndex(
+						p => p.id === post.id
+					);
+					if (userPostIndex !== -1) {
+						updatedUserPost[userPostIndex] = updatedPost;
 
-					// Dispatch the updatedUserPost action with the updated data
-					dispatch(updateUserPost(updatedUserPost));
+						// Dispatch the updatedUserPost action with the updated data
+						dispatch(updateUserPost(updatedUserPost));
+					}
 				}
 			}
 			// Clone the existing posts array and find the index of the post to update.
@@ -131,26 +155,82 @@ export function PostCard({ post, posts }) {
 									{post.user.username}
 								</Typography>
 							)}
-
-							{post.created_at && (
-								<Typography
-									className='font-normal'
-									variant='small'
-									color={
-										theme !== 'dark' ? 'blue-gray' : 'white'
-									}>
-									{post.created_at}
-								</Typography>
-							)}
+							<div className='flex gap-2'>
+								{post.audience &&
+									(post.audience === 'public' ? (
+										<UserGroupIcon className='w-4 x-4' />
+									) : post.audience === 'friends' ? (
+										<UsersIcon className='w-4 x-4' />
+									) : (
+										<EyeSlashIcon className='w-4 x-4' />
+									))}
+								{post.created_at && (
+									<Typography
+										className='font-normal'
+										variant='small'
+										color={
+											theme !== 'dark'
+												? 'blue-gray'
+												: 'white'
+										}>
+										{post.created_at}
+									</Typography>
+								)}
+							</div>
 						</div>
 					</div>
 					<div className='flex gap-2'>
-						<IconButton
-							variant='text'
-							className='rounded-full'
-							color='blue-gray'>
-							<EllipsisHorizontalIcon className='w-6 x-6' />
-						</IconButton>
+						<Menu className='p-2'>
+							<MenuHandler>
+								<IconButton
+									variant='text'
+									className='rounded-full'
+									color='blue-gray'>
+									<EllipsisHorizontalIcon className='w-6 x-6' />
+								</IconButton>
+							</MenuHandler>
+							<MenuList
+								className={
+									theme === 'dark'
+										? 'bg-gray-900 border-gray-800'
+										: ''
+								}>
+								{authUser.id === post.user.id && (
+									<MenuItem
+										onClick={handleUpdateFormOpen}
+										className={`flex gap-2 ${
+											theme === 'dark'
+												? ' hover:bg-gray-800  focus:bg-gray-800 text-blue-gray-50 hover:text-blue-gray-50 focus:text-blue-gray-50'
+												: ''
+										}`}>
+										<PencilSquareIcon className='w-4 h-4' />
+										Edit
+									</MenuItem>
+								)}
+								<MenuItem
+									onClick={handleOpenPostReportDialoag}
+									className={`flex gap-2 ${
+										theme === 'dark'
+											? ' hover:bg-gray-800  focus:bg-gray-800 text-blue-gray-50 hover:text-blue-gray-50 focus:text-blue-gray-50'
+											: ''
+									}`}>
+									<FlagIcon className='w-4 h-4' />
+									Report
+								</MenuItem>
+								{authUser.id === post.user.id && (
+									<MenuItem
+										onClick={handleUpdateFormOpen}
+										className={`flex gap-2 text-red-500 hover:bg-red-50 hover:text-red-500 focus:bg-red-50 focus:text-red-500 ${
+											theme === 'dark'
+												? ' hover:bg-gray-800  focus:bg-gray-800 '
+												: ''
+										}`}>
+										<TrashIcon className='w-4 h-4 ' />
+										Delete
+									</MenuItem>
+								)}
+							</MenuList>
+						</Menu>
 					</div>
 				</CardHeader>
 				<CardBody className='p-0 w-full'>
@@ -243,6 +323,16 @@ export function PostCard({ post, posts }) {
 				giveReaction={giveReaction}
 				open={openDetail}
 				handleOpen={handleOpenDetail}
+			/>
+			<PostUpdateForm
+				post={post}
+				isUpdateFormOpen={isUpdateFormOpen}
+				handleUpdateFormOpen={handleUpdateFormOpen}
+			/>
+			<PostReport
+				post={post}
+				openPostReportDialoag={openPostReportDialoag}
+				handleOpenPostReportDialoag={handleOpenPostReportDialoag}
 			/>
 		</>
 	);

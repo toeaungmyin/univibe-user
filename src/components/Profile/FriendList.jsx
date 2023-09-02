@@ -25,10 +25,10 @@ export function FriendList() {
 	const [allFollowings, setAllFollowings] = useState(false);
 
 	return (
-		<div className='flex flex-col gap-4 mt-2 max-h-[calc(100%-0.5rem)] overflow-auto no-scrollbar'>
+		<div className='flex flex-col gap-4 py-1 mt-2 max-h-[calc(100%-0.5rem)] overflow-auto no-scrollbar'>
 			{selectedUser?.friends && selectedUser?.friends?.length !== 0 && (
 				<Card
-					className={`w-full rounded-none border-none md:rounded-lg ${
+					className={`w-full shadow rounded-none border-none md:rounded-lg ${
 						theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 					}`}>
 					<CardHeader
@@ -107,8 +107,8 @@ export function FriendList() {
 								</ListItem>
 							))}
 					</List>
-					<CardFooter className='flex justify-center p-2'>
-						{selectedUser?.friends?.length > 3 && (
+					{selectedUser?.friends?.length > 3 && (
+						<CardFooter className='flex justify-center p-2'>
 							<Chip
 								variant='ghost'
 								color='cyan'
@@ -120,14 +120,14 @@ export function FriendList() {
 								value='see more'
 								onClick={() => setAllFriends(pre => !pre)}
 							/>
-						)}
-					</CardFooter>
+						</CardFooter>
+					)}
 				</Card>
 			)}
 			{selectedUser?.followings &&
 				selectedUser?.followings?.length !== 0 && (
 					<Card
-						className={`w-full border-none rounded-none md:rounded-lg ${
+						className={`w-full shadow border-none rounded-none md:rounded-lg ${
 							theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 						}`}>
 						<CardHeader
@@ -208,8 +208,9 @@ export function FriendList() {
 									</ListItem>
 								))}
 						</List>
-						<CardFooter className='flex justify-center p-2'>
-							{selectedUser?.followers?.length > 3 && (
+
+						{selectedUser?.followers?.length > 3 && (
+							<CardFooter className='flex justify-center p-2'>
 								<Chip
 									variant='ghost'
 									color='cyan'
@@ -223,14 +224,14 @@ export function FriendList() {
 										setAllFollowings(pre => !pre)
 									}
 								/>
-							)}
-						</CardFooter>
+							</CardFooter>
+						)}
 					</Card>
 				)}
 			{selectedUser?.followers &&
 				selectedUser?.followers?.length !== 0 && (
 					<Card
-						className={`w-full border-none rounded-none md:rounded-lg ${
+						className={`w-full shadow border-none rounded-none md:rounded-lg ${
 							theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 						}`}>
 						<CardHeader
@@ -311,8 +312,8 @@ export function FriendList() {
 									</ListItem>
 								))}
 						</List>
-						<CardFooter className='flex justify-center p-2'>
-							{selectedUser?.followers?.length > 3 && (
+						{selectedUser?.followers?.length > 3 && (
+							<CardFooter className='flex justify-center p-2'>
 								<Chip
 									variant='ghost'
 									color='cyan'
@@ -324,8 +325,8 @@ export function FriendList() {
 									value='see more'
 									onClick={() => setAllFollowers(pre => !pre)}
 								/>
-							)}
-						</CardFooter>
+							</CardFooter>
+						)}
 					</Card>
 				)}
 		</div>

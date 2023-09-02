@@ -13,11 +13,12 @@ import { DefaultProfileAvatar, ErrorImage } from '../../assets/images';
 import { useNavigate, useParams } from 'react-router';
 import { getUserDetail } from '../../service/User';
 import { getSelectedUser } from '../../features/auth/UserSlice';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, FlagIcon } from '@heroicons/react/24/outline';
 import { EditProfile } from './EditProfile';
 import UploadProfile from './UploadProfile';
 import { followRequest, unfollowRequest } from '../../service/Follow';
 import { getAuthUser } from '../../features/auth/AuthSlice';
+import { Report } from './Report';
 
 export function Profile() {
 	const { theme } = useContext(ThemeContext);
@@ -32,6 +33,10 @@ export function Profile() {
 	const isFollowing = auth?.followings.some(
 		following => following.id === selectedUser?.id
 	);
+
+	const [openReportDialoag, setOpenPostReportDialoag] = useState(false);
+	const handleOpenReportDialoag = () =>
+		setOpenPostReportDialoag(prev => !prev);
 
 	const posts = useSelector(state => state.userReducer.userPosts);
 	const { userId } = useParams();
@@ -231,13 +236,23 @@ export function Profile() {
 							</div>
 						)}
 					</div>
-					{userId === JSON.stringify(auth.id) && (
+					{userId === JSON.stringify(auth.id) ? (
 						<IconButton
 							onClick={handleOpen}
 							variant='text'
 							className='!absolute top-0 right-5'>
 							<PencilSquareIcon
 								className='w-6 h-6'
+								color={theme !== 'dark' ? 'black' : 'white'}
+							/>
+						</IconButton>
+					) : (
+						<IconButton
+							onClick={handleOpenReportDialoag}
+							variant='text'
+							className='!absolute top-0 right-5'>
+							<FlagIcon
+								className='w-5 h-5'
 								color={theme !== 'dark' ? 'black' : 'white'}
 							/>
 						</IconButton>
@@ -261,6 +276,10 @@ export function Profile() {
 			<EditProfile
 				handleOpen={handleOpen}
 				open={open}
+			/>
+			<Report
+				openReportDialoag={openReportDialoag}
+				handleOpenReportDialoag={handleOpenReportDialoag}
 			/>
 		</>
 	);

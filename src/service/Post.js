@@ -11,7 +11,10 @@ export const createPostRequest = async data => {
 
 export const updatePostRequest = async (data, postId) => {
 	try {
-		const response = await fileUploadApi.put(`posts/${postId}`, data);
+		const response = await fileUploadApi.post(
+			`posts/${postId}?_method=PUT`,
+			data
+		);
 		return response;
 	} catch (error) {
 		throw error;
@@ -39,6 +42,15 @@ export const getUserPostsRequest = async (userId, page) => {
 export const reactToPostRequest = async post => {
 	try {
 		const response = await api.post(`posts/${post}/react`);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};
+
+export const reportToPostRequest = async (postId, data) => {
+	try {
+		const response = await api.post(`posts/${postId}/report`, data);
 		return response;
 	} catch (error) {
 		throw error;

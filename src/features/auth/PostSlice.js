@@ -4,6 +4,7 @@ const initialState = {
 	posts: {
 		data: [],
 	},
+	selectedPost: null,
 };
 
 const postSlice = createSlice({
@@ -15,14 +16,17 @@ const postSlice = createSlice({
 		},
 		updatePost(state, action) {
 			state.posts.data = action.payload;
-			
 		},
 		getNextPosts(state, action) {
 			state.posts.data = action.payload;
 		},
+		getSelectedPost(state, action) {
+			state.selectedPost = action.payload;
+		},
 	},
 });
 
-export const { getPosts, updatePost, getNextPosts } = postSlice.actions;
+export const { getPosts, updatePost, getNextPosts, getSelectedPost } =
+	postSlice.actions;
 
 export default postSlice.reducer;

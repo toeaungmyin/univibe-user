@@ -4,9 +4,10 @@ import {
 	ListItem,
 	ListItemPrefix,
 	ListItemSuffix,
+	Spinner,
 	Typography,
 } from '@material-tailwind/react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { getAuthUser } from '../../../features/auth/AuthSlice';
@@ -20,8 +21,11 @@ const FollowBackUserItems = ({ follower }) => {
 	const followers = authUser?.followers;
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [isLoading, setLoading] = useState(false);
+
 	const handleFollow = async userId => {
 		try {
+			setLoading(true);
 			const response = await followRequest(userId);
 			if (response.status === 200) {
 				const filteredUser = followers.filter(
@@ -35,6 +39,8 @@ const FollowBackUserItems = ({ follower }) => {
 			}
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 	return (
@@ -84,7 +90,15 @@ const FollowBackUserItems = ({ follower }) => {
 					onClick={() => handleFollow(follower.id)}
 					size='sm'
 					color='cyan'
-					className='hover:shadow-none px-2'>
+					className='hover:shadow-none px-2 flex gap-2 items-center'>
+					{isLoading ? (
+						<Spinner
+							className='h-4 w-4 me-3'
+							color='white'
+						/>
+					) : (
+						''
+					)}
 					Follow Back
 				</Button>
 			</ListItemSuffix>

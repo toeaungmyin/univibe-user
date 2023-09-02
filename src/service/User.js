@@ -29,3 +29,12 @@ export const searchUserRequest = async key => {
 		throw error;
 	}
 };
+
+export const reportToUserRequest = async (userId, data) => {
+	try {
+		const response = await api.post(`users/${userId}/report`, data);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};

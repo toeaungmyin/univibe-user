@@ -40,7 +40,7 @@ export function Follow() {
 						floated={false}
 						shadow={false}
 						color='transparent'
-						className='my-2 rounded-none'>
+						className='my-2 rounded-none overflow-visible'>
 						<Typography
 							variant='h6'
 							className={`${
