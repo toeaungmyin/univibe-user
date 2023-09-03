@@ -33,7 +33,6 @@ const Login = () => {
 		defaultValues: {
 			email: '',
 			password: '',
-			remember_me: '0',
 		},
 	});
 
@@ -160,23 +159,7 @@ const Login = () => {
 										</Typography>
 									)}
 								</div>
-								<div className='flex justify-between items-center'>
-									<div className='-ml-2.5'>
-										<Checkbox
-											label='Remember Me'
-											onClick={e =>
-												e.target.checked
-													? setValue(
-															'remember_me',
-															'1'
-													  )
-													: setValue(
-															'remember_me',
-															'0'
-													  )
-											}
-										/>
-									</div>
+								<div className='flex justify-end items-center'>
 									<Button
 										onClick={() =>
 											navigate('/recover-email-form')

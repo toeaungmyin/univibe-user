@@ -107,10 +107,14 @@ export function SidebarMenu() {
 							<ListItemSuffix>
 								{authUser?.profile_url ? (
 									<Avatar
+										color='cyan'
+										withBorder={authUser?.online}
+										className={`${
+											authUser?.online ? 'p-0.5' : 'p-0'
+										}`}
 										variant='circular'
 										size='sm'
 										alt='tania andrew'
-										className='border border-blue-500 p-0.5'
 										onError={e =>
 											(e.target.src =
 												DefaultProfileAvatar)
@@ -119,10 +123,14 @@ export function SidebarMenu() {
 									/>
 								) : (
 									<Avatar
+										color='cyan'
+										withBorder={authUser?.online}
+										className={`${
+											authUser?.online ? 'p-0.5' : 'p-0'
+										}`}
 										variant='circular'
 										size='sm'
 										alt='tania andrew'
-										className='border border-blue-500 p-0.5'
 										src={DefaultProfileAvatar}
 									/>
 								)}

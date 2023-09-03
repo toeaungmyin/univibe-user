@@ -91,8 +91,10 @@ export function PostDetail({ post, reaction, giveReaction, open, handleOpen }) {
 						<div className='flex items-center gap-2'>
 							{post?.user?.profile_url ? (
 								<Avatar
-									withBorder
-									className='p-0.5'
+									withBorder={post?.user?.online}
+									className={
+										post?.user?.online ? 'p-0.5' : 'p-0'
+									}
 									variant='circular'
 									alt='candice'
 									color='cyan'
@@ -103,8 +105,10 @@ export function PostDetail({ post, reaction, giveReaction, open, handleOpen }) {
 								/>
 							) : (
 								<Avatar
-									withBorder
-									className='p-0.5'
+									withBorder={post?.user?.online}
+									className={
+										post?.user?.online ? 'p-0.5' : 'p-0'
+									}
 									variant='circular'
 									alt='candice'
 									color='cyan'

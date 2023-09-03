@@ -74,19 +74,30 @@ export function NotificationCard({ notification }) {
 				<div className='w-10 h-10 aspect-square'>
 					{notification?.data?.user?.profile_url ? (
 						<Avatar
+							withBorder={notification?.data?.user?.online}
+							className={
+								notification?.data?.user?.online
+									? 'p-0.5'
+									: 'p-0'
+							}
+							color='cyan'
 							variant='circular'
 							size='sm'
 							alt='tania andrew'
-							className='border border-blue-500 p-0.5'
 							onError={e => (e.target.src = DefaultProfileAvatar)}
 							src={notification?.data?.user?.profile_url}
 						/>
 					) : (
 						<Avatar
+							withBorder={notification?.data?.user?.online}
+							className={
+								notification?.data?.user?.online
+									? 'p-0.5'
+									: 'p-0'
+							}
 							variant='circular'
 							size='sm'
 							alt='tania andrew'
-							className='border border-blue-500 p-0.5'
 							src={DefaultProfileAvatar}
 						/>
 					)}

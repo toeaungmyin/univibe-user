@@ -4,8 +4,9 @@ import Pusher from 'pusher-js';
 const options = {
 	broadcaster: 'pusher',
 	authEndpoint:
-		'https://univibe-server-production-2df7.up.railway.app/broadcasting/auth',
-	key: '028f33976a54b774aaa7', // Replace with your Pusher key
+		// 'https://univibe-server-production-2df7.up.railway.app/broadcasting/auth',
+		'http://127.0.0.1:8000/broadcasting/auth',
+	key: 'ea35363792d83a5c687f', // Replace with your Pusher key
 	cluster: 'ap1', // Replace with your Pusher cluster
 	encrypted: true,
 	auth: {
@@ -17,9 +18,5 @@ const options = {
 };
 
 const echo = new Echo(options);
-
-echo.private(`App.Models.User.2`).listen('new-comment', data => {
-	alert('Received comment notification:', data);
-});
 
 export default echo;

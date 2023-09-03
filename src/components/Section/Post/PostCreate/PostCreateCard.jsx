@@ -30,8 +30,10 @@ const PostCreateCard = () => {
 				<CardBody className='flex justify-center items-center gap-2 p-2 px-1'>
 					<div className='min-w-[3rem] flex justify-center items-end'>
 						<Avatar
-							withBorder
-							className='p-0.5 object-cover'
+							withBorder={auth?.online}
+							className={`object-cover ${
+								auth?.online ? 'p-0.5' : 'p-0'
+							}`}
 							variant='circular'
 							alt='candice'
 							color='cyan'

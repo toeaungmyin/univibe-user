@@ -5,6 +5,8 @@ import {
 	Typography,
 	IconButton,
 	Button,
+	CardFooter,
+	Alert,
 } from '@material-tailwind/react';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
@@ -14,6 +16,7 @@ import { useNavigate, useParams } from 'react-router';
 import { getUserDetail } from '../../service/User';
 import { getSelectedUser } from '../../features/auth/UserSlice';
 import { PencilSquareIcon, FlagIcon } from '@heroicons/react/24/outline';
+import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
 import { EditProfile } from './EditProfile';
 import UploadProfile from './UploadProfile';
 import { followRequest, unfollowRequest } from '../../service/Follow';
@@ -98,7 +101,7 @@ export function Profile() {
 	return (
 		<>
 			<Card
-				className={`w-full flex flex-col items-center rounded-none md:rounded-lg mt-8 md:mt-2 ${
+				className={`w-full flex flex-col items-center rounded-none md:rounded-lg mt-8 md:mt-2 gap-4 ${
 					theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 				}`}>
 				<CardHeader
@@ -114,13 +117,21 @@ export function Profile() {
 										(e.target.src = DefaultProfileAvatar)
 									}
 									alt='profile'
-									className='object-cover object-center rounded-full w-full h-full'
+									className={`object-cover object-center rounded-full w-full h-full ${
+										user?.online
+											? 'border-2 border-cyan-500 bg-white p-1'
+											: 'p-0'
+									}`}
 								/>
 							) : (
 								<img
 									src={DefaultProfileAvatar}
 									alt='profile'
-									className='object-cover object-center rounded-full w-full h-full'
+									className={`object-cover object-center rounded-full w-full h-full ${
+										user?.online
+											? 'border-2 border-cyan-500 p-0.5'
+											: 'p-0'
+									}`}
 								/>
 							)}
 							{userId === JSON.stringify(auth.id) && (
@@ -258,7 +269,32 @@ export function Profile() {
 						</IconButton>
 					)}
 				</CardHeader>
-				<CardBody className='grid grid-cols-3 gap-1 w-full h-full p-2 pt-6 rounded-none'>
+				{auth.warnings.length !== 0 && (
+					<CardBody className='w-full h-full p-2 flex flex-col gap-2'>
+						<Alert
+							variant='outlined'
+							color='amber'
+							icon={
+								<ExclamationCircleIcon className='w-8 h-8' />
+							}>
+							<Typography className='font-medium'>
+								Warning:
+							</Typography>
+							<ul className='mt-2 ml-2 list-inside list-disc'>
+								{auth.warnings.map((warn, index) => (
+									<li>
+										<span className='font-medium'>
+											{warn?.title}
+										</span>
+										<span>{warn?.description}</span>
+									</li>
+								))}
+							</ul>
+						</Alert>
+					</CardBody>
+				)}
+
+				<CardFooter className='grid grid-cols-3 gap-1 w-full h-full p-2 pt-2 rounded-none'>
 					{images?.map((img, index) => (
 						<div
 							key={index}
@@ -271,7 +307,7 @@ export function Profile() {
 							/>
 						</div>
 					))}
-				</CardBody>
+				</CardFooter>
 			</Card>
 			<EditProfile
 				handleOpen={handleOpen}

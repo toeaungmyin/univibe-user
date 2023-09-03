@@ -18,9 +18,11 @@ const Message = ({ message }) => {
 				<div className='min-w-[2.5rem]'>
 					{message?.sender?.profile_url ? (
 						<Avatar
-							withBorder
+							withBorder={message?.sender?.online}
+							className={
+								message?.sender?.online ? 'p-0.5' : 'p-0'
+							}
 							size='sm'
-							className='p-0.5'
 							variant='circular'
 							alt='candice'
 							color='cyan'
@@ -29,9 +31,11 @@ const Message = ({ message }) => {
 						/>
 					) : (
 						<Avatar
-							withBorder
+							withBorder={message?.sender?.online}
+							className={
+								message?.sender?.online ? 'p-0.5' : 'p-0'
+							}
 							size='sm'
-							className='p-0.5'
 							variant='circular'
 							alt='candice'
 							color='cyan'

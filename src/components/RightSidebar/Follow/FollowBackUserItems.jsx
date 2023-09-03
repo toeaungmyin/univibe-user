@@ -68,8 +68,9 @@ const FollowBackUserItems = ({ follower }) => {
 					<Avatar
 						variant='circular'
 						size='sm'
-						withBorder
-						className='p-0.5'
+						color='cyan'
+						withBorder={follower?.online}
+						className={follower?.online ? 'p-0.5' : 'p-0'}
 						alt='candice'
 						src={DefaultProfileAvatar}
 					/>
@@ -97,9 +98,8 @@ const FollowBackUserItems = ({ follower }) => {
 							color='white'
 						/>
 					) : (
-						''
+						'Follow Back'
 					)}
-					Follow Back
 				</Button>
 			</ListItemSuffix>
 		</ListItem>

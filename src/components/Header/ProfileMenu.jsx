@@ -60,8 +60,9 @@ const ProfileMenu = () => {
 						<Avatar
 							variant='circular'
 							size='sm'
-							withBorder
-							className='p-0.5'
+							color='cyan'
+							withBorder={authUser?.online}
+							className={authUser?.online ? 'p-0.5' : 'p-0'}
 							alt='candice'
 							onError={e => (e.target.src = DefaultProfileAvatar)}
 							src={authUser?.profile_url}

@@ -10,6 +10,7 @@ import { Profile } from '../components/Profile/Profile';
 import UserPosts from '../components/Profile/UserPosts';
 import { SidebarMenu } from '../components/SidebarMenu/SidebarMenu';
 import { FriendList } from '../components/Profile/FriendList';
+import echo from '../broadcast';
 
 const ProfilePage = () => {
 	const auth = useSelector(state => state.authReducer);
@@ -30,6 +31,18 @@ const ProfilePage = () => {
 		};
 		fetchUser();
 	}, [dispatch]);
+
+	useEffect(() => {
+		echo.channel('my-channel').listen('my-event', data => {
+			alert(JSON.stringify(data));
+		});
+
+		return () => {
+			// Unsubscribe or disconnect when the component unmounts, if necessary
+			// echo.leave(`App.Models.User.${auth?.user?.id}`);
+			// echo.disconnect();
+		};
+	}, []);
 
 	return (
 		<>

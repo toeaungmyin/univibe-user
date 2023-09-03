@@ -9,8 +9,8 @@ import { getAuthUser, getNotifications } from '../features/auth/AuthSlice';
 import PreLoader from '../components/Loader/PreLoader';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { SidebarMenu } from '../components/SidebarMenu/SidebarMenu';
-import echo from '../broadcast';
 import { getNotificationRequest } from '../service/Notifications';
+import echo from '../broadcast';
 
 const Layout = () => {
 	const auth = useSelector(state => state.authReducer);
@@ -47,12 +47,9 @@ const Layout = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		echo.private(`App.Models.User.${auth?.user?.id}`).listen(
-			'new-comment',
-			data => {
-				alert('Received comment notification:', data);
-			}
-		);
+		echo.channel('my-channel').listen('my-event', data => {
+			alert(JSON.stringify(data));
+		});
 
 		return () => {
 			// Unsubscribe or disconnect when the component unmounts, if necessary

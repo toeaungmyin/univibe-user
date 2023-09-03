@@ -100,8 +100,13 @@ const SearchUser = () => {
 												<Avatar
 													variant='circular'
 													size='sm'
-													withBorder
-													className='p-0.5'
+													color='cyan'
+													withBorder={user?.online}
+													className={
+														user?.online
+															? 'p-0.5'
+															: 'p-0'
+													}
 													alt='candice'
 													onError={e =>
 														(e.target.src =
@@ -113,8 +118,13 @@ const SearchUser = () => {
 												<Avatar
 													variant='circular'
 													size='sm'
-													withBorder
-													className='p-0.5'
+													color='cyan'
+													withBorder={user?.online}
+													className={
+														user?.online
+															? 'p-0.5'
+															: 'p-0'
+													}
 													alt='candice'
 													src={DefaultProfileAvatar}
 												/>

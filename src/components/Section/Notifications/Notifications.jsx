@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationRequest } from '../../../service/Notifications';
 import { getNotifications } from '../../../features/auth/AuthSlice';
 
+
 const Notifications = () => {
 	const notifications = useSelector(state => state.authReducer.notifications);
 	const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Notifications = () => {
 		};
 		fetchNotification();
 	}, [dispatch]);
+
 	return (
 		<Card className='max-w-[38rem] mx-auto overflow-hidden bg-transparent shadow-none'>
 			<List className={`items-center gap-2`}>

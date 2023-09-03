@@ -72,7 +72,9 @@ const ConversationList = () => {
 									variant='circular'
 									size='md'
 									alt='tania andrew'
-									className='border border-blue-500 p-0.5'
+									color='cyan'
+									withBorder={user?.online}
+									className={user?.online ? 'p-0.5' : 'p-0'}
 									onError={e =>
 										(e.target.src = DefaultProfileAvatar)
 									}
@@ -87,7 +89,9 @@ const ConversationList = () => {
 									variant='circular'
 									size='md'
 									alt='tania andrew'
-									className='border border-blue-500 p-0.5'
+									color='cyan'
+									withBorder={user?.online}
+									className={user?.online ? 'p-0.5' : 'p-0'}
 									src={DefaultProfileAvatar}
 								/>
 							)

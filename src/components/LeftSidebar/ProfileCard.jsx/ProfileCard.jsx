@@ -22,13 +22,13 @@ export function ProfileCard() {
 				onClick={() => navigate(`/profile/${authUser?.id}`)}>
 				<div className='min-w-[3rem] flex justify-center items-end'>
 					<Avatar
-						withBorder
-						className='p-0.5 object-cover'
+						color='cyan'
+						withBorder={authUser?.online}
+						className={authUser?.online ? 'p-0.5' : 'p-0'}
 						variant='circular'
 						alt='candice'
-						color='cyan'
 						onError={e => (e.target.src = DefaultProfileAvatar)}
-						src={authUser?.profile_url}
+						src={authUser?.profile_url || DefaultProfileAvatar}
 					/>
 				</div>
 				<div className='flex w-full flex-col gap-0.5'>

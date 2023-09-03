@@ -70,16 +70,26 @@ export function Friends() {
 									<ListItemPrefix>
 										{user?.profile_url ? (
 											<Avatar
-												withBorder
-												className='p-0.5'
+												color='cyan'
+												withBorder={user?.online}
+												className={
+													user?.online
+														? 'p-0.5'
+														: 'p-0'
+												}
 												variant='circular'
 												alt='candice'
 												src={user?.profile_url}
 											/>
 										) : (
 											<Avatar
-												withBorder
-												className='p-0.5'
+												color='cyan'
+												withBorder={user?.online}
+												className={
+													user?.online
+														? 'p-0.5'
+														: 'p-0'
+												}
 												variant='circular'
 												alt='candice'
 												src={DefaultProfileAvatar}

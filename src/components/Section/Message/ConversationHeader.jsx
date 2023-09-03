@@ -25,23 +25,23 @@ const ConversationHeader = () => {
 			</IconButton>
 			{selectedUser?.profile_url ? (
 				<Avatar
-					withBorder
+					withBorder={selectedUser?.online}
+					className={selectedUser?.online ? 'border-4 p-0.5' : 'p-0'}
 					variant='circular'
 					size='md'
 					alt='tania andrew'
-					color='cyan'
-					className='border-4 bg-white p-1 border-cyan-600'
+					color='green'
 					src={selectedUser?.profile_url}
 					onError={e => (e.target.src = DefaultProfileAvatar)}
 				/>
 			) : (
 				<Avatar
-					withBorder
+					withBorder={selectedUser?.online}
+					className={selectedUser?.online ? 'border-4 p-0.5' : 'p-0'}
 					variant='circular'
 					size='md'
 					alt='tania andrew'
 					color='cyan'
-					className='border-4 bg-white p-1 border-cyan-600'
 					src={DefaultProfileAvatar}
 				/>
 			)}

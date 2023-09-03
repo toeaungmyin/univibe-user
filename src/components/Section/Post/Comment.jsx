@@ -12,9 +12,9 @@ const Comment = ({ comment }) => {
 		<div className={`flex gap-2`}>
 			<div className='min-w-[2.5rem]'>
 				<Avatar
-					withBorder
+					withBorder={comment?.user?.online}
+					className={comment?.user?.online ? 'p-0.5' : 'p-0'}
 					size='sm'
-					className='p-0.5'
 					variant='circular'
 					alt='candice'
 					color='cyan'
