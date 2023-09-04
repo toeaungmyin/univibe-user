@@ -41,9 +41,13 @@ const MessageList = () => {
 		return () => clearInterval(intervalId);
 	}, [dispatch, userId]);
 
+	useEffect(() => {
+		scrollToBottom();
+	}, [messages]);
+
 	return (
 		<div
-			className='flex flex-col gap-2 p-2 px-6 overflow-scroll no-scrollbar'
+			className='flex flex-col gap-2 p-2 px-6 h-full overflow-scroll no-scrollbar'
 			ref={containerRef}>
 			{messages && messages.length > 0 ? (
 				messages.map((message, index) => (

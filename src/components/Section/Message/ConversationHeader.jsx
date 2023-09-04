@@ -11,7 +11,7 @@ const ConversationHeader = () => {
 	const selectedUser = useSelector(state => state.userReducer.selectedUser);
 	const navigate = useNavigate();
 	return (
-		<Card className='bg-cyan-600 w-full shadow-none rounded-none border-none p-2 flex flex-row justify-start gap-3 items-center'>
+		<Card className='bg-cyan-600 w-full overflow-visible shadow-none rounded-none border-none p-2 flex flex-row justify-start gap-3 items-center'>
 			<IconButton
 				variant='text'
 				onClick={() => navigate(-1)}>

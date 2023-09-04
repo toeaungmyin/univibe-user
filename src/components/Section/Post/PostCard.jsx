@@ -28,7 +28,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { reactToPostRequest } from '../../../service/Post';
+import { deletePostRequest, reactToPostRequest } from '../../../service/Post';
 
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { ErrorImage, DefaultProfileAvatar } from '../../../assets/images';
@@ -42,7 +42,7 @@ import { PostReport } from './PostReport/PostReport';
 export function PostCard({ post, posts }) {
 	const { theme } = useContext(ThemeContext);
 	const authUser = useSelector(state => state.authReducer.user);
-	const selectedUserPost = useSelector(state => state.userReducer.userPosts);
+	const selectedUserPosts = useSelector(state => state.userReducer.userPosts);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [reaction, setReaction] = useState();
@@ -59,6 +59,28 @@ export function PostCard({ post, posts }) {
 
 	const [isUpdateFormOpen, setUpdateFormOpen] = useState(false);
 	const handleUpdateFormOpen = () => setUpdateFormOpen(cur => !cur);
+
+	const handleDeletePost = async () => {
+		try {
+			const response = await deletePostRequest(post.id);
+			if (response.status === 200) {
+				if (posts) {
+					const updatedPosts = posts.filter(p => p.id !== post.id);
+					dispatch(updatePost(updatedPosts));
+				}
+
+				if (selectedUserPosts?.data) {
+					const updatedUserPosts = selectedUserPosts.data.filter(
+						p => p.id !== post.id
+					);
+					// Dispatch the updatedUserPost action with the updated data
+					dispatch(updateUserPost(updatedUserPosts));
+				}
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	const reactToPost = async () => {
 		try {
@@ -77,8 +99,8 @@ export function PostCard({ post, posts }) {
 				// Dispatch the updated posts.
 				dispatch(updatePost(updatedPosts));
 
-				if (selectedUserPost) {
-					const updatedUserPost = [...selectedUserPost?.data];
+				if (selectedUserPosts) {
+					const updatedUserPost = [...selectedUserPosts?.data];
 					const userPostIndex = updatedUserPost.findIndex(
 						p => p.id === post.id
 					);
@@ -219,7 +241,7 @@ export function PostCard({ post, posts }) {
 								</MenuItem>
 								{authUser.id === post.user.id && (
 									<MenuItem
-										onClick={handleUpdateFormOpen}
+										onClick={handleDeletePost}
 										className={`flex gap-2 text-red-500 hover:bg-red-50 hover:text-red-500 focus:bg-red-50 focus:text-red-500 ${
 											theme === 'dark'
 												? ' hover:bg-gray-800  focus:bg-gray-800 '

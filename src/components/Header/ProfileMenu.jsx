@@ -7,9 +7,8 @@ import {
 	MenuList,
 	Typography,
 } from '@material-tailwind/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ThemeContext } from '../../ThemeContext/ThemeContext';
 import { DefaultProfileAvatar } from '../../assets/images';
 import { ChevronDownIcon, PowerIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router';
@@ -18,7 +17,6 @@ import { logoutRequest } from '../../service/Auth';
 import DialogModel from '../DIalogModel/DialogModel';
 
 const ProfileMenu = () => {
-	const { theme } = useContext(ThemeContext);
 	const authUser = useSelector(state => state.authReducer.user);
 
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);

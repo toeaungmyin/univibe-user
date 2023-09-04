@@ -65,3 +65,12 @@ export const createCommentRequest = async data => {
 		throw error;
 	}
 };
+
+export const deletePostRequest = async postId => {
+	try {
+		const response = await api.delete(`/posts/${postId}?_method=DELETE`);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};

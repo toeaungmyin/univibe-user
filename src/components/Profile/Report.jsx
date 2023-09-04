@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
 	Button,
 	Dialog,
@@ -14,12 +14,14 @@ import {
 } from '@material-tailwind/react';
 import { useForm } from 'react-hook-form';
 
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { useSelector } from 'react-redux';
 import { reportToUserRequest } from '../../service/User';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 export function Report({ openReportDialoag, handleOpenReportDialoag }) {
 	const user = useSelector(state => state.userReducer.selectedUser);
+	const { theme } = useContext(ThemeContext);
 	const [isLoading, setLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 
@@ -69,29 +71,62 @@ export function Report({ openReportDialoag, handleOpenReportDialoag }) {
 			setLoading(false);
 		}
 	};
+
+	const [expand, setExpand] = useState(false);
+
+	useEffect(() => {
+		// Define a media query for screens with a max width of 960px
+		const mediaQuery = window.matchMedia('(max-width: 960px)');
+
+		// Initial check and set state based on the media query
+		setExpand(mediaQuery.matches);
+
+		// Add a listener for changes to the media query
+		const mediaQueryListener = event => {
+			setExpand(event.matches);
+		};
+
+		// Add the listener to the media query
+		mediaQuery.addListener(mediaQueryListener);
+
+		// Clean up the listener when the component unmounts
+		return () => {
+			mediaQuery.removeListener(mediaQueryListener);
+		};
+	}, []);
+
 	return (
 		<Dialog
-			size='sm'
+			size={expand ? 'xxl' : 'xs'}
 			open={openReportDialoag}
 			handler={handleOpenReportDialoag}>
 			<form onSubmit={handleSubmit(sendReport)}>
 				<DialogHeader>
-					<div className='w-full flex items-center justify-center md:justify-between gap-8'>
-						<div className='hidden md:flex items-center gap-2'>
-							<Typography
-								variant='small'
+					<div className='flex gap-2'>
+						{expand && (
+							<IconButton
 								color='blue-gray'
-								className='font-semibold'>
-								Report
-							</Typography>
-						</div>
-						<IconButton
-							onClick={handleOpenReportDialoag}
-							variant='text'
-							color='blue-gray'>
-							<XMarkIcon className='w-5 h-5 text-blue-gray-900' />
-						</IconButton>
+								size='sm'
+								variant='text'
+								onClick={handleOpenReportDialoag}>
+								<ChevronLeftIcon className='w-5 h-5' />
+							</IconButton>
+						)}
+						<Typography
+							variant='h5'
+							color={theme !== 'dark' ? 'blue-gray' : 'white'}>
+							Report
+						</Typography>
 					</div>
+					{!expand && (
+						<IconButton
+							color='blue-gray'
+							size='sm'
+							variant='text'
+							onClick={handleOpenReportDialoag}>
+							<XMarkIcon className='w-5 h-5' />
+						</IconButton>
+					)}
 				</DialogHeader>
 				<DialogBody
 					className='flex justify-center'

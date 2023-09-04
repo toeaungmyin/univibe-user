@@ -54,7 +54,7 @@ export function CommentForm({ post }) {
 		try {
 			setLoading(true);
 			const response = await createCommentRequest({
-				post_id: post.id,
+				post_id: post?.id,
 				comment,
 			});
 

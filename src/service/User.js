@@ -38,3 +38,12 @@ export const reportToUserRequest = async (userId, data) => {
 		throw error;
 	}
 };
+
+export const deleteAccountRequest = async userId => {
+	try {
+		const response = await api.delete(`/users/${userId}?_method=DELETE`);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};

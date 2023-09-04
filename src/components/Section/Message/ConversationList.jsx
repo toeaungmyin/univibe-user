@@ -49,18 +49,17 @@ const ConversationList = () => {
 	return (
 		<>
 			<Card
-				className={`w-full rounded-none md:rounded-lg mt-2 p-2 ${
+				className={`w-full rounded-none md:rounded-lg mt-2 p-2 py-3 ${
 					theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 				}`}>
 				<div className='flex items-center justify-start gap-3 w-full overflow-auto scroll-smooth no-scrollbar'>
-					{(!chatSuggestUser || chatSuggestUser?.length < 5) && (
-						<IconButton
-							onClick={() => navigate('/search')}
-							size='lg'
-							className='text-black bg-gray-900/10 rounded-full shadow-none hover:shadow-none focus:shadow-none'>
-							<MagnifyingGlassIcon className='w-6 h-6' />
-						</IconButton>
-					)}
+					<IconButton
+						onClick={() => navigate('/search')}
+						size='lg'
+						className='text-black bg-gray-900/10 rounded-full shadow-none hover:shadow-none focus:shadow-none aspect-square'>
+						<MagnifyingGlassIcon className='w-6 h-6' />
+					</IconButton>
+
 					{chatSuggestUser &&
 						chatSuggestUser.map((user, index) =>
 							user?.profile_url ? (
@@ -74,7 +73,9 @@ const ConversationList = () => {
 									alt='tania andrew'
 									color='cyan'
 									withBorder={user?.online}
-									className={user?.online ? 'p-0.5' : 'p-0'}
+									className={`aspect-square ${
+										user?.online ? 'p-0.5' : 'p-0'
+									}`}
 									onError={e =>
 										(e.target.src = DefaultProfileAvatar)
 									}

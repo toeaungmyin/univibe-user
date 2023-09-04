@@ -24,7 +24,6 @@ const MessageForm = () => {
 	const {
 		register,
 		formState: { errors },
-		setError,
 		handleSubmit,
 		reset,
 	} = useForm({
@@ -47,7 +46,6 @@ const MessageForm = () => {
 			const response = await sendMssageRequest(body);
 			console.log(response);
 			if (response.status === 200) {
-				console.log(response.data);
 				dispatch(getMessages([...messages, response.data.message]));
 				reset();
 			}

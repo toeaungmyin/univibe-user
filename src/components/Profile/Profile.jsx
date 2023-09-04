@@ -7,6 +7,7 @@ import {
 	Button,
 	CardFooter,
 	Alert,
+	Spinner,
 } from '@material-tailwind/react';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
@@ -15,13 +16,18 @@ import { DefaultProfileAvatar, ErrorImage } from '../../assets/images';
 import { useNavigate, useParams } from 'react-router';
 import { getUserDetail } from '../../service/User';
 import { getSelectedUser } from '../../features/auth/UserSlice';
-import { PencilSquareIcon, FlagIcon } from '@heroicons/react/24/outline';
+import {
+	PencilSquareIcon,
+	FlagIcon,
+	TrashIcon,
+} from '@heroicons/react/24/outline';
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
 import { EditProfile } from './EditProfile';
 import UploadProfile from './UploadProfile';
 import { followRequest, unfollowRequest } from '../../service/Follow';
 import { getAuthUser } from '../../features/auth/AuthSlice';
 import { Report } from './Report';
+import DeleteAccountDialoag from './DeleteAccountDialog';
 
 export function Profile() {
 	const { theme } = useContext(ThemeContext);
@@ -30,13 +36,13 @@ export function Profile() {
 	const auth = useSelector(state => state.authReducer.user);
 	const isAuthUser = auth?.id === selectedUser?.id;
 	const user = auth?.id === selectedUser?.id ? auth : selectedUser;
-	const isFriend = auth?.friends.some(
-		friend => friend.id === selectedUser?.id
-	);
-	const isFollowing = auth?.followings.some(
-		following => following.id === selectedUser?.id
+	const [isFriend, setFriend] = useState(false);
+	const [isFollowing, setFollowing] = useState(false);
+	const [buttonText, setButtonText] = useState(
+		isFriend ? 'Unfriend' : isFollowing ? 'Unfollow' : 'follow'
 	);
 
+	const [isLoading, setLoading] = useState(false);
 	const [openReportDialoag, setOpenPostReportDialoag] = useState(false);
 	const handleOpenReportDialoag = () =>
 		setOpenPostReportDialoag(prev => !prev);
@@ -63,25 +69,38 @@ export function Profile() {
 
 	const handleFollow = async userId => {
 		try {
+			setLoading(true);
 			const response = await followRequest(userId);
 			if (response.status === 200) {
 				dispatch(getAuthUser(response.data.auth));
 			}
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const handleUnFollow = async userId => {
 		try {
+			setLoading(true);
+
 			const response = await unfollowRequest(userId);
 			if (response.status === 200) {
 				dispatch(getAuthUser(response.data.auth));
 			}
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
+
+	const [isOpenDeleteAccountDialoag, setOpenDeleteAccountDialoag] =
+		useState(false);
+
+	const handleDeleteAccountDialoag = () =>
+		setOpenDeleteAccountDialoag(prev => !prev);
 
 	useEffect(() => {
 		const fetchUserDetail = async () => {
@@ -98,6 +117,24 @@ export function Profile() {
 			dispatch(getSelectedUser(null));
 		};
 	}, [dispatch, userId]);
+
+	useEffect(() => {
+		const isFriendRes = auth?.friends?.some(
+			friend => friend.id === selectedUser?.id
+		);
+		const isFollowingRes = auth?.followings?.some(
+			following => following.id === selectedUser?.id
+		);
+
+		setFriend(isFriendRes);
+		setFollowing(isFollowingRes);
+	}, [selectedUser, auth]);
+
+	useEffect(() => {
+		setButtonText(
+			isFriend ? 'Unfriend' : isFollowing ? 'Unfollow' : 'follow'
+		);
+	}, [isFriend, isFollowing]);
 	return (
 		<>
 			<Card
@@ -134,7 +171,7 @@ export function Profile() {
 									}`}
 								/>
 							)}
-							{userId === JSON.stringify(auth.id) && (
+							{userId === JSON.stringify(auth?.id) && (
 								<UploadProfile />
 							)}
 						</div>
@@ -228,16 +265,21 @@ export function Profile() {
 									onClick={handleRelationship}
 									size='md'
 									color='cyan'
-									className='hover:shadow-none'>
-									{isFriend
-										? 'Unfriend'
-										: isFollowing
-										? 'UnFollow'
-										: 'Follow'}
+									className='hover:shadow-none flex gap-2'
+									disabled={isLoading ? true : false}>
+									{isLoading ? (
+										<Spinner
+											className='w-5 h-5'
+											color='white'
+										/>
+									) : (
+										''
+									)}
+									{buttonText}
 								</Button>
 								<Button
 									onClick={() =>
-										navigate(`/chats/${selectedUser.id}`)
+										navigate(`/chats/${selectedUser?.id}`)
 									}
 									size='md'
 									color='cyan'
@@ -247,16 +289,29 @@ export function Profile() {
 							</div>
 						)}
 					</div>
-					{userId === JSON.stringify(auth.id) ? (
-						<IconButton
-							onClick={handleOpen}
-							variant='text'
-							className='!absolute top-0 right-5'>
-							<PencilSquareIcon
-								className='w-6 h-6'
-								color={theme !== 'dark' ? 'black' : 'white'}
-							/>
-						</IconButton>
+					{userId === JSON.stringify(auth?.id) ? (
+						<div className='!absolute top-0 right-5 flex gap-2'>
+							<IconButton
+								onClick={handleOpen}
+								size='sm'
+								variant='text'>
+								<PencilSquareIcon
+									className='w-6 h-6'
+									color={theme !== 'dark' ? 'black' : 'white'}
+								/>
+							</IconButton>
+							<IconButton
+								onClick={handleDeleteAccountDialoag}
+								variant='outlined'
+								color='red'
+								size='sm'
+								className='border-2'>
+								<TrashIcon
+									className='w-5 h-5'
+									color='red'
+								/>
+							</IconButton>
+						</div>
 					) : (
 						<IconButton
 							onClick={handleOpenReportDialoag}
@@ -269,7 +324,7 @@ export function Profile() {
 						</IconButton>
 					)}
 				</CardHeader>
-				{auth.warnings.length !== 0 && (
+				{auth?.warnings && auth?.warnings?.length !== 0 && (
 					<CardBody className='w-full h-full p-2 flex flex-col gap-2'>
 						<Alert
 							variant='outlined'
@@ -281,8 +336,8 @@ export function Profile() {
 								Warning:
 							</Typography>
 							<ul className='mt-2 ml-2 list-inside list-disc'>
-								{auth.warnings.map((warn, index) => (
-									<li>
+								{auth?.warnings?.map((warn, index) => (
+									<li key={index}>
 										<span className='font-medium'>
 											{warn?.title}
 										</span>
@@ -316,6 +371,10 @@ export function Profile() {
 			<Report
 				openReportDialoag={openReportDialoag}
 				handleOpenReportDialoag={handleOpenReportDialoag}
+			/>
+			<DeleteAccountDialoag
+				isOpenDeleteAccountDialoag={isOpenDeleteAccountDialoag}
+				handleDeleteAccountDialoag={handleDeleteAccountDialoag}
 			/>
 		</>
 	);

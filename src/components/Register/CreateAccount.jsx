@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { registerRequest } from '../../service/Auth';
 
-const CreateAccount = ({ handleNext, setUserId }) => {
+const CreateAccount = ({ handleNext, setUserId, setCounter }) => {
 	const [isLoading, setLoading] = useState(false);
 
 	const {
@@ -23,16 +23,21 @@ const CreateAccount = ({ handleNext, setUserId }) => {
 
 	const registerAccount = async data => {
 		setLoading(true);
-		const response = await registerRequest(data);
-		setLoading(false);
 
-		if (response.status === 200) {
-			setUserId(response.data.data.user_id);
-			handleNext();
-		} else {
-			console.log(response.status);
-			if (response.status === 422) {
-				const errors = response.data.errors;
+		try {
+			const response = await registerRequest(data);
+			if (response.status === 200) {
+				setUserId(response.data.user_id);
+				setCounter(response.data.code_expire_time);
+				handleNext();
+			}
+		} catch (error) {
+			// Handle any unexpected errors here
+			console.error('An error occurred:', error);
+			// You can set a generic error message or take other actions as needed
+			if (error.status === 422) {
+				const errors = error.data.errors;
+
 				if (errors) {
 					if (errors.username) {
 						setError('username', {
@@ -61,113 +66,118 @@ const CreateAccount = ({ handleNext, setUserId }) => {
 				} else {
 					setError('root', {
 						type: 'server',
-						message: response.data.message,
+						message: error.data.message,
 					});
 				}
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	return (
 		<form onSubmit={handleSubmit(registerAccount)}>
-			<CardBody className="flex flex-col gap-8 min-h-[20rem]">
+			<CardBody className='flex flex-col gap-8 min-h-[20rem]'>
 				{errors.root && (
 					<Alert
-						className=" font-medium text-xs"
-						color="orange"
-						variant="ghost"
-					>
+						className=' font-medium text-xs'
+						color='orange'
+						variant='ghost'>
 						<span>{errors.root.message}</span>
 					</Alert>
 				)}
-				<div className="flex flex-col gap-2">
+				<div className='flex flex-col gap-2'>
 					<Input
-						label="Username"
-						size="lg"
-						type="text"
+						label='Username'
+						size='lg'
+						type='text'
 						{...register('username', {
 							required: 'Username field is required',
 						})}
 					/>
 					{errors.username && (
 						<Typography
-							className=" font-medium text-xs"
-							color="red"
-							variant="small"
-						>
+							className=' font-medium text-xs'
+							color='red'
+							variant='small'>
 							<span>{errors.username.message}</span>
 						</Typography>
 					)}
 				</div>
-				<div className="flex flex-col gap-2">
+				<div className='flex flex-col gap-2'>
 					<Input
-						label="Email"
-						size="lg"
-						type="email"
-						{...register('email', { required: 'Email field is required' })}
+						label='Email'
+						size='lg'
+						type='email'
+						{...register('email', {
+							required: 'Email field is required',
+						})}
 					/>
 					{errors.email && (
 						<Typography
-							className=" font-medium text-xs"
-							color="red"
-							variant="small"
-						>
+							className=' font-medium text-xs'
+							color='red'
+							variant='small'>
 							<span>{errors.email.message}</span>
 						</Typography>
 					)}
 				</div>
-				<div className="flex flex-col gap-2">
+				<div className='flex flex-col gap-2'>
 					<Input
-						label="Password"
-						size="lg"
-						type="password"
+						label='Password'
+						size='lg'
+						type='password'
 						{...register('password', {
 							required: 'Password field is required',
 						})}
 					/>
 					{errors.password && (
 						<Typography
-							className=" font-medium text-xs"
-							color="red"
-							variant="small"
-						>
+							className=' font-medium text-xs'
+							color='red'
+							variant='small'>
 							<span>{errors.password.message}</span>
 						</Typography>
 					)}
 				</div>
 
-				<div className="flex flex-col gap-2">
+				<div className='flex flex-col gap-2'>
 					<Input
-						label="Birthday"
-						size="lg"
-						type="date"
+						label='Birthday'
+						size='lg'
+						type='date'
 						{...register('birthday', {
 							required: 'Birthday field is required',
 						})}
 					/>
 					{errors.birthday && (
 						<Typography
-							className=" font-medium text-xs"
-							color="red"
-							variant="small"
-						>
+							className=' font-medium text-xs'
+							color='red'
+							variant='small'>
 							<span>{errors.birthday.message}</span>
 						</Typography>
 					)}
 				</div>
 			</CardBody>
-			<CardFooter className="pt-0">
-				<div className="w-full flex justify-end">
-					<Button
-						variant="gradient"
-						className="min-w-[8rem] bg-primary flex items-center justify-center"
-						type="submit"
+			<CardFooter className='pt-0'>
+				<div className='w-full flex justify-end'>
+					{/* <Button
+						variant='text'
+						className='min-w-[8rem] flex items-center justify-center'
 						disabled={isLoading}
-					>
+						onClick={handleNext}>
+						Skip Register
+					</Button> */}
+					<Button
+						variant='gradient'
+						className='min-w-[8rem] bg-primary flex items-center justify-center'
+						type='submit'
+						disabled={isLoading}>
 						{isLoading ? (
 							<Spinner
-								className="h-4 w-4 me-3"
-								color="white"
+								className='h-4 w-4 me-3'
+								color='white'
 							/>
 						) : (
 							''

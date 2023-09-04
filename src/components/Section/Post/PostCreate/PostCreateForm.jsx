@@ -64,7 +64,6 @@ export function PostCreateForm({ open, handleOpen }) {
 		if (image) {
 			formData.append('image', image, image.name); // Adjust file name if needed
 		}
-		console.log(...formData);
 
 		try {
 			const res = await createPostRequest(formData);

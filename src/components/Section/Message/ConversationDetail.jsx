@@ -1,5 +1,5 @@
 import { Card } from '@material-tailwind/react';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import MessageForm from './MessageForm';
 import MessageList from './MessageList';
 import ConversationHeader from './ConversationHeader';
@@ -10,11 +10,16 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
 const ConversationDetail = ({ conversation }) => {
-	
-
 	const { theme } = useContext(ThemeContext);
 	const dispatch = useDispatch();
 	const { userId } = useParams();
+
+	const containerRef = useRef(null);
+	const scrollToBottom = () => {
+		if (containerRef.current) {
+			containerRef.current.scrollTop = containerRef.current.scrollHeight;
+		}
+	};
 
 	useEffect(() => {
 		const fetchUserDetail = async () => {
@@ -33,13 +38,16 @@ const ConversationDetail = ({ conversation }) => {
 	}, [dispatch, userId]);
 	return (
 		<Card
-			className={`h-full md:h-[calc(100%-1.3rem)] rounded-none overflow-hidden md:rounded-lg md:mt-2 flex flex-col justify-between ${
+			className={`h-full md:h-[calc(100%-1.2rem)] rounded-none overflow-hidden md:rounded-lg md:mt-2 flex flex-col justify-between ${
 				theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 			}`}>
 			<ConversationHeader />
-			<div className='flex flex-col justify-end'>
-				<MessageList />
-				<MessageForm />
+			<div className='h-[calc(100%-4rem)] flex flex-col justify-end'>
+				<MessageList
+					containerRef={containerRef}
+					scrollToBottom={scrollToBottom}
+				/>
+				<MessageForm scrollToBottom={scrollToBottom} />
 			</div>
 		</Card>
 	);
