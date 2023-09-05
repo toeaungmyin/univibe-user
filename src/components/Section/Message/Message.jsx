@@ -1,16 +1,37 @@
-import { Avatar, Typography } from '@material-tailwind/react';
+import { Avatar, Button, Spinner, Typography } from '@material-tailwind/react';
 import React, { useContext, useState } from 'react';
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { DefaultProfileAvatar } from '../../../assets/images';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteMessageRequest } from '../../../service/Message';
+import { getMessages } from '../../../features/auth/MessageSlice';
 
-const Message = ({ message }) => {
+const Message = ({ message, show, setShow }) => {
 	const { theme } = useContext(ThemeContext);
 	const authUser = useSelector(state => state.authReducer.user);
-	const [showTime, setShowTime] = useState();
+	const [isLoading, setLoading] = useState(false);
+	const messages = useSelector(state => state.messageReducer.messages);
+	const dispatch = useDispatch();
+	const deleteMessage = async messageId => {
+		try {
+			setLoading(true);
+			const response = await deleteMessageRequest(messageId);
+			if (response.status === 200) {
+				const filteredMessage = messages.filter(
+					m => m.id !== message.id
+				);
+				dispatch(getMessages(filteredMessage));
+			}
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<div
-			onClick={() => setShowTime(prev => !prev)}
+			onClick={() => setShow(message?.id)}
 			className={`flex gap-2 ${
 				message?.sender?.id === authUser?.id && 'flex-row-reverse'
 			}`}>
@@ -73,13 +94,28 @@ const Message = ({ message }) => {
 						</Typography>
 					)}
 				</div>
-				{showTime && message?.created_at && (
-					<Typography
-						variant='small'
-						className='text-xs font-medium'
-						color={theme !== 'dark' ? 'blue-gray' : 'white'}>
-						{message.created_at}
-					</Typography>
+				{show === message?.id && message?.created_at && (
+					<div className='flex gap-2'>
+						<Typography
+							variant='small'
+							className='text-xs font-medium'
+							color={theme !== 'dark' ? 'blue-gray' : 'white'}>
+							{message.created_at}
+						</Typography>
+						{authUser?.id === message.sender.id && (
+							<Button
+								className='p-0 text-xs font-medium lowercase rounded-none'
+								color='blue-gray'
+								variant='text'
+								onClick={() => deleteMessage(message?.id)}>
+								{isLoading ? (
+									<Spinner className='w-3 h-3' />
+								) : (
+									'delete'
+								)}
+							</Button>
+						)}
+					</div>
 				)}
 			</div>
 		</div>

@@ -87,7 +87,7 @@ export function PostDetail({ post, reaction, giveReaction, open, handleOpen }) {
 						floated={false}
 						shadow={false}
 						color='transparent'
-						className='m-0 rounded-none flex justify-between p-4'>
+						className='m-0 rounded-none flex justify-start p-4'>
 						<div className='flex items-center gap-2'>
 							{post?.user?.profile_url ? (
 								<Avatar
@@ -143,14 +143,6 @@ export function PostDetail({ post, reaction, giveReaction, open, handleOpen }) {
 									</Typography>
 								)}
 							</div>
-						</div>
-						<div className='flex gap-2'>
-							<IconButton
-								variant='text'
-								className='rounded-full'
-								color='blue-gray'>
-								<EllipsisHorizontalIcon className='w-6 x-6' />
-							</IconButton>
 						</div>
 					</CardHeader>
 					<CardBody className='p-0 w-full'>

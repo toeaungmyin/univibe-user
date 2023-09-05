@@ -66,6 +66,17 @@ export const createCommentRequest = async data => {
 	}
 };
 
+export const deleteCommentRequest = async commentId => {
+	try {
+		const response = await api.delete(
+			`/comments/${commentId}?_method=DELETE`
+		);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};
+
 export const deletePostRequest = async postId => {
 	try {
 		const response = await api.delete(`/posts/${postId}?_method=DELETE`);

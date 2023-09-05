@@ -26,3 +26,14 @@ export const sendMssageRequest = async data => {
 		throw error;
 	}
 };
+
+export const deleteMessageRequest = async messageId => {
+	try {
+		const response = await api.delete(
+			`/messages/${messageId}?_method=DELETE`
+		);
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};

@@ -29,6 +29,9 @@ export function NotificationCard({ notification }) {
 	const authUser = auth.user;
 	const dispatch = useDispatch();
 
+
+	const notificationType = notification?.data?.type;
+
 	const createdAt = new Date(notification.created_at);
 
 	let timeAgo = '';
@@ -58,8 +61,6 @@ export function NotificationCard({ notification }) {
 			setLoading(false);
 		}
 	};
-
-	console.log(notifications[0].data.user);
 
 	return (
 		<ListItem
@@ -105,13 +106,8 @@ export function NotificationCard({ notification }) {
 			</ListItemPrefix>
 			<div>
 				<Typography color={theme !== 'dark' ? 'blue-gray' : 'white'}>
-					<span className='font-semibold text-sm'>
-						{notification?.data?.user?.id === authUser.id
-							? 'You'
-							: notification?.data?.user?.username}
-					</span>
 					<span
-						className={`font-medium text-sm ms-[0.3rem] ${
+						className={`font-medium text-sm ${
 							theme !== 'dark'
 								? 'text-blue-gray-700'
 								: 'text-blue-gray-200'
@@ -129,25 +125,7 @@ export function NotificationCard({ notification }) {
 				</Typography>
 			</div>
 			<ListItemSuffix>
-				{isLoading ? (
-					<Spinner className='w-5 h-5' />
-				) : (
-					<Menu placement='bottom-start'>
-						<MenuHandler>
-							<IconButton
-								variant='text'
-								className='rounded-full'>
-								<EllipsisVerticalIcon className='w-5 h-5' />
-							</IconButton>
-						</MenuHandler>
-						<MenuList>
-							<MenuItem className='flex gap-2'>
-								<CheckBadgeIcon className='w-5 h-5' />
-								<Typography variant='small'>Report</Typography>
-							</MenuItem>
-						</MenuList>
-					</Menu>
-				)}
+				{isLoading && <Spinner className='w-5 h-5' />}
 			</ListItemSuffix>
 		</ListItem>
 	);

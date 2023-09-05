@@ -10,10 +10,12 @@ import {
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { registerRequest } from '../../service/Auth';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const CreateAccount = ({ handleNext, setUserId, setCounter }) => {
 	const [isLoading, setLoading] = useState(false);
-
+	const [isEyeOpen, setEye] = useState(false);
+	const handleEye = () => setEye(isEyeOpen => !isEyeOpen);
 	const {
 		register,
 		handleSubmit,
@@ -128,7 +130,20 @@ const CreateAccount = ({ handleNext, setUserId, setCounter }) => {
 					<Input
 						label='Password'
 						size='lg'
-						type='password'
+						type={isEyeOpen ? 'text' : 'password'}
+						icon={
+							isEyeOpen ? (
+								<EyeIcon
+									className='w-5 h-5 transition ease-in-out focus:scale-95'
+									onClick={handleEye}
+								/>
+							) : (
+								<EyeSlashIcon
+									className='w-5 h-5 transition ease-in-out focus:scale-95'
+									onClick={handleEye}
+								/>
+							)
+						}
 						{...register('password', {
 							required: 'Password field is required',
 						})}
@@ -147,6 +162,7 @@ const CreateAccount = ({ handleNext, setUserId, setCounter }) => {
 				<div className='flex flex-col gap-2'>
 					<Input
 						label='Birthday'
+						defaultValue='2000-01-01'
 						size='lg'
 						type='date'
 						{...register('birthday', {

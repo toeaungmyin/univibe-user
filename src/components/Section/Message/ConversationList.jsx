@@ -54,7 +54,7 @@ const ConversationList = () => {
 					<IconButton
 						onClick={() => navigate('/search')}
 						size='lg'
-						className={`text-black bg-gray-900/10 rounded-full shadow-none hover:shadow-none focus:shadow-none aspect-square ${
+						className={`text-black bg-gray-900/10 rounded-full shadow-none hover:shadow-none focus:shadow-none !aspect-square ${
 							theme !== 'dark'
 								? 'bg-blue-gray-100'
 								: 'bg-blue-gray-900'

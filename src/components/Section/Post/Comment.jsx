@@ -1,10 +1,10 @@
-import { Avatar, Typography } from '@material-tailwind/react';
+import { Avatar, Button, Spinner, Typography } from '@material-tailwind/react';
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { useSelector } from 'react-redux';
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, deleteComment, isDeletingComment }) => {
 	const authUser = useSelector(state => state.authReducer.user);
 	const { theme } = useContext(ThemeContext);
 
@@ -51,12 +51,27 @@ const Comment = ({ comment }) => {
 						</>
 					)}
 				</div>
-				<Typography
-					variant='small'
-					className='text-xs font-medium'
-					color={theme !== 'dark' ? 'blue-gray' : 'white'}>
-					{comment?.created_at}
-				</Typography>
+				<div className='flex gap-2'>
+					<Typography
+						variant='small'
+						className='text-xs font-medium'
+						color={theme !== 'dark' ? 'blue-gray' : 'white'}>
+						{comment?.created_at}
+					</Typography>
+					{authUser?.id === comment.user.id && (
+						<Button
+							className='p-0 text-xs font-medium lowercase'
+							color='blue-gray'
+							variant='text'
+							onClick={() => deleteComment(comment?.id)}>
+							{isDeletingComment === comment.id ? (
+								<Spinner className='w-3 h-3' />
+							) : (
+								'delete'
+							)}
+						</Button>
+					)}
+				</div>
 			</div>
 		</div>
 	);

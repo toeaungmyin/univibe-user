@@ -8,6 +8,10 @@ import {
 	CardFooter,
 	Alert,
 	Spinner,
+	Menu,
+	MenuHandler,
+	MenuList,
+	MenuItem,
 } from '@material-tailwind/react';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
@@ -20,6 +24,7 @@ import {
 	PencilSquareIcon,
 	FlagIcon,
 	TrashIcon,
+	EllipsisVerticalIcon,
 } from '@heroicons/react/24/outline';
 import { ExclamationCircleIcon, NoSymbolIcon } from '@heroicons/react/24/solid';
 import { EditProfile } from './EditProfile';
@@ -339,37 +344,40 @@ export function Profile() {
 					</div>
 					{userId === JSON.stringify(auth?.id) ? (
 						<div className='!absolute top-0 right-5 flex gap-2 items-center'>
-							<IconButton
-								onClick={handleOpenReportDialoag}
-								variant='text'
-								color='blue-gray'
-								size='sm'>
-								<FlagIcon
-									className='w-6 h-6 '
-									color='red'
-								/>
-							</IconButton>
-							<IconButton
-								onClick={handleOpen}
-								variant='text'
-								color='blue-gray'
-								size='sm'>
-								<PencilSquareIcon
-									className='w-6 h-6 '
-									color={theme !== 'dark' ? 'black' : 'white'}
-								/>
-							</IconButton>
-							<IconButton
-								onClick={handleDeleteAccountDialoag}
-								variant='outlined'
-								color='red'
-								size='sm'
-								className='border-2'>
-								<TrashIcon
-									className='w-5 h-5'
-									color='red'
-								/>
-							</IconButton>
+							<Menu>
+								<MenuHandler>
+									<IconButton
+										className='rounded-full'
+										variant='text'
+										color='blue-gray'
+										size='sm'>
+										<EllipsisVerticalIcon className='w-6 h-6' />
+									</IconButton>
+								</MenuHandler>
+								<MenuList>
+									<MenuItem
+										className='flex gap-2 justify-start items-center'
+										onClick={handleOpenReportDialoag}>
+										<FlagIcon className='w-4 h-4' />
+										Report
+									</MenuItem>
+									<MenuItem
+										className='flex gap-2 justify-start items-center'
+										onClick={handleOpen}>
+										<PencilSquareIcon className='w-4 h-4' />
+										Edit
+									</MenuItem>
+									<MenuItem
+										className='flex gap-2 justify-start items-center hover:bg-red-50 focus:bg-red-50 text-red-500 hover:text-red-500 focus:text-red-500'
+										onClick={handleDeleteAccountDialoag}>
+										<TrashIcon
+											className='w-4 h-4'
+											color='red'
+										/>
+										Delete Account
+									</MenuItem>
+								</MenuList>
+							</Menu>
 						</div>
 					) : (
 						<IconButton

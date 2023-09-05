@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Message from './Message';
 import { getMessagesRequest } from '../../../service/Message';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ const MessageList = () => {
 	const dispatch = useDispatch();
 	const { userId } = useParams();
 	const messages = useSelector(state => state.messageReducer.messages);
-
+	const [show, setShow] = useState(null);
 	// Function to scroll the container to the bottom
 	const scrollToBottom = () => {
 		if (containerRef.current) {
@@ -54,6 +54,8 @@ const MessageList = () => {
 					<Message
 						key={index}
 						message={message}
+						show={show}
+						setShow={setShow}
 					/>
 				))
 			) : messages && messages.length === 0 ? (
