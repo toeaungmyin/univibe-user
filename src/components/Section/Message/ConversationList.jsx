@@ -44,8 +44,6 @@ const ConversationList = () => {
 		dispatch(getChatSuggestUser());
 	}, [dispatch]);
 
-	console.log(chatSuggestUser);
-
 	return (
 		<>
 			<Card

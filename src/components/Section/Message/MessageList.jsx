@@ -36,7 +36,7 @@ const MessageList = () => {
 		scrollToBottom();
 		const intervalId = setInterval(() => {
 			fetchMessages();
-		}, 5000);
+		}, 3000);
 
 		return () => clearInterval(intervalId);
 	}, [dispatch, userId]);
@@ -47,7 +47,7 @@ const MessageList = () => {
 
 	return (
 		<div
-			className='flex flex-col gap-2 p-2 px-6 h-full overflow-scroll no-scrollbar'
+			className='flex flex-col gap-2 p-2 px-6 max-h-full overflow-scroll no-scrollbar'
 			ref={containerRef}>
 			{messages && messages.length > 0 ? (
 				messages.map((message, index) => (
