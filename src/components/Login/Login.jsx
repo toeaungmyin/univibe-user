@@ -7,7 +7,6 @@ import {
 	CardFooter,
 	Typography,
 	Input,
-	Checkbox,
 	Button,
 	Spinner,
 	Alert,
@@ -25,7 +24,6 @@ const Login = () => {
 	const handleEye = () => setEye(isEyeOpen => !isEyeOpen);
 	const {
 		register,
-		setValue,
 		formState: { errors },
 		setError,
 		handleSubmit,
@@ -75,7 +73,7 @@ const Login = () => {
 	return (
 		<>
 			<div className=' w-full min-h-screen sm:bg-gray-200 flex flex-col items-center justify-center'>
-				<div className='flex flex-row bg-white border items-center rounded-md w-full sm:w-1/4 sm:min-w-[28rem] mb-10'>
+				<div className='flex flex-row bg-white md:border items-center rounded-md w-full sm:w-1/4 sm:min-w-[28rem] mb-10'>
 					<Card
 						className='w-full h-full'
 						shadow={false}

@@ -124,14 +124,7 @@ const EmailVerify = ({ handleNext, userId, counter, setCounter }) => {
 							</span>
 						</Alert>
 					)}
-					{errors.root && (
-						<Alert
-							className=' font-medium text-xs'
-							color='orange'
-							variant='ghost'>
-							<span>{errors.root.message}</span>
-						</Alert>
-					)}
+
 					<Input
 						size='lg'
 						type='text'
@@ -139,13 +132,16 @@ const EmailVerify = ({ handleNext, userId, counter, setCounter }) => {
 						maxLength={6}
 						className='text-center text-[140%] font-semibold tracking-widest'
 						{...register('code', { required: true })}
+						error={errors.code || errors.root}
 					/>
-					{errors.username && (
+					{(errors.code || errors.root) && (
 						<Typography
 							className=' font-medium text-xs'
 							color='red'
 							variant='small'>
-							<span>{errors.username.message}</span>
+							<span>
+								{errors.code?.message || errors.root?.message}
+							</span>
 						</Typography>
 					)}
 				</div>

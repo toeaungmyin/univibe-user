@@ -76,15 +76,6 @@ export function LeftNavList() {
 						<ChatBubbleOvalLeftIcon className='w-5 h-5' />
 					</ListItemPrefix>
 					Chat
-					<ListItemSuffix>
-						<Chip
-							color='cyan'
-							value='40'
-							variant='ghost'
-							size='sm'
-							className='rounded-full'
-						/>
-					</ListItemSuffix>
 				</ListItem>
 				<ListItem
 					className={

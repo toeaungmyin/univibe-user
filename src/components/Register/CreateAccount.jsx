@@ -94,6 +94,7 @@ const CreateAccount = ({ handleNext, setUserId, setCounter }) => {
 						{...register('username', {
 							required: 'Username field is required',
 						})}
+						error={errors.username}
 					/>
 					{errors.username && (
 						<Typography
@@ -112,6 +113,7 @@ const CreateAccount = ({ handleNext, setUserId, setCounter }) => {
 						{...register('email', {
 							required: 'Email field is required',
 						})}
+						error={errors.email}
 					/>
 					{errors.email && (
 						<Typography
@@ -130,6 +132,7 @@ const CreateAccount = ({ handleNext, setUserId, setCounter }) => {
 						{...register('password', {
 							required: 'Password field is required',
 						})}
+						error={errors.password}
 					/>
 					{errors.password && (
 						<Typography
@@ -149,6 +152,7 @@ const CreateAccount = ({ handleNext, setUserId, setCounter }) => {
 						{...register('birthday', {
 							required: 'Birthday field is required',
 						})}
+						error={errors.birthday}
 					/>
 					{errors.birthday && (
 						<Typography
