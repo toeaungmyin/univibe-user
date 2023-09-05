@@ -199,7 +199,7 @@ export function Profile() {
 					shadow={false}
 					className='w-full h-full flex flex-col md:flex-row gap-4 overflow-visible rounded-none bg-transparent'>
 					<div className='w-full h-full sm:w-2/5 flex items-center justify-center md:justify-end'>
-						<div className='relative w-[10rem] h-[10rem] bg-cyan-500 rounded-full p-1'>
+						<div className='relative w-[10rem] h-[10rem] rounded-full p-1'>
 							{user?.profile_url ? (
 								<img
 									src={user?.profile_url}

@@ -4,7 +4,6 @@ import {
 	Typography,
 	CardFooter,
 	CardBody,
-	IconButton,
 	Avatar,
 	CardHeader,
 	Card,
@@ -14,7 +13,6 @@ import {
 import { motion } from 'framer-motion';
 import {
 	ChevronLeftIcon,
-	EllipsisHorizontalIcon,
 } from '@heroicons/react/24/solid';
 import { HeartIcon, ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import { ErrorImage, DefaultProfileAvatar } from '../../../assets/images';

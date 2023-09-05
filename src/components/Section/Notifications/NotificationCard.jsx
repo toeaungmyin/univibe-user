@@ -3,16 +3,9 @@ import {
 	ListItemPrefix,
 	Avatar,
 	Typography,
-	IconButton,
 	ListItemSuffix,
-	Menu,
-	MenuHandler,
-	MenuList,
-	MenuItem,
 	Spinner,
 } from '@material-tailwind/react';
-import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
-import { CheckBadgeIcon } from '@heroicons/react/24/outline';
 import { useContext, useState } from 'react';
 import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 import { DefaultProfileAvatar } from '../../../assets/images';
@@ -20,18 +13,15 @@ import { markAsReadNotificationRequest } from '../../../service/Notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotifications } from '../../../features/auth/AuthSlice';
 import { formatDistanceToNow, isToday, isYesterday } from 'date-fns';
+import { useNavigate } from 'react-router';
 
 export function NotificationCard({ notification }) {
 	const { theme } = useContext(ThemeContext);
 	const [isLoading, setLoading] = useState(false);
 	const auth = useSelector(state => state.authReducer);
 	const notifications = auth.notifications;
-	const authUser = auth.user;
 	const dispatch = useDispatch();
-
-
-	const notificationType = notification?.data?.type;
-
+	const navigate = useNavigate();
 	const createdAt = new Date(notification.created_at);
 
 	let timeAgo = '';
@@ -46,6 +36,17 @@ export function NotificationCard({ notification }) {
 	const handleMarkAsRead = async () => {
 		try {
 			setLoading(true);
+			if (
+				notification.type === 'new-account' ||
+				notification.type === 'new-follower'
+			) {
+				navigate('/users/' + notification.user.id);
+			} else if (
+				notification.type === 'new-comment' ||
+				notification.type === 'new-react'
+			) {
+				navigate('/posts/' + notification.user.id);
+			}
 			const response = await markAsReadNotificationRequest(
 				notification.id
 			);

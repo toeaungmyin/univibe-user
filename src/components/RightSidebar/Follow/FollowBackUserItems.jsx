@@ -58,8 +58,9 @@ const FollowBackUserItems = ({ follower }) => {
 					<Avatar
 						variant='circular'
 						size='sm'
-						withBorder
-						className='p-0.5'
+						color='cyan'
+						withBorder={follower?.online}
+						className={follower?.online ? 'p-0.5' : 'p-0'}
 						alt='candice'
 						onError={e => (e.target.src = DefaultProfileAvatar)}
 						src={follower?.profile_url}

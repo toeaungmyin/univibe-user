@@ -1,4 +1,10 @@
-import { Avatar, Card, IconButton, Typography } from '@material-tailwind/react';
+import {
+	Avatar,
+	Card,
+	Chip,
+	IconButton,
+	Typography,
+} from '@material-tailwind/react';
 import React, { useContext } from 'react';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
@@ -25,34 +31,47 @@ const ConversationHeader = () => {
 			</IconButton>
 			{selectedUser?.profile_url ? (
 				<Avatar
-					withBorder={selectedUser?.online}
-					className={selectedUser?.online ? 'border-4 p-0.5' : 'p-0'}
+					withBorder
 					variant='circular'
 					size='md'
 					alt='tania andrew'
-					color='green'
+					color='white'
 					src={selectedUser?.profile_url}
 					onError={e => (e.target.src = DefaultProfileAvatar)}
 				/>
 			) : (
 				<Avatar
-					withBorder={selectedUser?.online}
-					className={selectedUser?.online ? 'border-4 p-0.5' : 'p-0'}
+					withBorder
 					variant='circular'
 					size='md'
 					alt='tania andrew'
-					color='cyan'
+					color='white'
 					src={DefaultProfileAvatar}
 				/>
 			)}
 			{selectedUser?.username && (
-				<Typography
-					variant='h6'
-					className={`font-semibold ${
-						theme !== 'dark' ? 'text-blue-gray-50' : 'text-white'
-					}`}>
-					{selectedUser?.username}
-				</Typography>
+				<>
+					<Typography
+						variant='h6'
+						className={`font-semibold ${
+							theme !== 'dark'
+								? 'text-blue-gray-50'
+								: 'text-white'
+						}`}>
+						{selectedUser?.username}
+					</Typography>
+					{selectedUser?.online ? (
+						<Chip
+							className='bg-green-100 text-green-500'
+							value='online'
+						/>
+					) : (
+						<Chip
+							className='bg-blue-gray-100 text-blue-gray-800'
+							value='offline'
+						/>
+					)}
+				</>
 			)}
 		</Card>
 	);
