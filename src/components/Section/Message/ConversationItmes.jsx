@@ -5,20 +5,28 @@ import {
 	ListItemSuffix,
 	Typography,
 } from '@material-tailwind/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { DefaultProfileAvatar } from '../../../assets/images';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
+import { ThemeContext } from '../../../ThemeContext/ThemeContext';
 
 const ConversationItmes = ({ conversation }) => {
 	const authUser = useSelector(state => state.authReducer.user);
 	const navigate = useNavigate();
+	const { theme } = useContext(ThemeContext);
 	const otherUser =
 		conversation.user1.id !== authUser.id
 			? conversation.user1
 			: conversation.user2;
 	return (
-		<ListItem onClick={() => navigate(`/chats/${otherUser.id}`)}>
+		<ListItem
+			className={
+				theme !== 'dark'
+					? ''
+					: 'hover:bg-blue-gray-900 focus:bg-blue-gray-900'
+			}
+			onClick={() => navigate(`/chats/${otherUser.id}`)}>
 			<ListItemPrefix>
 				{otherUser?.profile_url ? (
 					<Avatar
@@ -43,15 +51,18 @@ const ConversationItmes = ({ conversation }) => {
 				{otherUser.username && (
 					<Typography
 						variant='h6'
-						color='blue-gray'>
+						color={theme !== 'dark' ? 'blue-gray' : 'white'}>
 						{otherUser.username}
 					</Typography>
 				)}
 				{conversation?.latest_message && (
 					<Typography
 						variant='small'
-						color='gray'
-						className='font-normal'>
+						className={`font-normal ${
+							theme !== 'dark'
+								? 'text-blue-gray-900'
+								: 'text-blue-gray-300'
+						}`}>
 						{conversation.latest_message}
 					</Typography>
 				)}

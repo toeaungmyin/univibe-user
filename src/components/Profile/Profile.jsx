@@ -21,7 +21,7 @@ import {
 	FlagIcon,
 	TrashIcon,
 } from '@heroicons/react/24/outline';
-import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
+import { ExclamationCircleIcon, NoSymbolIcon } from '@heroicons/react/24/solid';
 import { EditProfile } from './EditProfile';
 import UploadProfile from './UploadProfile';
 import { followRequest, unfollowRequest } from '../../service/Follow';
@@ -138,9 +138,57 @@ export function Profile() {
 	return (
 		<>
 			<Card
-				className={`w-full flex flex-col items-center rounded-none md:rounded-lg mt-8 md:mt-2 gap-4 ${
+				className={`w-full flex flex-col items-center rounded-none md:rounded-lg mt-8 md:mt-2 gap-4 pt-4 ${
 					theme !== 'dark' ? 'bg-white' : 'bg-gray-900'
 				}`}>
+				{isAuthUser && user?.isBanned && auth?.ban && (
+					<div className='w-full h-full px-4'>
+						<Alert
+							icon={<NoSymbolIcon className='h6 w-6' />}
+							className='rounded-none border-l-4 border-red-500 bg-red-500/10 font-medium text-red-700'>
+							<Typography className='font-medium'>
+								Your Account is Banned For
+								<span className='font-semibold bg-red-500 text-white p-0.5 px-1 rounded'>
+									{auth?.ban?.title}
+								</span>
+							</Typography>
+							<ul className='mt-2 ml-2 list-inside list-disc'>
+								<li>{auth?.ban?.description}</li>
+								<li>
+									If you disagree about click the red flag and
+									report us!
+								</li>
+							</ul>
+						</Alert>
+					</div>
+				)}
+				{isAuthUser &&
+					user?.warnings &&
+					auth?.warnings?.length !== 0 && (
+						<div className='w-full h-full px-4'>
+							<Alert
+								variant='outlined'
+								color='amber'
+								className=''
+								icon={
+									<ExclamationCircleIcon className='w-8 h-8' />
+								}>
+								<Typography className='font-medium'>
+									Warning:
+								</Typography>
+								<ul className='mt-2 ml-2 list-inside list-disc'>
+									{auth?.warnings?.map((warn, index) => (
+										<li key={index}>
+											<span className='font-medium'>
+												{warn?.title}
+											</span>
+											<span>{warn?.description}</span>
+										</li>
+									))}
+								</ul>
+							</Alert>
+						</div>
+					)}
 				<CardHeader
 					floated={false}
 					shadow={false}
@@ -290,13 +338,24 @@ export function Profile() {
 						)}
 					</div>
 					{userId === JSON.stringify(auth?.id) ? (
-						<div className='!absolute top-0 right-5 flex gap-2'>
+						<div className='!absolute top-0 right-5 flex gap-2 items-center'>
+							<IconButton
+								onClick={handleOpenReportDialoag}
+								variant='text'
+								color='blue-gray'
+								size='sm'>
+								<FlagIcon
+									className='w-6 h-6 '
+									color='red'
+								/>
+							</IconButton>
 							<IconButton
 								onClick={handleOpen}
-								size='sm'
-								variant='text'>
+								variant='text'
+								color='blue-gray'
+								size='sm'>
 								<PencilSquareIcon
-									className='w-6 h-6'
+									className='w-6 h-6 '
 									color={theme !== 'dark' ? 'black' : 'white'}
 								/>
 							</IconButton>
@@ -324,31 +383,6 @@ export function Profile() {
 						</IconButton>
 					)}
 				</CardHeader>
-				{auth?.warnings && auth?.warnings?.length !== 0 && (
-					<CardBody className='w-full h-full p-2 flex flex-col gap-2'>
-						<Alert
-							variant='outlined'
-							color='amber'
-							icon={
-								<ExclamationCircleIcon className='w-8 h-8' />
-							}>
-							<Typography className='font-medium'>
-								Warning:
-							</Typography>
-							<ul className='mt-2 ml-2 list-inside list-disc'>
-								{auth?.warnings?.map((warn, index) => (
-									<li key={index}>
-										<span className='font-medium'>
-											{warn?.title}
-										</span>
-										<span>{warn?.description}</span>
-									</li>
-								))}
-							</ul>
-						</Alert>
-					</CardBody>
-				)}
-
 				<CardFooter className='grid grid-cols-3 gap-1 w-full h-full p-2 pt-2 rounded-none'>
 					{images?.map((img, index) => (
 						<div

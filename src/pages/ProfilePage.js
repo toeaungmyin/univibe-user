@@ -64,7 +64,7 @@ const ProfilePage = () => {
 							</div>
 						</div>
 						<div className='hidden lg:block lg:w-3/12 min-w-[22rem]'>
-							<FriendList />
+							{!auth?.user?.isBanned && <FriendList />}
 						</div>
 					</div>
 					<SidebarMenu />

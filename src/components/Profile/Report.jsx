@@ -97,11 +97,11 @@ export function Report({ openReportDialoag, handleOpenReportDialoag }) {
 
 	return (
 		<Dialog
-			size={expand ? 'xxl' : 'xs'}
+			size={expand ? 'xxl' : 'sm'}
 			open={openReportDialoag}
 			handler={handleOpenReportDialoag}>
 			<form onSubmit={handleSubmit(sendReport)}>
-				<DialogHeader>
+				<DialogHeader className='flex justify-between'>
 					<div className='flex gap-2'>
 						{expand && (
 							<IconButton

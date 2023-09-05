@@ -40,43 +40,50 @@ export function LeftNavList() {
 						? 'text-blue-gray-900'
 						: 'text-blue-gray-50'
 				}>
-				<ListItem onClick={() => navigate('/')}>
-					<ListItemPrefix>
-						<HomeIcon className='w-5 h-5' />
-					</ListItemPrefix>
-					Home
-				</ListItem>
+				{!authUser?.isBanned && (
+					<ListItem onClick={() => navigate('/')}>
+						<ListItemPrefix>
+							<HomeIcon className='w-5 h-5' />
+						</ListItemPrefix>
+						Home
+					</ListItem>
+				)}
+
 				<ListItem onClick={() => navigate(`/profile/${authUser.id}`)}>
 					<ListItemPrefix>
 						<UserCircleIcon className='w-5 h-5' />
 					</ListItemPrefix>
 					Profile
 				</ListItem>
-				<ListItem onClick={() => navigate('/notifications')}>
-					<ListItemPrefix>
-						<BellIcon className='w-5 h-5' />
-					</ListItemPrefix>
-					Notifications
-					<ListItemSuffix>
-						<Chip
-							color='cyan'
-							value={
-								notifications?.length
-									? notifications?.length
-									: 0
-							}
-							variant='ghost'
-							size='sm'
-							className='rounded-full'
-						/>
-					</ListItemSuffix>
-				</ListItem>
-				<ListItem onClick={() => navigate('/chats')}>
-					<ListItemPrefix>
-						<ChatBubbleOvalLeftIcon className='w-5 h-5' />
-					</ListItemPrefix>
-					Chat
-				</ListItem>
+				{!authUser?.isBanned && (
+					<>
+						<ListItem onClick={() => navigate('/notifications')}>
+							<ListItemPrefix>
+								<BellIcon className='w-5 h-5' />
+							</ListItemPrefix>
+							Notifications
+							<ListItemSuffix>
+								<Chip
+									color='cyan'
+									value={
+										notifications?.length
+											? notifications?.length
+											: 0
+									}
+									variant='ghost'
+									size='sm'
+									className='rounded-full'
+								/>
+							</ListItemSuffix>
+						</ListItem>
+						<ListItem onClick={() => navigate('/chats')}>
+							<ListItemPrefix>
+								<ChatBubbleOvalLeftIcon className='w-5 h-5' />
+							</ListItemPrefix>
+							Chat
+						</ListItem>
+					</>
+				)}
 				<ListItem
 					className={
 						theme !== 'dark'

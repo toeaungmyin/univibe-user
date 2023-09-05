@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import { Header } from '../components/Header/Header';
 import RightSidebar from '../components/RightSidebar/RightSidebar';
 import LeftSidebar from '../components/LeftSidebar/LeftSidebar';
@@ -16,13 +16,16 @@ const Layout = () => {
 	const auth = useSelector(state => state.authReducer);
 	const dispatch = useDispatch();
 	const { theme } = useContext(ThemeContext);
-
+	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchUser = async () => {
 			await authUserDataRequest()
 				.then(response => {
 					if (response?.status === 200) {
 						dispatch(getAuthUser(response.data));
+						if (response.data.isBanned) {
+							navigate(`/profile/${response.data.id}`);
+						}
 					}
 				})
 				.catch(error => {
@@ -30,7 +33,7 @@ const Layout = () => {
 				});
 		};
 		fetchUser();
-	}, [dispatch]);
+	}, [dispatch, navigate]);
 
 	useEffect(() => {
 		const fetchNotification = async () => {
